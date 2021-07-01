@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Test Title, KyoU&#39;s Blog">
+    <meta name="keywords" content="【动态规划】背包问题, KyoU&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Test Title | KyoU&#39;s Blog</title>
+    <title>【动态规划】背包问题 | KyoU&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Test Title</h1>
+                    <h1 class="description center-align post-title">【动态规划】背包问题</h1>
                 </div>
             </div>
         </div>
@@ -429,12 +429,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                                <span class="chip bg-color">动态规划</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Leetcode/" class="post-category">
+                                Leetcode
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -464,7 +481,190 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="背包定义："><a href="#背包定义：" class="headerlink" title="背包定义："></a>背包定义：</h2><p><strong>基本定义：</strong>给定一个背包容量target，再给定一个数组nums(里面为物品)，能否按一定方式选取nums中的元素并得到target<br><strong>形式：</strong></p>
+<ul>
+<li>背包容量target和物品nums的类型可能是数，也可能是<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/word-break/">字符串</a></li>
+<li>target可能显示给出，也可能需要从信息中挖掘<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/description/">sum/2</a></li>
+</ul>
+<h3 id="基本背包问题的解题模板："><a href="#基本背包问题的解题模板：" class="headerlink" title="基本背包问题的解题模板："></a>基本背包问题的解题模板：</h3><p>原始背包问题是一种二维动态规划</p>
+<pre><code class="c++">void bags()
+&#123;
+    vector&lt;int&gt; weight = &#123;1, 3, 4&#125;;   //各个物品的重量
+    vector&lt;int&gt; value = &#123;15, 20, 30&#125;; //对应的价值
+    int bagWeight = 4;                //背包最大能放下多少重的物品
+
+    // 二维数组：状态定义:dp[i][j]表示从0-i个物品中选择不超过j重量的物品的最大价值
+    vector&lt;vector&lt;int&gt;&gt; dp(weight.size() + 1, vector&lt;int&gt;(bagWeight + 1, 0));
+
+    // 初始化:第一列都是0，第一行表示只选取0号物品最大价值
+    for (int j = bagWeight; j &gt;= weight[0]; j--)
+        dp[0][j] = dp[0][j - weight[0]] + value[0];
+
+    // weight数组的大小 就是物品个数
+    for (int i = 1; i &lt; weight.size(); i++) // 遍历物品(第0个物品已经初始化)
+    &#123;
+        for (int j = 0; j &lt;= bagWeight; j++) // 遍历背包容量
+        &#123;
+            if (j &lt; weight[i])           //背包容量已经不足以拿第i个物品了
+                dp[i][j] = dp[i - 1][j]; //最大价值就是拿第i-1个物品的最大价值
+            //背包容量足够拿第i个物品,可拿可不拿：拿了最大价值是前i-1个物品扣除第i个物品的 重量的最大价值加上i个物品的价值
+            //不拿就是前i-1个物品的最大价值,两者进行比较取较大的
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
+        &#125;
+    &#125;
+    cout &lt;&lt; dp[weight.size() - 1][bagWeight] &lt;&lt; endl;
+&#125;
+</code></pre>
+<p>二维代码可以进行优化，去除选取物品的那一层，简化为一维背包<br>一维状态定义：dp[j]表示容量为j的背包能放下东西的最大价值</p>
+<pre><code class="c++">void test_1_wei_bag_problem()
+&#123;
+    vector&lt;int&gt; weight = &#123;1, 3, 4&#125;;
+    vector&lt;int&gt; value = &#123;15, 20, 30&#125;;
+    int bagWeight = 4;
+
+    // 初始化
+    vector&lt;int&gt; dp(bagWeight + 1, 0);
+    for (int i = 0; i &lt; weight.size(); i++)// 遍历物品
+        for (int j = bagWeight; j &gt;= weight[i]; j--)// 遍历背包容量
+            dp[j] = max(dp[j], dp[j - weight[i]] + value[i]); //不取或者取第i个
+    cout &lt;&lt; dp[bagWeight] &lt;&lt; endl;
+&#125;
+</code></pre>
+<p>代码参考<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change/solution/yi-pian-wen-zhang-chi-tou-bei-bao-wen-ti-sq9n/">作者：eh-xing-qing</a></p>
+<hr>
+<h2 id="背包问题分类："><a href="#背包问题分类：" class="headerlink" title="背包问题分类："></a>背包问题分类：</h2><h3 id="按背包类型分类-："><a href="#按背包类型分类-：" class="headerlink" title="按背包类型分类 ："></a>按背包类型分类 ：</h3><ol>
+<li><strong>0/1背包问题：</strong>  每个元素最多选取一次</li>
+<li><strong>完全背包问题：</strong> 每个元素可以重复选择</li>
+<li><strong>组合背包问题：</strong> 背包中的物体要考虑顺序</li>
+</ol>
+<h3 id="按题目要求分类："><a href="#按题目要求分类：" class="headerlink" title="按题目要求分类："></a>按题目要求分类：</h3><ol>
+<li><strong>组合个数问题：</strong>求所有满足条件的排列组合：<br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/combination-sum-iv/description/">377. 组合总和 Ⅳ</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/description/">494. 目标和</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change-2/description/">518. 零钱兑换 II</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/climbing-stairs/">70.爬楼梯</a> (此题也可归类为背包，但其实有更简单的动态规划~放进来是为了更好理解)</li>
+</ol>
+<p><em>组合个数问题公式：</em> <code>dp[i] += dp[i - num]</code></p>
+<ol start="2">
+<li><strong>存在问题：</strong>是否存在…:<br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/word-break/">139. 单词拆分</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/partition-equal-subset-sum/">416. 分割等和子集</a></li>
+</ol>
+<p><em>存在问题公式：</em> <code>dp[i] || dp[i - num]</code></p>
+<ol start="3">
+<li><strong>最值问题：</strong>要求最大值/最小值:<br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ones-and-zeroes/description/">474. 一和零</a><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change/description/">322. 零钱兑换</a></li>
+</ol>
+<p><em>最值问题公式：</em> <code>dp[i] = max/min(dp[i], dp[i - nums] + 1)</code></p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><h3 id="解题步骤："><a href="#解题步骤：" class="headerlink" title="解题步骤："></a>解题步骤：</h3><ol>
+<li>分析是否为背包问题</li>
+<li>根据题目要求判断是哪一种背包问题(组合个数，存在，最值)</li>
+<li>根据题目信息判断是哪一种背包类型(0/1，完全，组合)</li>
+</ol>
+<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><ol>
+<li><p><strong>0/1 背包问题：</strong>数组中的元素不可重复使用，<strong>nums放在外循环，target放在内循环，且循环倒序</strong>;</p>
+<pre><code class="c++">for(num : nums):
+ for(i = target; i &gt;= num; i--)
+     //if(i &gt;= num) //小于目标的不用再遍历，可以放入循环内，循环到num结束
+</code></pre>
+</li>
+<li><p><strong>完全背包问题：</strong>数组中的元素可以重复使用，<strong>nums放在外循环，target放在内循环，且循环正序</strong>；</p>
+<pre><code class="c++">for(num : nums):
+ for(i = num; i &lt;= target; i++)
+     //if(i &gt;= num) //小于目标的不用再遍历，可以放入循环内，循环直接从num开始
+</code></pre>
+</li>
+<li><p><strong>组合背包问题：</strong> 需要考虑元素之间的顺序，<strong>target放在外循环，nums放在内循环</strong>；</p>
+<pre><code class="c++">for(i = 1; i &lt;= target; i++):
+ for(num : nums)
+     if(i &gt;= num)
+</code></pre>
+</li>
+</ol>
+<p>这样遇到问题将两个模板往上一套大部分问题就可以迎刃而解~</p>
+<h2 id="问题举例"><a href="#问题举例" class="headerlink" title="问题举例"></a>问题举例</h2><h3 id="0-1-背包问题："><a href="#0-1-背包问题：" class="headerlink" title="0/1 背包问题："></a>0/1 背包问题：</h3><ul>
+<li><strong>0/1背包的存在问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/partition-equal-subset-sum/">416. 分割等和子集</a><br>判断能否将一个数组分割为两个子集，其和相等<br>思路：题目转化为，是否存在一个子集，使得子集的和为nums数组和的一半，即target = sum(nums) / 2</li>
+</ul>
+<pre><code class="c++">bool canPartition(vector&lt;int&gt; &amp;nums)
+&#123;
+    int sum = 0
+    for(int num : nums)
+    &#123;
+        sum += num;
+    &#125;
+    if (sum % 2 == 1)  //判断和是否为基数
+        return false;
+    int target = sum / 2; 
+    vector&lt;int&gt; dp(target + 1, 0); //dp[i]:是否存在子集和为i
+
+    dp[0] = true;                  //初始化：target=0不需要选择任何元素，所以是可以实现的
+
+    for (int num : nums)                        //外层为nums
+        for (int i = target; i &gt;= num; i--)     //内层为target，倒序循环
+            dp[i] = dp[i] || dp[i - num];
+
+    return dp[target];
+&#125;
+</code></pre>
+<ul>
+<li><p><strong>0/1背包的组合个数问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/"><strong>494. 目标和</strong></a><br>给数组里的每个数字添加正负号，看是否和能得到target，并求出组合数<br>思路： 参考<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/solution/mu-biao-he-by-leetcode-solution-o0cp/">题解</a>，数组的元素和为sum，<br>目标和为tar，其中正数的和为x，负数的和为y(正的)，则x + y = sum， x - y = tar，那么x = (sum + tar) / 2;此时x就是本题中要求的”target”</p>
+<pre><code class="c++">bool findTargetSumWays(vector&lt;int&gt; &amp;nums， int target)
+&#123;
+  int sum = 0
+  for(int num : nums)
+  &#123;
+      sum += num;
+  &#125;
+  if ((sum + target) % 2 == 1 || sum &lt; target)  //判断和是否为基数
+      return 0;
+  int x = (sum + target) / 2; 
+
+  vector&lt;int&gt; dp(x + 1, 0);       //dp[i]:满足i的组合个数为dp[i]个
+
+  dp[0] = 1;                      //初始化：x=0不需要选择任何元素，所以是有一种
+
+  for (int num : nums)                        //外层为nums
+      for (int i = x; i &gt;= num; i--)          //内层为target，倒序循环
+          dp[i] += dp[i - num];
+
+  return dp[target];
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="完全背包问题："><a href="#完全背包问题：" class="headerlink" title="完全背包问题："></a>完全背包问题：</h3><ul>
+<li><strong>完全背包的最值问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change/description/">322. 零钱兑换</a><br>给定amount，求用任意数量不同面值的零钱换到的amount所用的最少数量</li>
+</ul>
+<pre><code class="c++">bool coinChange(vector&lt;int&gt; &amp;coins， int amonut)
+&#123;
+    vector&lt;int&gt; dp(amount + 1, amount + 1);       //dp[i]:换到i数量所用最少为dp[i]
+
+    dp[0] = 1;                                    //初始化：amonut=0不需要选择任何硬币，所以是有一种
+
+    for (int coin : coins)                        //外层为coins
+        for (int i = coin; i &lt;= amount; i++)      //内层为amount，正序循环
+            dp[i] = min(dp[i - coin]+1, dp[i]);
+
+    return dp[amount] == amount + 1 ? -1 : dp[amount];
+&#125;
+</code></pre>
+<h3 id="组合背包问题："><a href="#组合背包问题：" class="headerlink" title="组合背包问题："></a>组合背包问题：</h3><ul>
+<li><strong>组合背包的组合个数问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/combination-sum-iv/description/">377. 组合总和 Ⅳ</a><br>从nums数组中找出总和为target的元素组合，并返回个数</li>
+</ul>
+<pre><code class="c++">int combinationSum4(vector&lt;int&gt;&amp; nums, int target) &#123;
+        vector&lt;long&gt; dp(target + 1);                //dp[i]:满足和为i的组合的个数为dp[i]个
+        dp[0] = 1;                                  //初始化：target=0的时候可以取空，为1个
+
+        for(int i = 1; i &lt;= target; i++)                    //外层为target
+        &#123;
+            for(int j = 0; j &lt; nums.size(); j++)            //内层为nums
+            &#123;
+                if(i &gt;= nums[j] &amp;&amp;  dp[i - nums[j]] &lt; INT_MAX - dp[i])  //此处要保证过程中dp[i]不会超出INT范围
+                &#123;
+                    dp[i] += dp[i - nums[j]];
+                &#125;
+            &#125;
+        &#125;
+
+        return dp[target];
+    &#125;
+</code></pre>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>遇到背包问题，先从题目中提取信息，明确target和nums，判断为哪种背包问题以及哪种题目类型。<br>总体来说：<br>如果<em>考虑顺序</em>的组合问题(比如[1,1,2]和[1,2,1]是不同的)， 那么<strong>外循环只能是target, 内循环只能是nums</strong>(target放在外面，这个target的值由nums中的某些组成，得到的是所有种组合可能)；而如果<em>不考虑顺序</em>的组合问题(比如比如[1,1,2]和[1,2,1]是相同的)，<strong>那么外循环只能是nums，内循环只能是target</strong>(target在内层，得到的是去重后的结果)；这也是组合背包问题和完全背包问题的主要区别。<br>如果是0/1背包，那么需要采用<strong>倒序遍历</strong>target，放在内外层无所谓。</p>
+
                 
             </div>
             <hr/>
@@ -490,7 +690,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://yukinokyou.github.io/2021/07/01/Test-Title/">https://yukinokyou.github.io/2021/07/01/Test-Title/</a>
+                    <a href="https://yukinokyou.github.io/2021/07/01/Knapsack-problem/">https://yukinokyou.github.io/2021/07/01/Knapsack-problem/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -527,7 +727,15 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                                    <span class="chip bg-color">动态规划</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -702,19 +910,19 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2021/07/01/Test-Title/">
+                <a href="/2021/07/01/Knapsack-problem/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Test Title">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="【动态规划】背包问题">
                         
-                        <span class="card-title">Test Title</span>
+                        <span class="card-title">【动态规划】背包问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            整理做过的动态规划背包问题，并对各个题解进行总结
                         
                     </div>
                     <div class="publish-info">
@@ -723,13 +931,29 @@
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            二甲基亚硝酸
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Leetcode/" class="post-category">
+                                    Leetcode
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                        <span class="chip bg-color">动态规划</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -737,22 +961,22 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2021/07/01/hello-world/">
+                <a href="/2021/07/01/Knapsack-problem/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="【动态规划】背包问题">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">【动态规划】背包问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            整理做过的动态规划背包问题，并对各个题解进行总结
                         
                     </div>
                     <div class="publish-info">
@@ -761,11 +985,28 @@
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            二甲基亚硝酸
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Leetcode/" class="post-category">
+                                    Leetcode
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                        <span class="chip bg-color">动态规划</span>
+                    </a>
+                    
                 </div>
                 
             </div>
