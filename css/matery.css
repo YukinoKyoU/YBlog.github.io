@@ -34,7 +34,9 @@
 }
 
 body {
-    background-color: #eaeaea;
+    /*background-color: #eaeaea;*/
+    background: url("https://z3.ax1x.com/2021/07/01/RstSGF.jpg");
+    background-attachment: fixed;
     margin: 0;
     color: #34495e;
     overflow-x: hidden;
@@ -241,7 +243,8 @@ mark {
 }
 
 .bg-color {
-    background-image: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+    background-image: linear-gradient(to right, #d3d3d3 0%, #625b57 100%);
+    opacity: 0.8;
 }
 
 .text-color {
