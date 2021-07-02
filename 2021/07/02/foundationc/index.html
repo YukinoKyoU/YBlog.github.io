@@ -605,8 +605,9 @@
     <span class="token comment">//    指针p为NULL</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ol>
-<p><strong>- 将引用作为函数的参数进行传递</strong><br>引用作为函数参数进行传递时，实质上传递的是实参本身，而不是实参的一个拷贝，因此对形参的修改其实是对实参的修改</p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token operator">&amp;</span>p<span class="token punctuation">)</span>
+<p><strong>- 将引用作为函数的参数进行传递</strong></p>
+<ul>
+<li>引用作为函数参数进行传递时，实质上传递的是实参本身，而不是实参的一个拷贝，因此对形参的修改其实是对实参的修改<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token operator">&amp;</span>p<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
 　　<span class="token keyword">int</span> a<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
 　　p<span class="token operator">=</span><span class="token operator">&amp;</span>a<span class="token punctuation">;</span>
@@ -619,7 +620,8 @@
     <span class="token function">test</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">//此时p与test中的p是同一个东西</span>
     <span class="token keyword">if</span><span class="token punctuation">(</span>p<span class="token operator">!=</span><span class="token constant">NULL</span><span class="token punctuation">)</span>
     cout<span class="token operator">&lt;&lt;</span><span class="token string">"指针p不为NULL"</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
 <hr>
 <p>…持续更新…</p>
 
