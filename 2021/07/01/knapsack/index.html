@@ -469,7 +469,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.1k
                 </div>
                 
 
@@ -665,6 +665,11 @@
     <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>遇到背包问题，先从题目中提取信息，明确target和nums，判断为哪种背包问题以及哪种题目类型。<br>总体来说：<br>如果<em>考虑顺序</em>的组合问题(比如[1,1,2]和[1,2,1]是不同的)， 那么<strong>外循环只能是target, 内循环只能是nums</strong>(target放在外面，这个target的值由nums中的某些组成，得到的是所有种组合可能)；而如果<em>不考虑顺序</em>的组合问题(比如比如[1,1,2]和[1,2,1]是相同的)，<strong>那么外循环只能是nums，内循环只能是target</strong>(target在内层，得到的是去重后的结果)；这也是组合背包问题和完全背包问题的主要区别。<br>如果是0/1背包，那么需要采用<strong>倒序遍历</strong>target，放在内外层无所谓。</p>
+<hr>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/solution/yi-tao-kuang-jia-jie-jue-bei-bao-wen-ti-58wvk/">Leetcode题解1</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/combination-sum-iv/solution/xi-wang-yong-yi-chong-gui-lu-gao-ding-bei-bao-wen-/">Leetcode题解2</a></li>
+</ol>
 
                 
             </div>
