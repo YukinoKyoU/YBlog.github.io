@@ -467,7 +467,17 @@
                 
 
                 
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2k
+                </div>
+                
 
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    8 分
+                </div>
                 
 
                 
@@ -475,6 +485,9 @@
         </div>
         <hr class="clearfix">
 
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
         
 
         
@@ -487,50 +500,48 @@
 <li>target可能显示给出，也可能需要从信息中挖掘<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/description/">sum/2</a></li>
 </ul>
 <h3 id="基本背包问题的解题模板："><a href="#基本背包问题的解题模板：" class="headerlink" title="基本背包问题的解题模板："></a>基本背包问题的解题模板：</h3><p>原始背包问题是一种二维动态规划</p>
-<pre><code class="c++">void bags()
-&#123;
-    vector&lt;int&gt; weight = &#123;1, 3, 4&#125;;   //各个物品的重量
-    vector&lt;int&gt; value = &#123;15, 20, 30&#125;; //对应的价值
-    int bagWeight = 4;                //背包最大能放下多少重的物品
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">bags</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> weight <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>   <span class="token comment">//各个物品的重量</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> value <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">//对应的价值</span>
+    <span class="token keyword">int</span> bagWeight <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>                <span class="token comment">//背包最大能放下多少重的物品</span>
 
-    // 二维数组：状态定义:dp[i][j]表示从0-i个物品中选择不超过j重量的物品的最大价值
-    vector&lt;vector&lt;int&gt;&gt; dp(weight.size() + 1, vector&lt;int&gt;(bagWeight + 1, 0));
+    <span class="token comment">// 二维数组：状态定义:dp[i][j]表示从0-i个物品中选择不超过j重量的物品的最大价值</span>
+    vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token function">dp</span><span class="token punctuation">(</span>weight<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token generic-function"><span class="token function">vector</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>bagWeight <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    // 初始化:第一列都是0，第一行表示只选取0号物品最大价值
-    for (int j = bagWeight; j &gt;= weight[0]; j--)
-        dp[0][j] = dp[0][j - weight[0]] + value[0];
+    <span class="token comment">// 初始化:第一列都是0，第一行表示只选取0号物品最大价值</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> bagWeight<span class="token punctuation">;</span> j <span class="token operator">>=</span> weight<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span> j<span class="token operator">--</span><span class="token punctuation">)</span>
+        dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j <span class="token operator">-</span> weight<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">+</span> value<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    // weight数组的大小 就是物品个数
-    for (int i = 1; i &lt; weight.size(); i++) // 遍历物品(第0个物品已经初始化)
-    &#123;
-        for (int j = 0; j &lt;= bagWeight; j++) // 遍历背包容量
-        &#123;
-            if (j &lt; weight[i])           //背包容量已经不足以拿第i个物品了
-                dp[i][j] = dp[i - 1][j]; //最大价值就是拿第i-1个物品的最大价值
-            //背包容量足够拿第i个物品,可拿可不拿：拿了最大价值是前i-1个物品扣除第i个物品的 重量的最大价值加上i个物品的价值
-            //不拿就是前i-1个物品的最大价值,两者进行比较取较大的
-            else
-                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
-        &#125;
-    &#125;
-    cout &lt;&lt; dp[weight.size() - 1][bagWeight] &lt;&lt; endl;
-&#125;
-</code></pre>
+    <span class="token comment">// weight数组的大小 就是物品个数</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weight<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token comment">// 遍历物品(第0个物品已经初始化)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> bagWeight<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token comment">// 遍历背包容量</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>           <span class="token comment">//背包容量已经不足以拿第i个物品了</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">//最大价值就是拿第i-1个物品的最大价值</span>
+            <span class="token comment">//背包容量足够拿第i个物品,可拿可不拿：拿了最大价值是前i-1个物品扣除第i个物品的 重量的最大价值加上i个物品的价值</span>
+            <span class="token comment">//不拿就是前i-1个物品的最大价值,两者进行比较取较大的</span>
+            <span class="token keyword">else</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j <span class="token operator">-</span> weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">+</span> value<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    cout <span class="token operator">&lt;&lt;</span> dp<span class="token punctuation">[</span>weight<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>bagWeight<span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>二维代码可以进行优化，去除选取物品的那一层，简化为一维背包<br>一维状态定义：dp[j]表示容量为j的背包能放下东西的最大价值</p>
-<pre><code class="c++">void test_1_wei_bag_problem()
-&#123;
-    vector&lt;int&gt; weight = &#123;1, 3, 4&#125;;
-    vector&lt;int&gt; value = &#123;15, 20, 30&#125;;
-    int bagWeight = 4;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">test_1_wei_bag_problem</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> weight <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> value <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> bagWeight <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
 
-    // 初始化
-    vector&lt;int&gt; dp(bagWeight + 1, 0);
-    for (int i = 0; i &lt; weight.size(); i++)// 遍历物品
-        for (int j = bagWeight; j &gt;= weight[i]; j--)// 遍历背包容量
-            dp[j] = max(dp[j], dp[j - weight[i]] + value[i]); //不取或者取第i个
-    cout &lt;&lt; dp[bagWeight] &lt;&lt; endl;
-&#125;
-</code></pre>
+    <span class="token comment">// 初始化</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">dp</span><span class="token punctuation">(</span>bagWeight <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weight<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token comment">// 遍历物品</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> bagWeight<span class="token punctuation">;</span> j <span class="token operator">>=</span> weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> j<span class="token operator">--</span><span class="token punctuation">)</span><span class="token comment">// 遍历背包容量</span>
+            dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>j <span class="token operator">-</span> weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">+</span> value<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//不取或者取第i个</span>
+    cout <span class="token operator">&lt;&lt;</span> dp<span class="token punctuation">[</span>bagWeight<span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>代码参考<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change/solution/yi-pian-wen-zhang-chi-tou-bei-bao-wen-ti-sq9n/">作者：eh-xing-qing</a></p>
 <hr>
 <h2 id="背包问题分类："><a href="#背包问题分类：" class="headerlink" title="背包问题分类："></a>背包问题分类：</h2><h3 id="按背包类型分类-："><a href="#按背包类型分类-：" class="headerlink" title="按背包类型分类 ："></a>按背包类型分类 ：</h3><ol>
@@ -557,112 +568,102 @@
 </ol>
 <h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><ol>
 <li><p><strong>0/1 背包问题：</strong>数组中的元素不可重复使用，<strong>nums放在外循环，target放在内循环，且循环倒序</strong>;</p>
-<pre><code class="c++">for(num : nums):
- for(i = target; i &gt;= num; i--)
-     //if(i &gt;= num) //小于目标的不用再遍历，可以放入循环内，循环到num结束
-</code></pre>
-</li>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">for</span><span class="token punctuation">(</span>num <span class="token operator">:</span> nums<span class="token punctuation">)</span><span class="token operator">:</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>i <span class="token operator">=</span> target<span class="token punctuation">;</span> i <span class="token operator">>=</span> num<span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span>
+        <span class="token comment">//if(i >= num) //小于目标的不用再遍历，可以放入循环内，循环到num结束</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
 <li><p><strong>完全背包问题：</strong>数组中的元素可以重复使用，<strong>nums放在外循环，target放在内循环，且循环正序</strong>；</p>
-<pre><code class="c++">for(num : nums):
- for(i = num; i &lt;= target; i++)
-     //if(i &gt;= num) //小于目标的不用再遍历，可以放入循环内，循环直接从num开始
-</code></pre>
-</li>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">for</span><span class="token punctuation">(</span>num <span class="token operator">:</span> nums<span class="token punctuation">)</span><span class="token operator">:</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>i <span class="token operator">=</span> num<span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> target<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token comment">//if(i >= num) //小于目标的不用再遍历，可以放入循环内，循环直接从num开始</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
 <li><p><strong>组合背包问题：</strong> 需要考虑元素之间的顺序，<strong>target放在外循环，nums放在内循环</strong>；</p>
-<pre><code class="c++">for(i = 1; i &lt;= target; i++):
- for(num : nums)
-     if(i &gt;= num)
-</code></pre>
-</li>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">for</span><span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> target<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token operator">:</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>num <span class="token operator">:</span> nums<span class="token punctuation">)</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">>=</span> num<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 <p>这样遇到问题将两个模板往上一套大部分问题就可以迎刃而解~</p>
 <h2 id="问题举例"><a href="#问题举例" class="headerlink" title="问题举例"></a>问题举例</h2><h3 id="0-1-背包问题："><a href="#0-1-背包问题：" class="headerlink" title="0/1 背包问题："></a>0/1 背包问题：</h3><ul>
 <li><strong>0/1背包的存在问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/partition-equal-subset-sum/">416. 分割等和子集</a><br>判断能否将一个数组分割为两个子集，其和相等<br>思路：题目转化为，是否存在一个子集，使得子集的和为nums数组和的一半，即target = sum(nums) / 2</li>
 </ul>
-<pre><code class="c++">bool canPartition(vector&lt;int&gt; &amp;nums)
-&#123;
-    int sum = 0
-    for(int num : nums)
-    &#123;
-        sum += num;
-    &#125;
-    if (sum % 2 == 1)  //判断和是否为基数
-        return false;
-    int target = sum / 2; 
-    vector&lt;int&gt; dp(target + 1, 0); //dp[i]:是否存在子集和为i
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">bool</span> <span class="token function">canPartition</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>nums<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> num <span class="token operator">:</span> nums<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        sum <span class="token operator">+=</span> num<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>sum <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span>  <span class="token comment">//判断和是否为基数</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> target <span class="token operator">=</span> sum <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span> 
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">dp</span><span class="token punctuation">(</span>target <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//dp[i]:是否存在子集和为i</span>
 
-    dp[0] = true;                  //初始化：target=0不需要选择任何元素，所以是可以实现的
+    dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>                  <span class="token comment">//初始化：target=0不需要选择任何元素，所以是可以实现的</span>
 
-    for (int num : nums)                        //外层为nums
-        for (int i = target; i &gt;= num; i--)     //内层为target，倒序循环
-            dp[i] = dp[i] || dp[i - num];
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> num <span class="token operator">:</span> nums<span class="token punctuation">)</span>                        <span class="token comment">//外层为nums</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> target<span class="token punctuation">;</span> i <span class="token operator">>=</span> num<span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span>     <span class="token comment">//内层为target，倒序循环</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">||</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> num<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    return dp[target];
-&#125;
-</code></pre>
+    <span class="token keyword">return</span> dp<span class="token punctuation">[</span>target<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
-<li><p><strong>0/1背包的组合个数问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/"><strong>494. 目标和</strong></a><br>给数组里的每个数字添加正负号，看是否和能得到target，并求出组合数<br>思路： 参考<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/solution/mu-biao-he-by-leetcode-solution-o0cp/">题解</a>，数组的元素和为sum，<br>目标和为tar，其中正数的和为x，负数的和为y(正的)，则x + y = sum， x - y = tar，那么x = (sum + tar) / 2;此时x就是本题中要求的”target”</p>
-<pre><code class="c++">bool findTargetSumWays(vector&lt;int&gt; &amp;nums， int target)
-&#123;
-  int sum = 0
-  for(int num : nums)
-  &#123;
-      sum += num;
-  &#125;
-  if ((sum + target) % 2 == 1 || sum &lt; target)  //判断和是否为基数
-      return 0;
-  int x = (sum + target) / 2; 
+<li><strong>0/1背包的组合个数问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/"><strong>494. 目标和</strong></a><br>给数组里的每个数字添加正负号，看是否和能得到target，并求出组合数<br>思路： 参考<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/solution/mu-biao-he-by-leetcode-solution-o0cp/">题解</a>，数组的元素和为sum，<br>目标和为tar，其中正数的和为x，负数的和为y(正的)，则x + y = sum， x - y = tar，那么x = (sum + tar) / 2;此时x就是本题中要求的”target”<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">bool</span> <span class="token function">findTargetSumWays</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>nums， <span class="token keyword">int</span> target<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> num <span class="token operator">:</span> nums<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        sum <span class="token operator">+=</span> num<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>sum <span class="token operator">+</span> target<span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">||</span> sum <span class="token operator">&lt;</span> target<span class="token punctuation">)</span>  <span class="token comment">//判断和是否为基数</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token punctuation">(</span>sum <span class="token operator">+</span> target<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span> 
 
-  vector&lt;int&gt; dp(x + 1, 0);       //dp[i]:满足i的组合个数为dp[i]个
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">dp</span><span class="token punctuation">(</span>x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment">//dp[i]:满足i的组合个数为dp[i]个</span>
 
-  dp[0] = 1;                      //初始化：x=0不需要选择任何元素，所以是有一种
+    dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>                      <span class="token comment">//初始化：x=0不需要选择任何元素，所以是有一种</span>
 
-  for (int num : nums)                        //外层为nums
-      for (int i = x; i &gt;= num; i--)          //内层为target，倒序循环
-          dp[i] += dp[i - num];
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> num <span class="token operator">:</span> nums<span class="token punctuation">)</span>                        <span class="token comment">//外层为nums</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> x<span class="token punctuation">;</span> i <span class="token operator">>=</span> num<span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span>          <span class="token comment">//内层为target，倒序循环</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> num<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-  return dp[target];
-&#125;
-</code></pre>
-</li>
+    <span class="token keyword">return</span> dp<span class="token punctuation">[</span>target<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <h3 id="完全背包问题："><a href="#完全背包问题：" class="headerlink" title="完全背包问题："></a>完全背包问题：</h3><ul>
 <li><strong>完全背包的最值问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change/description/">322. 零钱兑换</a><br>给定amount，求用任意数量不同面值的零钱换到的amount所用的最少数量</li>
 </ul>
-<pre><code class="c++">bool coinChange(vector&lt;int&gt; &amp;coins， int amonut)
-&#123;
-    vector&lt;int&gt; dp(amount + 1, amount + 1);       //dp[i]:换到i数量所用最少为dp[i]
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">bool</span> <span class="token function">coinChange</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>coins， <span class="token keyword">int</span> amonut<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">dp</span><span class="token punctuation">(</span>amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment">//dp[i]:换到i数量所用最少为dp[i]</span>
 
-    dp[0] = 1;                                    //初始化：amonut=0不需要选择任何硬币，所以是有一种
+    dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>                                    <span class="token comment">//初始化：amonut=0不需要选择任何硬币，所以是有一种</span>
 
-    for (int coin : coins)                        //外层为coins
-        for (int i = coin; i &lt;= amount; i++)      //内层为amount，正序循环
-            dp[i] = min(dp[i - coin]+1, dp[i]);
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> coin <span class="token operator">:</span> coins<span class="token punctuation">)</span>                        <span class="token comment">//外层为coins</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> coin<span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> amount<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>      <span class="token comment">//内层为amount，正序循环</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">-</span> coin<span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    return dp[amount] == amount + 1 ? -1 : dp[amount];
-&#125;
-</code></pre>
+    <span class="token keyword">return</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span> <span class="token operator">==</span> amount <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">?</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">:</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="组合背包问题："><a href="#组合背包问题：" class="headerlink" title="组合背包问题："></a>组合背包问题：</h3><ul>
 <li><strong>组合背包的组合个数问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/combination-sum-iv/description/">377. 组合总和 Ⅳ</a><br>从nums数组中找出总和为target的元素组合，并返回个数</li>
 </ul>
-<pre><code class="c++">int combinationSum4(vector&lt;int&gt;&amp; nums, int target) &#123;
-        vector&lt;long&gt; dp(target + 1);                //dp[i]:满足和为i的组合的个数为dp[i]个
-        dp[0] = 1;                                  //初始化：target=0的时候可以取空，为1个
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">combinationSum4</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span> nums<span class="token punctuation">,</span> <span class="token keyword">int</span> target<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        vector<span class="token operator">&lt;</span><span class="token keyword">long</span><span class="token operator">></span> <span class="token function">dp</span><span class="token punctuation">(</span>target <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                <span class="token comment">//dp[i]:满足和为i的组合的个数为dp[i]个</span>
+        dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>                                  <span class="token comment">//初始化：target=0的时候可以取空，为1个</span>
 
-        for(int i = 1; i &lt;= target; i++)                    //外层为target
-        &#123;
-            for(int j = 0; j &lt; nums.size(); j++)            //内层为nums
-            &#123;
-                if(i &gt;= nums[j] &amp;&amp;  dp[i - nums[j]] &lt; INT_MAX - dp[i])  //此处要保证过程中dp[i]不会超出INT范围
-                &#123;
-                    dp[i] += dp[i - nums[j]];
-                &#125;
-            &#125;
-        &#125;
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> target<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>                    <span class="token comment">//外层为target</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>            <span class="token comment">//内层为nums</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">>=</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span>  dp<span class="token punctuation">[</span>i <span class="token operator">-</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&lt;</span> INT_MAX <span class="token operator">-</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment">//此处要保证过程中dp[i]不会超出INT范围</span>
+                <span class="token punctuation">&#123;</span>
+                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
 
-        return dp[target];
-    &#125;
-</code></pre>
+        <span class="token keyword">return</span> dp<span class="token punctuation">[</span>target<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>遇到背包问题，先从题目中提取信息，明确target和nums，判断为哪种背包问题以及哪种题目类型。<br>总体来说：<br>如果<em>考虑顺序</em>的组合问题(比如[1,1,2]和[1,2,1]是不同的)， 那么<strong>外循环只能是target, 内循环只能是nums</strong>(target放在外面，这个target的值由nums中的某些组成，得到的是所有种组合可能)；而如果<em>不考虑顺序</em>的组合问题(比如比如[1,1,2]和[1,2,1]是相同的)，<strong>那么外循环只能是nums，内循环只能是target</strong>(target在内层，得到的是去重后的结果)；这也是组合背包问题和完全背包问题的主要区别。<br>如果是0/1背包，那么需要采用<strong>倒序遍历</strong>target，放在内外层无所谓。</p>
 
                 
@@ -690,7 +691,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://yukinokyou.github.io/2021/07/01/Knapsack-problem/">https://yukinokyou.github.io/2021/07/01/Knapsack-problem/</a>
+                    <a href="https://yukinokyou.github.io/2021/07/01/knapsack-problem/">https://yukinokyou.github.io/2021/07/01/knapsack-problem/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -910,7 +911,7 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2021/07/01/Knapsack-problem/">
+                <a href="/2021/07/01/knapsack-problem/">
                     <div class="card-image">
                         
                         
@@ -964,7 +965,7 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2021/07/01/Knapsack-problem/">
+                <a href="/2021/07/01/knapsack-problem/">
                     <div class="card-image">
                         
                         
