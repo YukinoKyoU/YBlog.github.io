@@ -473,14 +473,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.8k
+                    5.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    14 分
+                    20 分
                 </div>
                 
 
@@ -733,6 +733,122 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
 <li><strong>安全性：</strong>define 定义的宏常量<font color=red>没有数据类型</font>，只是进行简单的替换，不会进行类型安全的检查；const 定义的只读变量是<font color=red>有类型的</font>，是要进行判断的，可以避免一些低级的错误</li>
 <li><strong>内存占用：</strong>define 定义的宏常量，在程序中使用多少次就会进行多少次替换，内存中有多个备份；const 定义的只读变量在程序运行过程中只有一份</li>
 <li>**调试： **define 定义的不能调试，因为在预编译阶段就已经进行替换了；const 定义的可以进行调试</li>
+</ul>
+<hr>
+<h2 id="四、volatile"><a href="#四、volatile" class="headerlink" title="四、volatile"></a><font color=blue>四、volatile</font></h2><h3 id="1-volatile"><a href="#1-volatile" class="headerlink" title="1. volatile"></a>1. volatile</h3><p>volatile可理解为<strong>防止编译器优化，保持内存可见性</strong>；即确保本条指令不会因编译器的优化而省略，且要求每次直接读值。使<strong>编译器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">const</span> <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> p <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>n<span class="token punctuation">;</span>
+	<span class="token operator">*</span>p <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+	cout<span class="token operator">&lt;&lt;</span>n<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出：<br><code>10</code><br>解释：</p>
+<ul>
+<li>在编译期间，编译器可能对代码进行优化</li>
+<li>当编译器看到此处的n被const修饰，从语义上来讲，n是不期望被修改的</li>
+<li>所以优化的时候<strong>把n的值存放到寄存器中</strong>，以提高访问的效率（当变量是“易变的”，编译器一般都不会考虑将变量放入寄存器中，而是内存，而这里的n被看做“不易被改变的”，随编译器考虑将其放入寄存器中进行优化）</li>
+<li>只要以后使用n的地方都去寄存器中取，即使n在内存中的值发生变化，寄存器也不受影响，所以输出的n的值为10</li>
+</ul>
+<p><strong>加上volatile后：</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+ 
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">volatile</span> <span class="token keyword">const</span> <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>n<span class="token punctuation">;</span>
+	<span class="token operator">*</span>p <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+	cout<span class="token operator">&lt;&lt;</span>n<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出：<br><code>20</code></p>
+<h3 id="2-volatile的应用"><a href="#2-volatile的应用" class="headerlink" title="2. volatile的应用"></a>2. volatile的应用</h3><h4 id="1-并行设备的硬件寄存器（如状态寄存器）"><a href="#1-并行设备的硬件寄存器（如状态寄存器）" class="headerlink" title="(1).并行设备的硬件寄存器（如状态寄存器）"></a>(1).并行设备的硬件寄存器（如状态寄存器）</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span>  <span class="token operator">*</span>output <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">unsigned</span>  <span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token number">0xff800000</span><span class="token punctuation">;</span> <span class="token comment">//定义一个IO端口；  </span>
+<span class="token keyword">int</span>   <span class="token function">init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>  
+<span class="token punctuation">&#123;</span>  
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>  
+    <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>  
+    <span class="token operator">*</span>output <span class="token operator">=</span> i<span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>经过编译器优化后，编译器认为前面循环半天都是废话，对最后的结果毫无影响，因为最终只是将output这个指针赋值为 9，所以编译器最后给你编译编译的代码结果相当于：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span>  <span class="token function">init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>  
+<span class="token punctuation">&#123;</span>  
+    <span class="token operator">*</span>output <span class="token operator">=</span> <span class="token number">9</span><span class="token punctuation">;</span>  
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这就违背了对此设备进行顺序赋值的初衷，这时候就该使用volatile通知编译器这个变量是一个不稳定的，在遇到此变量时候不要优化。<br><strong><font color>一个变量可被const和volatile同时修饰（例如一个只读的状态寄存器）</font></strong></p>
+<h4 id="2-一个中断服务子程序中访问到的变量"><a href="#2-一个中断服务子程序中访问到的变量" class="headerlink" title="(2).一个中断服务子程序中访问到的变量"></a>(2).一个中断服务子程序中访问到的变量</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">static</span> <span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token function">dosomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* Interrupt service routine */</span>
+<span class="token keyword">void</span> <span class="token function">IRS</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面示例程序的本意是产生中断时，由中断服务子程序IRS响应中断，变更程序变量i，使在main函数中调用dosomething函数，但是，由于编译器判断在main函数里面没有修改过i，因此可能只执行一次对从i到某寄存器的读操作，然后每次if判断都只使用这个寄存器里面的“i副本”，导致dosomething永远不会被调用。如果将变量i加上volatile修饰，则<strong>编译器保证对变量i的读写操作都不会被优化</strong>，从而保证了变量i被外部程序更改后能及时在原程序中得到感知。<br><strong><font color>一个指针可被volatile修饰，（当一个中断服务子程序修改一个指向一个buffer的指针时</font></strong></p>
+<h4 id="3-多线程应用中被多个任务共享的变量"><a href="#3-多线程应用中被多个任务共享的变量" class="headerlink" title="(3).多线程应用中被多个任务共享的变量"></a>(3).多线程应用中被多个任务共享的变量</h4><p>当多个线程共享某一个变量时，该变量的值会被某一个线程更改，应该用 volatile 声明。<strong>作用是防止编译器优化把变量从内存装入CPU寄存器中</strong>，当一个线程更改变量后，未及时同步到其它线程中导致程序出错。volatile的意思是让编译器每次操作该变量时一定要从内存中真正取出，而不是使用已经存在寄存器中的值。</p>
+<hr>
+<h2 id="五、extern"><a href="#五、extern" class="headerlink" title="五、extern"></a><font color=blue>五、extern</font></h2><h3 id="1-extern基本解释"><a href="#1-extern基本解释" class="headerlink" title="1. extern基本解释"></a>1. extern基本解释</h3><p>extern可以置于变量或者函数前，以标示变量或者函数的定义在别的文件中，提示编译器遇到此变量和函数时<strong>在其他模块中寻找其定义。</strong></p>
+<h3 id="2-extern做变量声明"><a href="#2-extern做变量声明" class="headerlink" title="2. extern做变量声明"></a>2. extern做变量声明</h3><p>声明extern关键字的全局变量和函数可以使得它们能够<strong>跨文件被访问</strong>。我们一般把所有的全局变量和全局函数的实现都放在一个*.cpp文件里面，然后用一个同名的*.h文件包含所有的函数和变量的声明。如：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token comment">/*Demo.h*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">once</span></span>
+<span class="token keyword">extern</span> <span class="token keyword">int</span> a<span class="token punctuation">;</span>
+<span class="token keyword">extern</span> <span class="token keyword">int</span> b<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span><span class="token keyword">int</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+<span class="token comment">/*Demo.cpp*/</span>	<span class="token comment">//如果将Demo.cpp写成了Demo.c，编译器会告诉你说无法解析的外部符号。因为Demo.c里面的实现会被C编译器处理，然而C++和C编译器在编译函数时存在差异，所以会存在找不到函数的情况。</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"Demo.h"</span> </span>
+<span class="token keyword">int</span> a <span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> b <span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span>intl<span class="token punctuation">,</span>intr<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">return</span> l <span class="token operator">+</span>r<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>全局函数的声明语句中，关键字extern可以省略，因为全局函数默认是extern类型的。</li>
+<li>如果在一个文件里定义了char a[] = “123456”;在另外一个文件中必须使用extern chara[ ];来声明。不能使用extern char* a来声明。<strong>extern是严格的声明。且extern char* g_str只是声明的一个全局字符指针。</strong><ul>
+<li>指向类型 T 的指针并不等价于类型 T 的数组。extern char *a声明的是一个指针变量而不是字符数组，因此与实际的定义不同，从而造成运行时非法访问。应该将声明改为extern char a[ ]。</li>
+<li><strong>这提示我们，在使用extern时候要严格对应声明时的格式</strong><h3 id="3-extern-“C”"><a href="#3-extern-“C”" class="headerlink" title="3. extern “C”"></a>3. extern “C”</h3>C++虽然兼容C，但C++文件中函数编译后生成的符号与C语言生成的不同。因为C++支持函数重载，C++函数编译后生成的符号带有函数参数类型的信息，而C则没有。例如int add(int a, int b)函数经过C++编译器生成.o文件后，add会变成形如add_int_int之类的, 而C的话则会是形如_add, 就是说：相同的函数，在C和C++中，编译后生成的符号不同。此时extern “C”就起作用了：<strong>告诉链接器去寻找_add这类的C语言符号，而不是经过C++修饰的符号。</strong></li>
+</ul>
+</li>
+<li>C++调用C函数：<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//xx.h</span>
+<span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+
+<span class="token comment">//xx.c</span>
+<span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">//xx.cpp</span>
+<span class="token keyword">extern</span> <span class="token string">"C"</span> <span class="token punctuation">&#123;</span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"xx.h"</span></span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>C调用C++函数<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//xx.h</span>
+<span class="token keyword">extern</span> <span class="token string">"C"</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//xx.cpp</span>
+<span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//xx.c</span>
+<span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <hr>
 <p>持续更新…</p>
@@ -1247,56 +1363,54 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/07/05/keywordcpp/">
+                <a href="/2021/07/06/binarysearch/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="【C++】C++关键字总结">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="【算法】二分法">
                         
-                        <span class="card-title">【C++】C++关键字总结</span>
+                        <span class="card-title">【算法】二分法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            C++的关键字用法和注意事项总结
+                            整理Leetcode中二分法相关的题型
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-05
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-06
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/Algorithm/" class="post-category">
+                                    Algorithm
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
-                    <a href="/tags/%E8%AF%AD%E6%B3%95/">
-                        <span class="chip bg-color">语法</span>
+                    <a href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/">
+                        <span class="chip bg-color">二分法</span>
                     </a>
                     
-                    <a href="/tags/%E5%85%B3%E9%94%AE%E5%AD%97/">
-                        <span class="chip bg-color">关键字</span>
+                    <a href="/tags/%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/">
+                        <span class="chip bg-color">排序数组</span>
                     </a>
                     
                 </div>
@@ -1333,8 +1447,8 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Leetcode/" class="post-category">
-                                    Leetcode
+                            <a href="/categories/Algorithm/" class="post-category">
+                                    Algorithm
                                 </a>
                             
                             
@@ -1350,6 +1464,10 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
                     
                     <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
                         <span class="chip bg-color">动态规划</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/">
+                        <span class="chip bg-color">空间优化</span>
                     </a>
                     
                 </div>
