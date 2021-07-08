@@ -310,7 +310,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/feature/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -619,10 +619,7 @@
     <span class="token keyword">return</span> dp<span class="token punctuation">[</span>target<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
-<li><strong>0/1背包的组合个数问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/"><strong>494. 目标和</strong></a><br>给数组里的每个数字添加正负号，看是否和能得到target，并求出组合数<br><code>输入：nums = [1,1,1,1,1], target = 3</code><br><code>输出：5</code><br><code>解释：一共有 5 种方法让最终目标和为 3 </code><br><code>-1 + 1 + 1 + 1 + 1 = 3</code><br><code>+1 - 1 + 1 + 1 + 1 = 3</code><br><code>+1 + 1 - 1 + 1 + 1 = 3</code><br><code>+1 + 1 + 1 - 1 + 1 = 3</code><br><code>+1 + 1 + 1 + 1 - 1 = 3</code></li>
-</ul>
-<p><strong>思路：</strong> 参考<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/solution/mu-biao-he-by-leetcode-solution-o0cp/">题解</a>，数组的元素和为sum，<br>  目标和为tar，其中正数的和为x，负数的和为y(正的)，则x + y = sum， x - y = tar，那么x = (sum + tar) / 2;此时x就是本题中要求的”target”</p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">bool</span> <span class="token function">findTargetSumWays</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>nums， <span class="token keyword">int</span> target<span class="token punctuation">)</span>
+<li><strong>0/1背包的组合个数问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/"><strong>494. 目标和</strong></a><br>给数组里的每个数字添加正负号，看是否和能得到target，并求出组合数<br><code>输入：nums = [1,1,1,1,1], target = 3</code><br><code>输出：5</code><br><code>解释：一共有 5 种方法让最终目标和为 3 </code><br><code>-1 + 1 + 1 + 1 + 1 = 3</code><br><code>+1 - 1 + 1 + 1 + 1 = 3</code><br><code>+1 + 1 - 1 + 1 + 1 = 3</code><br><code>+1 + 1 + 1 - 1 + 1 = 3</code><br><code>+1 + 1 + 1 + 1 - 1 = 3</code><br><strong>思路：</strong> 参考<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/solution/mu-biao-he-by-leetcode-solution-o0cp/">题解</a>，数组的元素和为sum，<br>目标和为tar，其中正数的和为x，负数的和为y(正的)，则x + y = sum， x - y = tar，那么x = (sum + tar) / 2;此时x就是本题中要求的”target”<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">bool</span> <span class="token function">findTargetSumWays</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>nums， <span class="token keyword">int</span> target<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
     <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span>
     <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> num <span class="token operator">:</span> nums<span class="token punctuation">)</span>
@@ -642,8 +639,8 @@
             dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> num<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
     <span class="token keyword">return</span> dp<span class="token punctuation">[</span>target<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
 <h3 id="完全背包问题："><a href="#完全背包问题：" class="headerlink" title="完全背包问题："></a>完全背包问题：</h3><ul>
 <li><strong>完全背包的最值问题</strong><br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change/description/">322. 零钱兑换</a><br>给定amount，求用任意数量不同面值的零钱换到的amount所用的最少数量<br><code>输入：coins = [1, 2, 5], amount = 11</code><br><code>输出：3 </code><br><code>解释：11 = 5 + 5 + 1</code></li>
 </ul>
@@ -1209,8 +1206,7 @@
                 <a href="/2021/07/02/dfs/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="【算法】回溯算法">
+                        <img src="/images/feature/3.jpg" class="responsive-img" alt="【算法】回溯算法">
                         
                         <span class="card-title">【算法】回溯算法</span>
                     </div>
@@ -1270,8 +1266,7 @@
                 <a href="/2021/07/01/knapsack/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="【动态规划】背包问题">
+                        <img src="/images/feature/6.jpg" class="responsive-img" alt="【动态规划】背包问题">
                         
                         <span class="card-title">【动态规划】背包问题</span>
                     </div>
