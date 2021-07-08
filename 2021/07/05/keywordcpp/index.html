@@ -473,14 +473,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.4k
+                    7.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    20 分
+                    29 分
                 </div>
                 
 
@@ -819,9 +819,12 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
 <li>全局函数的声明语句中，关键字extern可以省略，因为全局函数默认是extern类型的。</li>
 <li>如果在一个文件里定义了char a[] = “123456”;在另外一个文件中必须使用extern chara[ ];来声明。不能使用extern char* a来声明。<strong>extern是严格的声明。且extern char* g_str只是声明的一个全局字符指针。</strong><ul>
 <li>指向类型 T 的指针并不等价于类型 T 的数组。extern char *a声明的是一个指针变量而不是字符数组，因此与实际的定义不同，从而造成运行时非法访问。应该将声明改为extern char a[ ]。</li>
-<li><strong>这提示我们，在使用extern时候要严格对应声明时的格式</strong><h3 id="3-extern-“C”"><a href="#3-extern-“C”" class="headerlink" title="3. extern “C”"></a>3. extern “C”</h3>C++虽然兼容C，但C++文件中函数编译后生成的符号与C语言生成的不同。因为C++支持函数重载，C++函数编译后生成的符号带有函数参数类型的信息，而C则没有。例如int add(int a, int b)函数经过C++编译器生成.o文件后，add会变成形如add_int_int之类的, 而C的话则会是形如_add, 就是说：相同的函数，在C和C++中，编译后生成的符号不同。此时extern “C”就起作用了：<strong>告诉链接器去寻找_add这类的C语言符号，而不是经过C++修饰的符号。</strong></li>
+<li><strong>这提示我们，在使用extern时候要严格对应声明时的格式</strong></li>
 </ul>
 </li>
+</ul>
+<h3 id="3-extern-“C”"><a href="#3-extern-“C”" class="headerlink" title="3. extern “C”"></a>3. extern “C”</h3><p>C++虽然兼容C，但C++文件中函数编译后生成的符号与C语言生成的不同。因为C++支持函数重载，C++函数编译后生成的符号带有函数参数类型的信息，而C则没有。例如int add(int a, int b)函数经过C++编译器生成.o文件后，add会变成形如add_int_int之类的, 而C的话则会是形如_add, 就是说：相同的函数，在C和C++中，编译后生成的符号不同。此时extern “C”就起作用了：<strong>告诉链接器去寻找_add这类的C语言符号，而不是经过C++修饰的符号。</strong></p>
+<ul>
 <li>C++调用C函数：<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//xx.h</span>
 <span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
 
@@ -844,6 +847,183 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
 <span class="token punctuation">&#125;</span>
 <span class="token comment">//xx.c</span>
 <span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<h2 id="六、inline"><a href="#六、inline" class="headerlink" title="六、inline"></a><font color=blue>六、inline</font></h2><h3 id="1-引入inline关键字的原因"><a href="#1-引入inline关键字的原因" class="headerlink" title="1.引入inline关键字的原因"></a>1.引入inline关键字的原因</h3><p>在c/c++中，为了解决一些频繁调用的小函数大量消耗栈空间（栈内存）的问题，特别的引入了inline修饰符，表示为内联函数。<br>inline函数仅仅是一个对编译器的建议，所以最后能否真正内联，看编译器的意思，它如果认为函数不复杂，能在调用点展开，就会真正内联，并不是说声明了内联就会内联，声明内联只是一个建议而已。</p>
+<h3 id="2-inline的使用"><a href="#2-inline的使用" class="headerlink" title="2. inline的使用"></a>2. inline的使用</h3><p><strong>定义在类中的成员函数</strong>缺省都是内联的，如果在类定义时就在类内给出函数定义，那当然最好。如果在类中未给出成员函数定义，而又想内联该函数的话，那在类外要加上inline，否则就认为不是内联的。且inline一定要与函数定义放在一起，inline是一种“用于实现的关键字,而不是用于声明的关键字”<br>在头文件中的声明方法：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token keyword">void</span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span><span class="token keyword">int</span> y<span class="token punctuation">)</span> <span class="token comment">// 定义即隐式内联函数！</span>
+    <span class="token punctuation">&#123;</span>
+
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 声明后，要想成为内联函数，必须在定义处加inline关键字。  </span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>实现文件中定义内联函数：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"inline.h"</span></span>
+
+<span class="token keyword">int</span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span><span class="token keyword">int</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 函数声明</span>
+<span class="token comment">//inline要起作用,inline要与函数定义放在一起,inline是一种“用于实现的关键字,而不是用于声明的关键字”</span>
+<span class="token keyword">inline</span> <span class="token keyword">int</span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span><span class="token keyword">int</span> y<span class="token punctuation">)</span> <span class="token comment">// 函数定义</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> x<span class="token operator">+</span>y<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">// 定义处加inline关键字，推荐这种写法！</span>
+<span class="token keyword">inline</span> <span class="token keyword">void</span> <span class="token class-name">A</span><span class="token double-colon punctuation">::</span><span class="token function">f1</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    cout<span class="token operator">&lt;&lt;</span><span class="token function">Foo</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>编译器对inline函数的处理步骤：</p>
+<ol>
+<li>将 inline 函数体复制到 inline 函数调用点处；</li>
+<li>为所用 inline 函数中的局部变量分配内存空间；</li>
+<li>将 inline 函数的的输入参数和返回值映射到调用方法的局部变量空间中；</li>
+<li>如果 inline 函数有多个返回点，将其转变为 inline 函数代码块末尾的分支（使用 GOTO）。</li>
+</ol>
+<h3 id="3-inline的使用注意事项"><a href="#3-inline的使用注意事项" class="headerlink" title="3.inline的使用注意事项"></a>3.inline的使用注意事项</h3><p>内联能提高函数效率，但并不是所有的函数都定义成内联函数！内联是以代码膨胀(复制)为代价，仅仅省去了函数调用的开销，从而提高函数的执行效率。如果执行函数体内代码的时间相比于函数调用的开销较大，那么效率的收货会更少！<br>另一方面，每一处内联函数的调用都要复制代码，将使程序的总代码量增大，消耗更多的内存空间。<br>以下情况不宜用内联：<br>（1）如果函数体内的<strong>代码比较长</strong>，使得内联将导致内存消耗代价比较高。<br>（2）如果<strong>函数体内出现循环</strong>，那么执行函数体内代码的时间要比函数调用的开销大。</p>
+<h3 id="4-虚函数和inline"><a href="#4-虚函数和inline" class="headerlink" title="4.虚函数和inline"></a>4.虚函数和inline</h3><ul>
+<li>虚函数可以是内联函数，内联是可以修饰虚函数的，但是当<font color=red>虚函数表现<strong>多态性</strong>的时候不能内联。</font></li>
+<li>内联是在编译器建议编译器内联，而<strong>虚函数的多态性在运行期，编译器无法知道运行期调用哪个代码</strong>，因此虚函数表现为多态性时（运行期）不可以内联。</li>
+<li>inline virtual 唯一可以内联的时候是：编译器知道所调用的对象是哪个类（如 Base::who()），这只有在编译器具有实际对象而不是对象的指针或引用时才会发生。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">inline</span> <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">who</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"I am Base\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">virtual</span> <span class="token operator">~</span><span class="token function">Base</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">Derived</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">Base</span></span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">inline</span> <span class="token keyword">void</span> <span class="token function">who</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">// 不写inline时隐式内联</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"I am Derived\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">// 此处的虚函数 who()，是通过类（Base）的具体对象（b）来调用的，编译期间就能确定了，所以它可以是内联的，但最终是否内联取决于编译器。 </span>
+    Base b<span class="token punctuation">;</span>
+    b<span class="token punctuation">.</span><span class="token function">who</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 此处的虚函数是通过指针调用的，呈现多态性，需要在运行时期间才能确定，所以不能为内联。  </span>
+    Base <span class="token operator">*</span>ptr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Derived</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ptr<span class="token operator">-></span><span class="token function">who</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 因为Base有虚析构函数（virtual ~Base() &#123;&#125;），所以 delete 时，会先调用派生类（Derived）析构函数，再调用基类（Base）析构函数，防止内存泄漏。</span>
+    <span class="token keyword">delete</span> ptr<span class="token punctuation">;</span>
+    ptr <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<h2 id="七、friend"><a href="#七、friend" class="headerlink" title="七、friend"></a><font color=blue>七、friend</font></h2><h3 id="1-友元"><a href="#1-友元" class="headerlink" title="1. 友元"></a>1. 友元</h3><p>友元提供了一种 普通函数或者类成员函数 访问另一个类中的私有或保护成员 的机制。也就是说有两种形式的友元：<br>（1）友元函数：普通函数对一个访问某个类中的<strong>私有或保护成员</strong>。<br>（2）友元类：类A中的成员函数访问类B中的<strong>私有或保护成员</strong>。<br><strong>优点：</strong>提高了程序的运行效率。<br><strong>缺点：</strong>破坏了类的封装性和数据的透明性。</p>
+<h3 id="2-友元函数"><a href="#2-友元函数" class="headerlink" title="2. 友元函数"></a>2. 友元函数</h3><p>在类声明的任何区域中声明，而定义则在类的外部。<br>`friend &lt;类型&gt;&lt;友元函数名&gt;(&lt;参数表&gt;);``<br>友元函数只是一个普通函数，并不是该类的类成员函数，它可以在任何地方调用，友元函数中通过<strong>对象名</strong>来访问该类的<strong>私有或保护成员</strong>。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">A</span><span class="token punctuation">(</span><span class="token keyword">int</span> _a<span class="token punctuation">)</span><span class="token operator">:</span><span class="token function">a</span><span class="token punctuation">(</span>_a<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">friend</span> <span class="token keyword">int</span> <span class="token function">geta</span><span class="token punctuation">(</span>A <span class="token operator">&amp;</span>ca<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 友元函数</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> a<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">geta</span><span class="token punctuation">(</span>A <span class="token operator">&amp;</span>ca<span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+	<span class="token comment">//通过类对象名访问类的私有或保护成员</span>
+    <span class="token keyword">return</span> ca<span class="token punctuation">.</span>a<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    A <span class="token function">a</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+    cout<span class="token operator">&lt;&lt;</span><span class="token function">geta</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>输出：3</code></p>
+<h3 id="3-友元类"><a href="#3-友元类" class="headerlink" title="3. 友元类"></a>3. 友元类</h3><p>友元类的声明在该类的声明中，而实现在该类外。<br><code>friend class &lt;友元类名&gt;;</code><br>类B是类A的友元，那么类B可以直接访问A的私有成员。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">A</span><span class="token punctuation">(</span><span class="token keyword">int</span> _a<span class="token punctuation">)</span><span class="token operator">:</span><span class="token function">a</span><span class="token punctuation">(</span>_a<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">friend</span> <span class="token keyword">class</span> <span class="token class-name">B</span><span class="token punctuation">;</span>		<span class="token comment">//友元类</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> a<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">B</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token comment">//友元类中的方法可以直接访问A的私有成员</span>
+    <span class="token keyword">int</span> <span class="token function">getb</span><span class="token punctuation">(</span>A ca<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span>  ca<span class="token punctuation">.</span>a<span class="token punctuation">;</span> 
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+    A <span class="token function">a</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    B b<span class="token punctuation">;</span>
+    cout<span class="token operator">&lt;&lt;</span>b<span class="token punctuation">.</span><span class="token function">getb</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>输出：3</code><br><strong>注意：</strong><br>    - 友元关系<font color=red>没有继承性</font>，假如类B是类A的友元，类C继承于类A，那么友元类B是没办法直接访问类C的私有或保护成员<br>    - 友元关系<font color=red>没有传递性</font>, 假如类B是类A的友元，类C是类B的友元，那么友元类C是没办法直接访问类A的私有或保护成员，也就是不存在“友元的友元”这种关系。</p>
+<hr>
+<h2 id="八、explicit"><a href="#八、explicit" class="headerlink" title="八、explicit"></a><font color=blue>八、explicit</font></h2><h3 id="1-隐式转换类型"><a href="#1-隐式转换类型" class="headerlink" title="1. 隐式转换类型"></a>1. 隐式转换类型</h3><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">A</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">&#125;</span>
+    <span class="token keyword">operator</span> <span class="token keyword">bool</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">doA</span><span class="token punctuation">(</span>A a<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    A <span class="token function">a1</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// OK：直接初始化</span>
+    A a2 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>    <span class="token comment">// OK：复制初始化,此时在编译时默认将1转换为“A temp(1)”类A的对象</span>
+    A a3<span class="token punctuation">&#123;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>    <span class="token comment">// OK：直接列表初始化</span>
+    A a4 <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">// OK：复制列表初始化</span>
+    A a5 <span class="token operator">=</span> <span class="token punctuation">(</span>A<span class="token punctuation">)</span><span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment">// OK：允许 static_cast 的显式转换 </span>
+    
+    <span class="token function">doA</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment">// OK：允许从int到A的隐式转换</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>a1<span class="token punctuation">)</span><span class="token punctuation">;</span>  	  <span class="token comment">// OK：使用转换函数A::operator bool()的从A到bool的隐式转换</span>
+    <span class="token keyword">bool</span> <span class="token function">a6</span><span class="token punctuation">(</span>a1<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// OK：使用转换函数A::operator bool()的从A到bool的隐式转换</span>
+    <span class="token keyword">bool</span> a7 <span class="token operator">=</span> a1<span class="token punctuation">;</span>  <span class="token comment">// OK：使用转换函数A::operator bool()的从A到bool的隐式转换</span>
+    <span class="token keyword">bool</span> a8 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">bool</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>a1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// OK ：static_cast 进行直接初始化</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>函数doA需要的是A类型的参数, 而我们传入的是一个int, 这个程序却能成功运行, 就是因为这<strong>隐式调用</strong>。 另外说一句, 在对象刚刚定义时, 即使你使用的是赋值操作符=, 也是会调用构造函数, 而不是重载的operator=运算符.</p>
+<h3 id="2-explicit关键字"><a href="#2-explicit关键字" class="headerlink" title="2. explicit关键字"></a>2. explicit关键字</h3><ul>
+<li><strong>explicit 修饰构造函数时，可以防止隐式转换和复制初始化</strong></li>
+<li><strong>explicit 修饰转换函数时，可以防止隐式转换，但按语境转换除外</strong><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">B</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">explicit</span> <span class="token function">B</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">explicit</span> <span class="token keyword">operator</span> <span class="token keyword">bool</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">doB</span><span class="token punctuation">(</span>B b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    B <span class="token function">b1</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment">// OK：直接初始化</span>
+    B b2 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>   	<span class="token comment">// 错误：被 explicit 修饰构造函数的对象不可以复制初始化</span>
+    B b3<span class="token punctuation">&#123;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>     <span class="token comment">// OK：直接列表初始化</span>
+    B b4 <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>  <span class="token comment">// 错误：被 explicit 修饰构造函数的对象不可以复制列表初始化</span>
+    B b5 <span class="token operator">=</span> <span class="token punctuation">(</span>B<span class="token punctuation">)</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// OK：允许 static_cast 的显式转换</span>
+    <span class="token function">doB</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// 错误：被 explicit 修饰构造函数的对象不可以从int到B的隐式转换</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>b1<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// OK：被explicit修饰转换函数B::operator bool()的对象可以从B 到bool的按语境转换</span>
+    <span class="token keyword">bool</span> <span class="token function">b6</span><span class="token punctuation">(</span>b1<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// OK：被explicit修饰转换函数B::operator bool()的对象可以从 B到bool的按语境转换</span>
+    <span class="token keyword">bool</span> b7 <span class="token operator">=</span> b1<span class="token punctuation">;</span> <span class="token comment">// 错误：被explicit修饰转换函数B::operator bool()的对象不可以隐式转换</span>
+    <span class="token keyword">bool</span> b8 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">bool</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>b1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// OK：static_cast 进行直接初始化</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <hr>
 <p>持续更新…</p>
