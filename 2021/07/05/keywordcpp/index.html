@@ -473,14 +473,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.7k
+                    10.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    29 分
+                    39 分
                 </div>
                 
 
@@ -511,7 +511,7 @@
 <li><strong>文字常量区：</strong>存放常量字符串，程序结束后由系统释放。</li>
 <li><strong>程序代码区：</strong>用于存放程序的二进制代码。</li>
 </ul>
-<h3 id="2-静态变量"><a href="#2-静态变量" class="headerlink" title="2. 静态变量"></a>2. 静态变量</h3><h4 id="1-局部静态变量"><a href="#1-局部静态变量" class="headerlink" title="(1). 局部静态变量"></a>(1). 局部静态变量</h4><p>当变量声明为static时，空间将在程序的生命周期内分配。即使多次调用该函数，静态变量的空间也只分配一次，前一次调用中的变量值通过下一次函数调用传递。若不加static修饰，函数或者代码块中的变量在函数或者代码块执行完毕后就直接回收销毁了，每次执行都会重新分配内存，每次都会销毁。</p>
+<h3 id="2-静态变量"><a href="#2-静态变量" class="headerlink" title="2. 静态变量"></a>2. 静态变量</h3><h4 id="2-1-局部静态变量"><a href="#2-1-局部静态变量" class="headerlink" title="2.1. 局部静态变量"></a>2.1. 局部静态变量</h4><p>当变量声明为static时，空间将在程序的生命周期内分配。即使多次调用该函数，静态变量的空间也只分配一次，前一次调用中的变量值通过下一次函数调用传递。若不加static修饰，函数或者代码块中的变量在函数或者代码块执行完毕后就直接回收销毁了，每次执行都会重新分配内存，每次都会销毁。</p>
 <ul>
 <li><strong>改变：</strong>从自动变量变为静态变量，变量的属性和作用域不受影响</li>
 <li><strong>作用域：</strong>仍为<font color=red>局部作用域</font>，当其所在的函数或者语句块结束的时候，作用域结束。然而局部静态变量离开作用域后，并没有被销毁，仍然驻留在内存中，只有该函数可以对其进行调用或者访问。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">demo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
@@ -532,16 +532,16 @@
 输出：<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token number">0</span> <span class="token number">1</span> <span class="token number">2</span> <span class="token number">3</span> <span class="token number">4</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 程序中count被声明为static。每次调用函数时，都不会对变量计数进行初始化。</li>
 </ul>
-<h4 id="2-全局静态变量"><a href="#2-全局静态变量" class="headerlink" title="(2). 全局静态变量"></a>(2). 全局静态变量</h4><p>在全局变量前加上关键字 static，全局变量就变成了一个全局静态变量。</p>
+<h4 id="2-2-全局静态变量"><a href="#2-2-全局静态变量" class="headerlink" title="2.2. 全局静态变量"></a>2.2. 全局静态变量</h4><p>在全局变量前加上关键字 static，全局变量就变成了一个全局静态变量。</p>
 <ul>
 <li><strong>改变：</strong>当 static 作用于函数定义时，或者用于代码块之外的变量声明时，static关键字用于修改标识符的链接属性。 <font color=red>外部链接属性变为内部链接属性</font> ，标识符的存储类型和作用域不受影响。也就是说变量或者函数只能在当前源文件中访问，不能在其他源文件中访问。即便是 extern 外部声明也不可以。</li>
 <li><strong>作用域：</strong>全局静态变量在其所声明的文件之外是不可见的，准确的说是从定义处到文件末尾。</li>
 </ul>
-<h4 id="3-静态函数"><a href="#3-静态函数" class="headerlink" title="(3). 静态函数"></a>(3). 静态函数</h4><p>在函数返回类型前加关键字 static，函数就被定义为静态函数，静态函数只在其所声明的文件中可见，不可被其他文件所使用。</p>
+<h4 id="2-3-静态函数"><a href="#2-3-静态函数" class="headerlink" title="2.3. 静态函数"></a>2.3. 静态函数</h4><p>在函数返回类型前加关键字 static，函数就被定义为静态函数，静态函数只在其所声明的文件中可见，不可被其他文件所使用。</p>
 <ul>
 <li><strong>改变：</strong>当 static 作用于函数定义时，或者用于代码块之外的变量声明时，static关键字用于修改标识符的链接属性。 <font color=red>外部链接属性变为内部链接属性</font> ，标识符的存储类型和作用域不受影响。也就是说变量或者函数只能在当前源文件中访问，不能在其他源文件中访问。</li>
 </ul>
-<h3 id="3-类中的静态成员"><a href="#3-类中的静态成员" class="headerlink" title="3. 类中的静态成员"></a>3. 类中的静态成员</h3><h4 id="1-静态成员变量"><a href="#1-静态成员变量" class="headerlink" title="(1). 静态成员变量"></a>(1). 静态成员变量</h4><p>声明为static的变量只被初始化一次，它们在单独的静态储存中分配了空间，类中的静态变量<font color=red>由类的所有对象共享</font> 。</p>
+<h3 id="3-类中的静态成员"><a href="#3-类中的静态成员" class="headerlink" title="3. 类中的静态成员"></a>3. 类中的静态成员</h3><h4 id="3-1-静态成员变量"><a href="#3-1-静态成员变量" class="headerlink" title="3.1. 静态成员变量"></a>3.1. 静态成员变量</h4><p>声明为static的变量只被初始化一次，它们在单独的静态储存中分配了空间，类中的静态变量<font color=red>由类的所有对象共享</font> 。</p>
 <ul>
 <li><strong>改变：</strong><ul>
 <li>静态数据成员可以实现多个对象之间的数据共享，它是类的所有对象的共享成员，它在内存中只占一份空间，如果改变它的值，则各对象中这个数据成员的值都被改变。</li>
@@ -575,7 +575,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="2-静态成员函数"><a href="#2-静态成员函数" class="headerlink" title="(2). 静态成员函数"></a>(2). 静态成员函数</h4><p>允许静态成员函数仅访问静态数据成员或其他静态成员函数，它们无法访问类的非静态数据成员或成员函数。</p>
+<h4 id="3-2-静态成员函数"><a href="#3-2-静态成员函数" class="headerlink" title="3.2. 静态成员函数"></a>3.2. 静态成员函数</h4><p>允许静态成员函数仅访问静态数据成员或其他静态成员函数，它们无法访问类的非静态数据成员或成员函数。</p>
 <ul>
 <li><strong>改变：</strong><ul>
 <li>静态成员函数和静态数据成员一样，他们都属于类的静态成员，而不是对象成员。</li>
@@ -599,20 +599,18 @@
 <li><p><strong>节省空间，避免不必要的内存分配</strong><br>const定义常量从汇编的角度来看，只是给出了对应的内存地址，而不是像#define一样给出的是立即数，所以，const定义的常量在程序运行过程中只有一份拷贝，而#define定义的常量在内存中有若干个拷贝。</p>
 </li>
 </ol>
-<h3 id="2-const的使用"><a href="#2-const的使用" class="headerlink" title="2. const的使用"></a>2. const的使用</h3><h4 id="1-const修饰普通类型的变量"><a href="#1-const修饰普通类型的变量" class="headerlink" title="(1). const修饰普通类型的变量"></a>(1). const修饰普通类型的变量</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span>  a <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span> 
+<h3 id="2-const的使用"><a href="#2-const的使用" class="headerlink" title="2. const的使用"></a>2. const的使用</h3><h4 id="2-1-const修饰普通类型的变量"><a href="#2-1-const修饰普通类型的变量" class="headerlink" title="2.1. const修饰普通类型的变量"></a>2.1. const修饰普通类型的变量</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span>  a <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span> 
 <span class="token keyword">const</span> <span class="token keyword">int</span> i<span class="token punctuation">;</span>	<span class="token comment">//error</span>
 <span class="token keyword">int</span>  b <span class="token operator">=</span> a<span class="token punctuation">;</span>		<span class="token comment">//ok</span>
 a <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>       	<span class="token comment">// error,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>a为常量，不可更改！i为常量，必须进行初始化！(因为常量在定义后就不能被修改，所以定义时必须初始化。)</p>
-<h4 id="2-const修饰指针变量"><a href="#2-const修饰指针变量" class="headerlink" title="(2). const修饰指针变量"></a>(2). const修饰指针变量</h4><p>与指针相关的const有四种：</p>
+<h4 id="2-2-const修饰指针变量"><a href="#2-2-const修饰指针变量" class="headerlink" title="2.2. const修饰指针变量"></a>2.2. const修饰指针变量</h4><p>与指针相关的const有四种：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span> a<span class="token punctuation">;</span> <span class="token comment">//指向const对象的指针或者说指向常量的指针。</span>
 <span class="token keyword">char</span> <span class="token keyword">const</span> <span class="token operator">*</span> a<span class="token punctuation">;</span> <span class="token comment">//同上</span>
 <span class="token keyword">char</span> <span class="token operator">*</span> <span class="token keyword">const</span> a<span class="token punctuation">;</span> <span class="token comment">//指向类型对象的const指针。或者说常指针、const指针。</span>
 <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span> <span class="token keyword">const</span> a<span class="token punctuation">;</span> <span class="token comment">//指向const对象的const指针。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>如果const<strong>位于*的左侧</strong>，则const就是用来修饰<strong>指针所指向的变量</strong>，即指针指向为常量；如果const<strong>位于*的右侧</strong>，const就是<strong>修饰指针本身</strong>，即指针本身是常量。</p>
-<ul>
-<li><p><strong>指针常量（指向常量的指针）</strong></p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<h5 id="2-2-1-指针常量（指向常量的指针）"><a href="#2-2-1-指针常量（指向常量的指针）" class="headerlink" title="2.2.1. 指针常量（指向常量的指针）"></a>2.2.1. <strong>指针常量（指向常量的指针）</strong></h5><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
 	<span class="token keyword">int</span> val <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
 	<span class="token keyword">const</span> <span class="token keyword">int</span> val <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
@@ -634,14 +632,12 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>输出：<br><code>15</code></p>
-<ul>
-<li><font color=red>对于指向常量的指针，不能通过指针来修改对象的值。</font></li>
-<li><font color=red>允许把非const对象的地址赋值给const对象的指针</font></li>
-<li><font color=red>如果要修改指针所指向的对象值，必须通过其他方式修改(利用普通指针)，不能直接通过当前指针直接修改。</font></li>
-<li><font color=red>不能使用<strong>void * <strong>指针保存const对象的地址，必须使用</strong>const void、</strong>* 类型的指针保存const对象的地址。</font></li>
-</ul>
-</li>
-<li><p><strong>常量指针(常指针)</strong><br>const指针必须进行初始化，且const指针的值不能修改。</p>
+<pre><code>- &lt;font color=red&gt;对于指向常量的指针，不能通过指针来修改对象的值。&lt;/font&gt;
+- &lt;font color=red&gt;允许把非const对象的地址赋值给const对象的指针&lt;/font&gt;
+- &lt;font color=red&gt;如果要修改指针所指向的对象值，必须通过其他方式修改(利用普通指针)，不能直接通过当前指针直接修改。&lt;/font&gt;
+- &lt;font color=red&gt;不能使用**void \* **指针保存const对象的地址，必须使用**const void、*** 类型的指针保存const对象的地址。&lt;/font&gt;
+</code></pre>
+<h5 id="2-2-2-常量指针-常指针"><a href="#2-2-2-常量指针-常指针" class="headerlink" title="2.2.2. 常量指针(常指针)"></a>2.2.2. <strong>常量指针(常指针)</strong></h5><p>const指针必须进行初始化，且const指针的值不能修改。</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
 
 	<span class="token keyword">int</span> val1 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
@@ -657,18 +653,11 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
     <span class="token keyword">int</span> <span class="token operator">*</span> <span class="token keyword">const</span> p2 <span class="token operator">=</span> <span class="token operator">&amp;</span>val2_const<span class="token punctuation">;</span>  <span class="token comment">//error,p2指向的是一个变量，而不是const常量</span>
     cout<span class="token operator">&lt;&lt;</span><span class="token operator">*</span>ptr<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>输出：<br><code>15</code></p>
-<ul>
-<li><font color=red>const指针必须初始化, 且const指针的值不能修改, 但const指针指向的值可以修改</font></li>
-<li><font color=red>如果要修改指针所指向的对象值，可以直接修改，也可以通过其他方式修改(利用普通指针)。</font></li>
-<li><font color=red>当把一个const常量的地址赋值给ptr时候，由于ptr指向的是一个变量，而不是const常量，所以会报错。</font></li>
-</ul>
-</li>
-<li><p><strong>指向常量的常指针</strong></p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> p <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span> <span class="token keyword">const</span> ptr <span class="token operator">=</span> <span class="token operator">&amp;</span>p<span class="token punctuation">;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
-</ul>
-<h4 id="3-函数中使用const"><a href="#3-函数中使用const" class="headerlink" title="(3). 函数中使用const"></a>(3). 函数中使用const</h4><h5 id="A-const修饰函数参数"><a href="#A-const修饰函数参数" class="headerlink" title="A. const修饰函数参数"></a>A. const修饰函数参数</h5><ul>
+<p>输出：<br><code>15</code><br>    - <font color=red>const指针必须初始化, 且const指针的值不能修改, 但const指针指向的值可以修改</font><br>    - <font color=red>如果要修改指针所指向的对象值，可以直接修改，也可以通过其他方式修改(利用普通指针)。</font><br>    - <font color=red>当把一个const常量的地址赋值给ptr时候，由于ptr指向的是一个变量，而不是const常量，所以会报错。</font></p>
+<h5 id="2-2-3-指向常量的常指针"><a href="#2-2-3-指向常量的常指针" class="headerlink" title="2.2.3. 指向常量的常指针"></a>2.2.3. <strong>指向常量的常指针</strong></h5><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> p <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span> <span class="token keyword">const</span> ptr <span class="token operator">=</span> <span class="token operator">&amp;</span>p<span class="token punctuation">;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="2-3-函数中使用const"><a href="#2-3-函数中使用const" class="headerlink" title="2.3. 函数中使用const"></a>2.3. 函数中使用const</h4><h5 id="2-3-1-const修饰函数参数"><a href="#2-3-1-const修饰函数参数" class="headerlink" title="2.3.1. const修饰函数参数"></a>2.3.1. const修饰函数参数</h5><ul>
 <li><strong>传递过来的参数及指针本身在函数内不可变，无意义</strong><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span> var<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 传递过来的参数不可变</span>
 <span class="token keyword">void</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token keyword">const</span> var<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 指针本身不可变</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 表明参数在函数体内不能被修改，但此处没有任何意义，var本身就是形参，在函数内不会改变。包括传入的形参是指针也是一样。<br>输入参数采用<font color=red>“值传递”</font>，由于函数将自动产生临时变量用于复制该参数，该输入参数本来就无需保护，所以不要加const 修饰。</li>
@@ -676,13 +665,13 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
 其中src 是输入参数，dst 是输出参数。给src加上const修饰后，如果函数体内的语句试图改动src的内容，编译器将指出错误。这就是加了const的作用之一。</li>
 <li><strong>参数为引用，为了增加效率同时防止修改</strong><br><code>void func(const A &amp;a)</code><br>对于非内部数据类型(自定义class，struct等)的参数而言，像void func(A a) 这样声明的函数注定效率比较低。因为函数体内将产生<strong>A 类型的临时对象用于复制参数a</strong>，而临时对象的构造、复制、析构过程都将消耗时间。<br>为了提高效率，可以将函数声明改为void func(A &amp;a)，因为“引用传递”仅借用一下参数的别名而已，<strong>不需要产生临时对象</strong>。但是函数void func(A &amp;a) 存在一个缺点：<font color=red>“引用传递”有可能改变参数a</font>，这是我们不期望的。解决这个问题很容易，加const修饰即可，因此函数最终成为void func(const A &amp;a)。<br>以此类推，是否应将void func(int x) 改写为void func(const int &amp;x)，以便提高效率？完全没有必要，因为内部数据类型的参数不存在构造、析构的过程，而复制也非常快，“值传递”和“引用传递”的效率几乎相当。</li>
 </ul>
-<h5 id="B-const修饰函数返回值"><a href="#B-const修饰函数返回值" class="headerlink" title="B. const修饰函数返回值"></a>B. const修饰函数返回值</h5><p>跟const修饰普通变量以及指针的含义基本相同：</p>
+<h5 id="2-3-2-const修饰函数返回值"><a href="#2-3-2-const修饰函数返回值" class="headerlink" title="2.3.2. const修饰函数返回值"></a>2.3.2. const修饰函数返回值</h5><p>跟const修饰普通变量以及指针的含义基本相同：</p>
 <ul>
 <li><strong>const修饰内置类型的返回值，修饰与不修饰返回值作用一样</strong><br><code>const int func1();</code></li>
 <li><strong>const 修饰返回的指针或者引用，是否返回一个指向const的指针，取决于我们想让用户干什么</strong><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span><span class="token operator">*</span> <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>		<span class="token comment">//指针指向的内容不变</span>
 <span class="token keyword">int</span> <span class="token operator">*</span><span class="token keyword">const</span> <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>		<span class="token comment">//指针本身不可变</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 </ul>
-<h4 id="4-类中使用const"><a href="#4-类中使用const" class="headerlink" title="(4). 类中使用const"></a>(4). 类中使用const</h4><h5 id="A-const成员变量"><a href="#A-const成员变量" class="headerlink" title="A. const成员变量"></a>A. const成员变量</h5><ul>
+<h4 id="2-4-类中使用const"><a href="#2-4-类中使用const" class="headerlink" title="2.4. 类中使用const"></a>2.4. 类中使用const</h4><h5 id="2-4-1-const成员变量"><a href="#2-4-1-const成员变量" class="headerlink" title="2.4.1. const成员变量"></a>2.4.1. const成员变量</h5><ul>
 <li>对于类中的const成员变量必须通过初始化列表进行初始化<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Apple</span>
 <span class="token punctuation">&#123;</span>
 <span class="token keyword">private</span><span class="token operator">:</span>
@@ -696,7 +685,7 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
 <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 由于const变量必须初始化，所以类中的const成员变量在声明之后，如果在构造函数中，做的就是对它们赋值，这是不允许的。</li>
 </ul>
-<h5 id="B-const成员函数"><a href="#B-const成员函数" class="headerlink" title="B. const成员函数"></a>B. const成员函数</h5><p>const 修饰类成员函数，其目的是防止成员函数修改被调用对象的值，如果我们不想修改一个调用对象的值，所有的成员函数都应当声明为const成员函数。只有常成员函数才有资格操作常量或常对象，没有使用const关键字明的成员函数不能用来操作常对象。</p>
+<h5 id="2-4-2-const成员函数"><a href="#2-4-2-const成员函数" class="headerlink" title="2.4.2. const成员函数"></a>2.4.2. const成员函数</h5><p>const 修饰类成员函数，其目的是<strong>防止成员函数修改被调用对象的值</strong>，如果我们不想修改一个调用对象的值，所有的成员函数都应当声明为const成员函数。只有常成员函数才有资格操作常量或常对象，没有使用const关键字明的成员函数不能用来操作常对象。</p>
 <ul>
 <li><strong>常成员函数不能修改调用对象的值</strong><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Test</span>
 <span class="token punctuation">&#123;</span>
@@ -724,7 +713,8 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
     
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>const对象只能访问const成员函数,而非const对象可以访问任意的成员函数,包括const成员函数.<br><font color=red><strong>注意：const</strong>关键字不能与<strong>static</strong>关键字同时使用，因为static关键字修饰静态成员函数，静态成员函数不含有this指针，即不能实例化，const成员函数必须具体到某一实例。</font></li>
+<li>const对象只能访问const成员函数,而非const对象可以访问任意的成员函数,包括const成员函数.</li>
+<li>可以使用<strong>mutable</strong>关键字声明成员，使成员可以随时改变，即在const成员函数可以修改它的值<br><font color=red><strong>注意：const</strong>关键字不能与<strong>static</strong>关键字同时使用，因为static关键字修饰静态成员函数，静态成员函数不含有this指针，即不能实例化，const成员函数必须具体到某一实例。</font></li>
 </ul>
 <h3 id="3-const进行类型检查"><a href="#3-const进行类型检查" class="headerlink" title="3. const进行类型检查"></a><span id="jump1">3. const进行类型检查</span></h3><p><strong>const常量与#define宏定义常量的区别：</strong></p>
 <ul>
@@ -767,7 +757,7 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
 <span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>输出：<br><code>20</code></p>
-<h3 id="2-volatile的应用"><a href="#2-volatile的应用" class="headerlink" title="2. volatile的应用"></a>2. volatile的应用</h3><h4 id="1-并行设备的硬件寄存器（如状态寄存器）"><a href="#1-并行设备的硬件寄存器（如状态寄存器）" class="headerlink" title="(1).并行设备的硬件寄存器（如状态寄存器）"></a>(1).并行设备的硬件寄存器（如状态寄存器）</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span>  <span class="token operator">*</span>output <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">unsigned</span>  <span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token number">0xff800000</span><span class="token punctuation">;</span> <span class="token comment">//定义一个IO端口；  </span>
+<h3 id="2-volatile的应用"><a href="#2-volatile的应用" class="headerlink" title="2. volatile的应用"></a>2. volatile的应用</h3><h4 id="2-1-并行设备的硬件寄存器（如状态寄存器）"><a href="#2-1-并行设备的硬件寄存器（如状态寄存器）" class="headerlink" title="2.1.并行设备的硬件寄存器（如状态寄存器）"></a>2.1.并行设备的硬件寄存器（如状态寄存器）</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span>  <span class="token operator">*</span>output <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">unsigned</span>  <span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token number">0xff800000</span><span class="token punctuation">;</span> <span class="token comment">//定义一个IO端口；  </span>
 <span class="token keyword">int</span>   <span class="token function">init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>  
 <span class="token punctuation">&#123;</span>  
     <span class="token keyword">int</span> i<span class="token punctuation">;</span>  
@@ -782,7 +772,7 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
     <span class="token operator">*</span>output <span class="token operator">=</span> <span class="token number">9</span><span class="token punctuation">;</span>  
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这就违背了对此设备进行顺序赋值的初衷，这时候就该使用volatile通知编译器这个变量是一个不稳定的，在遇到此变量时候不要优化。<br><strong><font color>一个变量可被const和volatile同时修饰（例如一个只读的状态寄存器）</font></strong></p>
-<h4 id="2-一个中断服务子程序中访问到的变量"><a href="#2-一个中断服务子程序中访问到的变量" class="headerlink" title="(2).一个中断服务子程序中访问到的变量"></a>(2).一个中断服务子程序中访问到的变量</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">static</span> <span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+<h4 id="2-2-一个中断服务子程序中访问到的变量"><a href="#2-2-一个中断服务子程序中访问到的变量" class="headerlink" title="2.2.一个中断服务子程序中访问到的变量"></a>2.2.一个中断服务子程序中访问到的变量</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">static</span> <span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
 
 <span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
@@ -798,7 +788,7 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
     i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>上面示例程序的本意是产生中断时，由中断服务子程序IRS响应中断，变更程序变量i，使在main函数中调用dosomething函数，但是，由于编译器判断在main函数里面没有修改过i，因此可能只执行一次对从i到某寄存器的读操作，然后每次if判断都只使用这个寄存器里面的“i副本”，导致dosomething永远不会被调用。如果将变量i加上volatile修饰，则<strong>编译器保证对变量i的读写操作都不会被优化</strong>，从而保证了变量i被外部程序更改后能及时在原程序中得到感知。<br><strong><font color>一个指针可被volatile修饰，（当一个中断服务子程序修改一个指向一个buffer的指针时</font></strong></p>
-<h4 id="3-多线程应用中被多个任务共享的变量"><a href="#3-多线程应用中被多个任务共享的变量" class="headerlink" title="(3).多线程应用中被多个任务共享的变量"></a>(3).多线程应用中被多个任务共享的变量</h4><p>当多个线程共享某一个变量时，该变量的值会被某一个线程更改，应该用 volatile 声明。<strong>作用是防止编译器优化把变量从内存装入CPU寄存器中</strong>，当一个线程更改变量后，未及时同步到其它线程中导致程序出错。volatile的意思是让编译器每次操作该变量时一定要从内存中真正取出，而不是使用已经存在寄存器中的值。</p>
+<h4 id="2-3-多线程应用中被多个任务共享的变量"><a href="#2-3-多线程应用中被多个任务共享的变量" class="headerlink" title="2.3.多线程应用中被多个任务共享的变量"></a>2.3.多线程应用中被多个任务共享的变量</h4><p>当多个线程共享某一个变量时，该变量的值会被某一个线程更改，应该用 volatile 声明。<strong>作用是防止编译器优化把变量从内存装入CPU寄存器中</strong>，当一个线程更改变量后，未及时同步到其它线程中导致程序出错。volatile的意思是让编译器每次操作该变量时一定要从内存中真正取出，而不是使用已经存在寄存器中的值。</p>
 <hr>
 <h2 id="五、extern"><a href="#五、extern" class="headerlink" title="五、extern"></a><font color=blue>五、extern</font></h2><h3 id="1-extern基本解释"><a href="#1-extern基本解释" class="headerlink" title="1. extern基本解释"></a>1. extern基本解释</h3><p>extern可以置于变量或者函数前，以标示变量或者函数的定义在别的文件中，提示编译器遇到此变量和函数时<strong>在其他模块中寻找其定义。</strong></p>
 <h3 id="2-extern做变量声明"><a href="#2-extern做变量声明" class="headerlink" title="2. extern做变量声明"></a>2. extern做变量声明</h3><p>声明extern关键字的全局变量和函数可以使得它们能够<strong>跨文件被访问</strong>。我们一般把所有的全局变量和全局函数的实现都放在一个*.cpp文件里面，然后用一个同名的*.h文件包含所有的函数和变量的声明。如：</p>
@@ -1029,6 +1019,175 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
+<hr>
+<h2 id="九、decltype"><a href="#九、decltype" class="headerlink" title="九、decltype"></a><font color=blue>九、decltype</font></h2><h3 id="1-decltype基本使用"><a href="#1-decltype基本使用" class="headerlink" title="1. decltype基本使用"></a>1. decltype基本使用</h3><p>基本语法：<code>decltype(expression)</code><br><strong>注意，decltype 仅仅“查询”表达式的类型，并不会对表达式进行“求值”。</strong></p>
+<h4 id="1-1-推导出表达式类型"><a href="#1-1-推导出表达式类型" class="headerlink" title="1.1 推导出表达式类型"></a>1.1 推导出表达式类型</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token keyword">decltype</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> a<span class="token punctuation">;</span> <span class="token comment">//推导结果为int。a的类型为int。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="1-2-与using-typedef合用，用于定义类型"><a href="#1-2-与using-typedef合用，用于定义类型" class="headerlink" title="1.2 与using/typedef合用，用于定义类型"></a>1.2 与using/typedef合用，用于定义类型</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">using</span> size_t <span class="token operator">=</span> <span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//sizeof(a)的返回值为size_t类型</span>
+<span class="token keyword">using</span> ptrdiff_t <span class="token operator">=</span> <span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token number">0</span> <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> nullptr_t <span class="token operator">=</span> <span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token keyword">nullptr</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+vector<span class="token operator">&lt;</span><span class="token keyword">int</span> <span class="token operator">></span>vec<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> <span class="token keyword">decltype</span><span class="token punctuation">(</span>vec<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> vectype<span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>vectype i <span class="token operator">=</span> vec<span class="token punctuation">.</span>begin<span class="token punctuation">;</span> i <span class="token operator">!=</span> vec<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+<span class="token comment">//...</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="1-3-重用匿名类型"><a href="#1-3-重用匿名类型" class="headerlink" title="1.3 重用匿名类型"></a>1.3 重用匿名类型</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">struct</span> 
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> d <span class="token punctuation">;</span>
+    doubel b<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>anon_s<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>借助decltype，我们可以重新使用这个匿名的结构体：<br><code>decltype(anon_s) as ;//定义了一个上面匿名的结构体</code></p>
+<h4 id="1-4-泛型编程中结合auto，用于追踪函数的返回值类型"><a href="#1-4-泛型编程中结合auto，用于追踪函数的返回值类型" class="headerlink" title="1.4 泛型编程中结合auto，用于追踪函数的返回值类型"></a>1.4 泛型编程中结合auto，用于追踪函数的返回值类型</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">></span>
+<span class="token keyword">auto</span> <span class="token function">multiply</span><span class="token punctuation">(</span>T x<span class="token punctuation">,</span> T y<span class="token punctuation">)</span><span class="token operator">-></span><span class="token keyword">decltype</span><span class="token punctuation">(</span>x<span class="token operator">*</span>y<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> x<span class="token operator">*</span>y<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-判别规则"><a href="#2-判别规则" class="headerlink" title="2.判别规则"></a>2.判别规则</h3><ol>
+<li>如果e是一个没有带括号的标记符表达式或者类成员访问表达式，那么的decltype（e）就是e所命名的实体的类型。此外，如果e是一个被重载的函数，则会导致编译错误。</li>
+<li>否则 ，假设e的类型是T，如果e是一个将亡值，那么decltype（e）为T&amp;&amp;</li>
+<li>否则，假设e的类型是T，如果e是一个左值，那么decltype（e）为T&amp;。</li>
+<li>否则，假设e的类型是T，则decltype（e）为T。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">;</span>
+    <span class="token keyword">decltype</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> a<span class="token punctuation">;</span> <span class="token comment">//a推导为int</span>
+    <span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>b<span class="token operator">=</span>i<span class="token punctuation">;</span><span class="token comment">//b推导为int&amp;，必须为其初始化，否则编译错误</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+仅仅为i加上了()，就导致类型推导结果的差异。这是因为，<strong>i是一个标记符表达式</strong>，根据推导规则1，类型被推导为int。而(i)为一个左值表达式，所以类型被推导为int&amp;。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> arr<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>ptr <span class="token operator">=</span> arr<span class="token punctuation">;</span>
+<span class="token keyword">struct</span> <span class="token class-name">S</span><span class="token punctuation">&#123;</span> <span class="token keyword">double</span> d<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>s <span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Overloaded</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Overloaded</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//重载的函数</span>
+<span class="token keyword">int</span> <span class="token operator">&amp;&amp;</span> <span class="token function">RvalRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">bool</span> <span class="token function">Func</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//规则一：推导为其类型</span>
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span>arr<span class="token punctuation">)</span> var1<span class="token punctuation">;</span> <span class="token comment">//int 标记符表达式</span>
+
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span>ptr<span class="token punctuation">)</span> var2<span class="token punctuation">;</span><span class="token comment">//int *  标记符表达式</span>
+
+<span class="token keyword">decltype</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span>d<span class="token punctuation">)</span> var3<span class="token punctuation">;</span><span class="token comment">//doubel 成员访问表达式</span>
+
+<span class="token comment">//decltype(Overloaded) var4;//重载函数。编译错误。</span>
+
+<span class="token comment">//规则二：将亡值。推导为类型的右值引用。</span>
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span><span class="token function">RvalRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> var5 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token comment">//规则三：左值，推导为类型的引用。</span>
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>var6 <span class="token operator">=</span> i<span class="token punctuation">;</span>     <span class="token comment">//int&amp;</span>
+
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span><span class="token boolean">true</span> <span class="token operator">?</span> i <span class="token operator">:</span> i<span class="token punctuation">)</span> var7 <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token comment">//int&amp;  条件表达式返回左值。</span>
+
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span><span class="token operator">++</span>i<span class="token punctuation">)</span> var8 <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token comment">//int&amp;  ++i返回i的左值。</span>
+
+<span class="token keyword">decltype</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span> var9 <span class="token operator">=</span> i<span class="token punctuation">;</span><span class="token comment">//int&amp;. []操作返回左值</span>
+
+<span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token operator">*</span>ptr<span class="token punctuation">)</span>var10 <span class="token operator">=</span> i<span class="token punctuation">;</span><span class="token comment">//int&amp; *操作返回左值</span>
+
+<span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span>var11 <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span> <span class="token comment">//const char(&amp;)[9]  字符串字面常量为左值，且为const左值。</span>
+
+<span class="token comment">//规则四：以上都不是，则推导为本类型</span>
+<span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> var12<span class="token punctuation">;</span><span class="token comment">//const int</span>
+
+<span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token function">Func</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> var13<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span><span class="token comment">//const bool</span>
+
+<span class="token keyword">decltype</span><span class="token punctuation">(</span>i<span class="token operator">++</span><span class="token punctuation">)</span> var14 <span class="token operator">=</span> i<span class="token punctuation">;</span><span class="token comment">//int i++返回右值</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<h3 id="3-auto和decltype的差别"><a href="#3-auto和decltype的差别" class="headerlink" title="3.auto和decltype的差别"></a>3.auto和decltype的差别</h3><p>decltype和auto都可以用来推断类型，但是二者有几处明显的差异：</p>
+<ol>
+<li><strong>auto忽略顶层const，decltype保留顶层const</strong>；</li>
+<li>对引用操作，auto推断出原有类型，decltype推断出引用；</li>
+<li>对解引用操作，auto推断出原有类型，decltype推断出引用；</li>
+<li>auto推断时会实际执行，decltype不会执行，只做分析。</li>
+</ol>
+<h2 id="十、强制类型转换操作"><a href="#十、强制类型转换操作" class="headerlink" title="十、强制类型转换操作"></a><font color=blue>十、强制类型转换操作</font></h2><p>C++中支持的强制类型转换运算符：</p>
+<ol>
+<li><strong>const_cast&lt;type&gt; (expr)：</strong>const_cast用于修改类型的 const / volatile 属性。除了 const 或 volatile 属性之外，目标类型必须与源类型相同。</li>
+<li><strong>dynamic_cast&lt;type&gt; (expr)：</strong>dynamic_cast 在运行时执行转换，验证转换的有效性。如果转换未执行，则转换失败，表达式 expr 被判定为 null。dynamic_cast 执行动态转换时，type 必须是类的指针、类的引用或者 void*，如果 type 是类指针类型，那么 expr 也必须是一个指针，如果 type 是一个引用，那么 expr 也必须是一个引用。</li>
+<li><strong>reinterpret_cast&lt;type&gt; (expr)：</strong>reinterpret_cast 运算符把某种指针改为其他类型的指针。它可以把一个指针转换为一个整数，也可以把一个整数转换为一个指针。</li>
+<li><strong>static_cast&lt;type&gt; (expr)：</strong>static_cast 运算符执行非动态转换，没有运行时类检查来保证转换的安全性。例如，它可以用来把一个基类指针转换为派生类指针。<h3 id="1-const-cast"><a href="#1-const-cast" class="headerlink" title="1. const_cast"></a>1. const_cast</h3>变量本身的const属性是不能去除的，要想修改变量的值，一般是去除指针（或引用）的const属性，再进行间接修改。const_cast 中的type必须是<strong>指针、引用或指向对象类型成员的指针</strong><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">volatile</span> <span class="token keyword">int</span><span class="token operator">*</span> cvip<span class="token punctuation">;</span>
+<span class="token keyword">int</span><span class="token operator">*</span> ip<span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">use_of_const_cast</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">const</span> A a1<span class="token punctuation">;</span>
+	<span class="token generic-function"><span class="token function">const_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>A<span class="token operator">&amp;</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>a1<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">// remove const</span>
+	ip <span class="token operator">=</span> <span class="token generic-function"><span class="token function">const_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token operator">></span></span></span> <span class="token punctuation">(</span>cvip<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// remove const and volatile</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<h3 id="2-dynamic-cast"><a href="#2-dynamic-cast" class="headerlink" title="2. dynamic_cast"></a>2. dynamic_cast</h3><p><strong>除了dynamic_cast以外的转换，其行为的都是在编译期就得以确定的，转换是否成功，并不依赖被转换的对象</strong><br>dynamic_cast依赖于<strong>RTTI信息</strong>，其次，在转换时，dynamic_cast会检查转换的source对象是否真的可以转换成target类型，这种检查不是语法上的，而是真实情况的检查。<br>若对指针进行dynamic_cast，失败返回null，成功返回正常cast后的对象指针；<br>若对引用进行dynamic_cast，失败抛出一个异常，成功返回正常cast后的对象引用。<br>主要作用：将基类的指针或引用安全地转换成派生类的指针或引用，并用派生类的指针或引用调用非虚函数。如果是基类指针或引用调用的是虚函数无需转换就能在运行时调用派生类的虚函数。<br><strong>注意：</strong></p>
+<ol>
+<li>dynamic_cast在将父类cast到子类时，<font color=red>父类必须要有虚函数</font>，否则编译器会报错。</li>
+<li>dynamic_cast主要用于类层次间的<font color=red>上行转换和下行转换</font>，还可以用于类之间的交叉转换。</li>
+</ol>
+<p><strong>在类层次间进行上行转换时，dynamic_cast和static_cast的效果是一样的；</strong><br><strong>在进行下行转换时，dynamic_cast具有类型检查的功能，比static_cast更安全。</strong><br>通过代码进行说明：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//定义一个父类和一个子类</span>
+<span class="token keyword">class</span> <span class="token class-name">Base</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+    	cout<span class="token operator">&lt;&lt;</span> <span class="token string">"Base"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">int</span> base_data <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Derived</span><span class="token operator">:</span><span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">Base</span></span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token keyword">void</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		cout<span class="token operator">&lt;&lt;</span> <span class="token string">"Derived"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">int</span> derived_data <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>对于<strong>下行转换</strong>有两种情况，一个父类类型的指针Base *P，但是由于子类继承与父类，父类指针可以指向父类对象，也可以指向子类对象</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//父类指针指向子类对象，则P1确实是指向子类对象的</span>
+Base <span class="token operator">*</span>P1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Derived</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+P1<span class="token operator">-></span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">//输出Derived</span>
+cout <span class="token operator">&lt;&lt;</span> P1<span class="token operator">-></span>derived_data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>	<span class="token comment">//error：Base中没有derived_data成员，说明并未转型</span>
+
+<span class="token comment">//以下两种转换都能成功</span>
+Derived <span class="token operator">*</span>pd1 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Derived <span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>P1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+pd1<span class="token operator">-></span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">//输出Derived</span>
+cout <span class="token operator">&lt;&lt;</span> pd1<span class="token operator">-></span>derived_data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>	<span class="token comment">//输出1</span>
+Derived <span class="token operator">*</span>pd2 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">dynamic_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Derived <span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>P1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+pd1<span class="token operator">-></span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">//输出Derived</span>
+cout <span class="token operator">&lt;&lt;</span> pd2<span class="token operator">-></span>derived_data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>	<span class="token comment">//输出1；</span>
+
+<span class="token comment">//父类指针指向父类对象，则P2是指向父类对象</span>
+Base <span class="token operator">*</span>P2 <span class="token operator">=</span> <span class="token keyword">new</span> Base<span class="token punctuation">;</span>
+P2<span class="token operator">-></span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">//输出Base</span>
+
+<span class="token comment">//static_cast转型不会报错，且能运行</span>
+Derived <span class="token operator">*</span>pd3 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Derived <span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>P2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+pd3<span class="token operator">-></span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">//输出Base，说明转型失败</span>
+cout <span class="token operator">&lt;&lt;</span> pd3<span class="token operator">-></span>derived_data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>	<span class="token comment">//输出-1163005939，访问父类中没有的成员，访问越界</span>
+<span class="token comment">//dynamic_cast转型进行安全检查，会报错</span>
+Derived <span class="token operator">*</span>pd4 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">dynamic_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Derived <span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>P2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+pd4<span class="token operator">-></span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">//error</span>
+cout <span class="token operator">&lt;&lt;</span> pd4<span class="token operator">-></span>derived_data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span><span class="token comment">//error</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong><font color=#A020F0>注：虚函数对于dynamic_cast转换的作用？为何使用dynamic_cast转换类指针时，需要虚函数呢？</font> **<br>Dynamic_cast转换是在运行时进行转换，运行时转换就需要知道类对象的信息（继承关系等）。<br>如何在运行时获取到这个信息——<strong>虚函数表。</strong>（RTTI机制）<br>C++对象模型中，对象实例最前面的就是虚函数表指针，通过这个指针可以获取到该类对象的所有虚函数，包括父类的。因为</strong>派生类会继承基类的虚函数表，所以通过这个虚函数表，我们就可以知道该类对象的父类，在转换的时候就可以用来判断对象有无继承关系。**<br>所以虚函数对于正确的基类指针转换为子类指针是非常重要的。</p>
+<h3 id="3-reinterpret-cast"><a href="#3-reinterpret-cast" class="headerlink" title="3. reinterpret_cast"></a>3. reinterpret_cast</h3><p>允许将任何指针转换为任何其他指针类型。也允许将任何整数类型转换为任何指针类型以及反向转换。<code>reinterpret_cast&lt;type-id&gt;(expression)</code><br><strong>主要用途：</strong></p>
+<ol>
+<li>从指针类型到一个足够大的整数类型</li>
+<li>从整数类型或者枚举类型到指针类型</li>
+<li>从一个指向函数的指针到另一个不同类型的指向函数的指针</li>
+<li>从一个指向对象的指针到另一个不同类型的指向对象的指针</li>
+<li>从一个指向类函数成员的指针到另一个指向不同类型的函数成员的指针</li>
+<li>从一个指向类数据成员的指针到另一个指向不同类型的数据成员的指针</li>
+</ol>
+<h3 id="4-static-cast"><a href="#4-static-cast" class="headerlink" title="4. static_cast"></a>4. static_cast</h3><p>该运算符把expression转换为type-id类型，但没有运行时类型检查来保证转换的安全性<br><code>static_cast&lt;type-id&gt;(expression)</code><br><strong>主要用途：</strong></p>
+<ol>
+<li>用于基本数据类型之间的转换，如把int转换为char，把int转换成enum，但这种转换的安全性需要开发者自己保证（这可以理解为保证数据的精度，即程序员能不能保证自己想要的程序安全），如在把int转换为char时，如果char没有足够的比特位来存放int的值（int&gt;127或int&lt;-127时），那么static_cast所做的只是简单的截断，及简单地把int的低8位复制到char的8位中，并直接抛弃高位。</li>
+<li>把空指针转换成目标类型的空指针</li>
+<li>把任何类型的表达式类型转换成void类型</li>
+<li>用于类层次结构中父类和子类之间指针和引用的转换。</li>
+</ol>
 <hr>
 <p>持续更新…</p>
 
