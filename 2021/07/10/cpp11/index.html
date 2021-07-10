@@ -571,9 +571,11 @@
 <p><strong>注意：</strong></p>
 <ul>
 <li>auto 不能用于函数传参</li>
-<li>auto不能用于推导数组类型<h4 id="1-3-2-decltype"><a href="#1-3-2-decltype" class="headerlink" title="1.3.2 decltype"></a>1.3.2 decltype</h4>decltype 关键字是为了解决 auto 关键字只能对变量进行类型推导的缺陷而出现的。<strong>decltype 仅仅“查询”表达式的类型，并不会对表达式进行“求值”</strong><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
-<span class="token keyword">decltype</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> a<span class="token punctuation">;</span> <span class="token comment">//推导结果为int。a的类型为int。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li>auto不能用于推导数组类型</li>
 </ul>
+<h4 id="1-3-2-decltype"><a href="#1-3-2-decltype" class="headerlink" title="1.3.2 decltype"></a>1.3.2 decltype</h4><p>decltype 关键字是为了解决 auto 关键字只能对变量进行类型推导的缺陷而出现的。<strong>decltype 仅仅“查询”表达式的类型，并不会对表达式进行“求值”</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token keyword">decltype</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> a<span class="token punctuation">;</span> <span class="token comment">//推导结果为int。a的类型为int。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><strong>decltype还可以用于追踪函数的返回值类型</strong><br>C++11 引入了一个叫做尾返回类型（trailing return type），利用 auto 关键字将返回类型后置：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">></span>
 <span class="token keyword">auto</span> <span class="token function">multiply</span><span class="token punctuation">(</span>T x<span class="token punctuation">,</span> T y<span class="token punctuation">)</span><span class="token operator">-></span><span class="token keyword">decltype</span><span class="token punctuation">(</span>x<span class="token operator">*</span>y<span class="token punctuation">)</span>
@@ -650,7 +652,7 @@
     <span class="token keyword">void</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 非法, foo 已 final</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<h4 id="1-5-3-显示禁用默认函数"><a href="#1-5-3-显示禁用默认函数" class="headerlink" title="1.5.3 显示禁用默认函数"></a>1.5.3 显示禁用默认函数</h4><p>在传统 C++ 中，如果程序员没有提供，编译器会默认为对象生成默认构造函数、 复制构造、赋值算符以及析构函数。<br>这就引发了一些需求：<strong>无法精确控制默认函数的生成行为。</strong> 例如禁止类的拷贝时，必须将复制构造函数与赋值算符声明为 private。 尝试使用这些未定义的函数将导致编译或链接错误，则是一种非常不优雅的方式。<br>并且，编译器产生的默认构造函数与用户定义的构造函数无法同时存在。 若用户定义了任何构造函数，编译器将不再生成默认构造函数， 但有时候我们却希望同时拥有这两种构造函数，这就造成了尴尬。</p>
+<h4 id="1-5-4-显示禁用默认函数"><a href="#1-5-4-显示禁用默认函数" class="headerlink" title="1.5.4 显示禁用默认函数"></a>1.5.4 显示禁用默认函数</h4><p>在传统 C++ 中，如果程序员没有提供，编译器会默认为对象生成默认构造函数、 复制构造、赋值算符以及析构函数。<br>这就引发了一些需求：<strong>无法精确控制默认函数的生成行为。</strong> 例如禁止类的拷贝时，必须将复制构造函数与赋值算符声明为 private。 尝试使用这些未定义的函数将导致编译或链接错误，则是一种非常不优雅的方式。<br>并且，编译器产生的默认构造函数与用户定义的构造函数无法同时存在。 若用户定义了任何构造函数，编译器将不再生成默认构造函数， 但有时候我们却希望同时拥有这两种构造函数，这就造成了尴尬。</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Magic</span> <span class="token punctuation">&#123;</span>
     <span class="token keyword">public</span><span class="token operator">:</span>
     <span class="token function">Magic</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">;</span> <span class="token comment">// 显式声明使用编译器生成的构造</span>
@@ -660,7 +662,7 @@
     
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h4 id="1-5-4-强类型枚举"><a href="#1-5-4-强类型枚举" class="headerlink" title="1.5.4 强类型枚举"></a>1.5.4 强类型枚举</h4><p>在传统 C++中，枚举类型并非类型安全，枚举类型会被视作整数，则会让两种完全不同的枚举类型可以进行直接的比较，<strong>甚至同一个命名空间中的不同枚举类型的枚举值名字不能相同，</strong>这通常不是我们希望看到的结果。<br>C++11 引入了枚举类（enumeration class），并使用 enum class 的语法进行声明：</p>
+<h4 id="1-5-5-强类型枚举"><a href="#1-5-5-强类型枚举" class="headerlink" title="1.5.5 强类型枚举"></a>1.5.5 强类型枚举</h4><p>在传统 C++中，枚举类型并非类型安全，枚举类型会被视作整数，则会让两种完全不同的枚举类型可以进行直接的比较，<strong>甚至同一个命名空间中的不同枚举类型的枚举值名字不能相同，</strong>这通常不是我们希望看到的结果。<br>C++11 引入了枚举类（enumeration class），并使用 enum class 的语法进行声明：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">enum</span> <span class="token keyword">class</span> <span class="token class-name">new_enum</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">unsigned</span> <span class="token keyword">int</span></span> <span class="token punctuation">&#123;</span>
     value1<span class="token punctuation">,</span>
     value2<span class="token punctuation">,</span>
@@ -714,8 +716,10 @@
     <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
     std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="2-2-函数对象包装器"><a href="#2-2-函数对象包装器" class="headerlink" title="2.2 函数对象包装器"></a>2.2 函数对象包装器</h3><h4 id="2-2-1-std-function"><a href="#2-2-1-std-function" class="headerlink" title="2.2.1 std::function"></a>2.2.1 std::function</h4>Lambda 表达式的本质是一个和函数对象类型相似的类类型（称为闭包类型）的对象（称为闭包对象）， 当 Lambda 表达式的捕获列表为空时，闭包对象还能够转换为函数指针值进行传递，例如：<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">using</span> foo <span class="token operator">=</span> <span class="token keyword">void</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 定义函数类型, using 的使用见上一节中的别名语法</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<h3 id="2-2-函数对象包装器"><a href="#2-2-函数对象包装器" class="headerlink" title="2.2 函数对象包装器"></a>2.2 函数对象包装器</h3><h4 id="2-2-1-std-function"><a href="#2-2-1-std-function" class="headerlink" title="2.2.1 std::function"></a>2.2.1 std::function</h4><p>Lambda 表达式的本质是一个和函数对象类型相似的类类型（称为闭包类型）的对象（称为闭包对象）， 当 Lambda 表达式的捕获列表为空时，闭包对象还能够转换为函数指针值进行传递，例如：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">using</span> foo <span class="token operator">=</span> <span class="token keyword">void</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 定义函数类型, using 的使用见上一节中的别名语法</span>
 <span class="token comment">// 定义在参数列表中的函数类型foo被视为退化后的函数指针类型foo*</span>
 <span class="token keyword">void</span> <span class="token function">functional</span><span class="token punctuation">(</span>foo f<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> 
     <span class="token function">f</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 通过函数指针调用函数</span>
@@ -729,9 +733,7 @@
     <span class="token function">f</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// lambda 表达式调用</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-上面的代码给出了两种不同的调用形式，一种是将 Lambda 作为函数类型传递进行调用， 而另一种则是直接调用 Lambda 表达式。在 C++11 中，统一了这些概念，<strong>将能够被调用的对象的类型， 统一称之为可调用类型。而这种类型，便是通过 std::function 引入的。</strong></li>
-</ol>
-<p><strong>std::function 是一种通用、多态的函数封装， 它的实例可以对任何可以调用的目标实体进行存储、复制和调用操作，</strong> 它也是对 C++ 中现有的可调用实体的一种类型安全的包裹（相对来说，函数指针的调用不是类型安全的）， 换句话说，就是函数的容器。当我们有了函数的容器之后便能够更加方便的<strong>将函数、函数指针作为对象进行处理。</strong> 例如：</p>
+<p>上面的代码给出了两种不同的调用形式，一种是将 Lambda 作为函数类型传递进行调用， 而另一种则是直接调用 Lambda 表达式。在 C++11 中，统一了这些概念，<strong>将能够被调用的对象的类型， 统一称之为可调用类型。而这种类型，便是通过 std::function 引入的。</strong><br><strong>std::function 是一种通用、多态的函数封装， 它的实例可以对任何可以调用的目标实体进行存储、复制和调用操作，</strong> 它也是对 C++ 中现有的可调用实体的一种类型安全的包裹（相对来说，函数指针的调用不是类型安全的）， 换句话说，就是函数的容器。当我们有了函数的容器之后便能够更加方便的<strong>将函数、函数指针作为对象进行处理。</strong> 例如：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;functional></span></span>
 
 <span class="token keyword">int</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token keyword">int</span> para<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
@@ -861,6 +863,7 @@ std<span class="token double-colon punctuation">::</span>vector<span class="toke
 
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="2-3-4-完美转发（Perfect-Forwarding）"><a href="#2-3-4-完美转发（Perfect-Forwarding）" class="headerlink" title="2.3.4 完美转发（Perfect Forwarding）"></a>2.3.4 完美转发（Perfect Forwarding）</h4><p>一个声明的右值引用其实是一个左值。这就为我们进行参数转发（传递）造成了问题：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">T</span><span class="token operator">></span>
 <span class="token keyword">void</span> <span class="token function">f2</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span><span class="token punctuation">&#123;</span> cout<span class="token operator">&lt;&lt;</span><span class="token string">"f2"</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
@@ -985,7 +988,7 @@ std<span class="token double-colon punctuation">::</span>unique_ptr<span class="
     <span class="token punctuation">&#125;</span>
     <span class="token comment">//超过uptr的作用域，內存释放</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong><font color=#A020F0>实现智能指针</font> **<br>每个shared_ptr都占指针的两倍空间，一个装着</strong>原始指针，一个装着计数区域的指针**<br>（用原始指针构造时，会new一个地址出来作为计数存放的地方，然后用指针指向它，计数加减都通过计数指针间接操作。）</p>
+<p><font color=#A020F0><strong>实现智能指针</strong></font><br>每个shared_ptr都占指针的两倍空间，一个装着<strong>原始指针，一个装着计数区域的指针</strong><br>（用原始指针构造时，会new一个地址出来作为计数存放的地方，然后用指针指向它，计数加减都通过计数指针间接操作。）</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
 <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;mutex></span></span>
 <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;thread></span></span>
