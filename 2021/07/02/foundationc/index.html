@@ -469,14 +469,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    4.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    18 分
                 </div>
                 
 
@@ -505,13 +505,13 @@
 <li>C++继承了C的底层操作特性，增加了面向对象的机制，增加了泛型编程，异常处理，运算符重载，命名空间等特性</li>
 </ul>
 <hr>
-<h2 id="C-程序的编译过程"><a href="#C-程序的编译过程" class="headerlink" title="C++程序的编译过程"></a>C++程序的编译过程</h2><h3 id="编译分为四个过程："><a href="#编译分为四个过程：" class="headerlink" title="编译分为四个过程："></a>编译分为四个过程：</h3><ul>
+<h2 id="二、C-程序的编译过程"><a href="#二、C-程序的编译过程" class="headerlink" title="二、C++程序的编译过程"></a><font color=blue>二、C++程序的编译过程</font></h2><h3 id="2-1-编译分为四个过程："><a href="#2-1-编译分为四个过程：" class="headerlink" title="2.1 编译分为四个过程："></a>2.1 编译分为四个过程：</h3><ul>
 <li><strong>编译预处理：</strong>处理以#开头的指令（宏指令，条件编译指令，头文件等）</li>
 <li><strong>编译，优化：</strong>将源码 .cpp 文件翻译成 .s 汇编代码</li>
 <li><strong>汇编：</strong>将汇编代码 .s 翻译成机器指令 .o 文件</li>
 <li><strong>链接：</strong>汇编程序生成的目标文件并不会立即执行，可能有源文件中的函数引用了另一个源文件种定义的符号或者调用了某个库中的函数。链接就是将这些目标文件连接成一个整体，从而生成可执行的程序 .exe 文件。<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012662731/article/details/78520349">参考链接</a><br><img src="/images/c++/link.jpg" alt="编译过程"></li>
 </ul>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><ul>
+<h3 id="2-2-链接"><a href="#2-2-链接" class="headerlink" title="2.2 链接"></a>2.2 链接</h3><ul>
 <li><p><font color=red><strong>静态链接：</strong></font>链接器在链接静态链接库的时候是以目标文件为单位的。每个源文件都是独立编译的,需要将这些源文件产生的目标文件进行链接，从而形成一个可以执行的程序。这个链接的过程就是静态链接。</p>
 <ul>
 <li><em>缺点：</em> 浪费空间，每个可执行程序都会有目标文件的一个副本，这样如果目标文件进行了更新操作，就需要重新进行编译链接生成可执行程序（更新困难）</li>
@@ -526,8 +526,8 @@
 </li>
 </ul>
 <hr>
-<h2 id="二、内存分配方式以及区别"><a href="#二、内存分配方式以及区别" class="headerlink" title="二、内存分配方式以及区别"></a><font color=blue>二、内存分配方式以及区别</font></h2><h3 id="四区"><a href="#四区" class="headerlink" title="四区"></a>四区</h3><p><strong>1. 静态(全局)储存区：</strong>静态变量和全局变量的储存区域是一起的，一旦静态区的内存被分配，那么其内存直到程序全部结束之后才会被释放<br><strong>2. 代码区：</strong> 存放程序代码的， 即CPU执行的机器指令，并且是只读的<br><font color=red><strong>3. 栈区：</strong></font>存放函数内的局部变量，形参和函数返回值。栈区之中的数据的作用范围过了之后，系统就会自动回收管理栈区的内存(自动分配内存 , 回收内存)<br><font color=red><strong>4. 堆区：</strong></font>由程序员调用函数来主动申请和释放内存，若申请了堆区内存，之后忘记释放内存，很容易造成内存泄漏</p>
-<h3 id="堆栈的主要区别"><a href="#堆栈的主要区别" class="headerlink" title="堆栈的主要区别"></a>堆栈的主要区别</h3><table>
+<h2 id="三、内存分配方式以及区别"><a href="#三、内存分配方式以及区别" class="headerlink" title="三、内存分配方式以及区别"></a><font color=blue>三、内存分配方式以及区别</font></h2><h3 id="3-1-四区"><a href="#3-1-四区" class="headerlink" title="3.1 四区"></a>3.1 四区</h3><p><strong>1. 静态(全局)储存区：</strong>静态变量和全局变量的储存区域是一起的，一旦静态区的内存被分配，那么其内存直到程序全部结束之后才会被释放<br><strong>2. 代码区：</strong> 存放程序代码的， 即CPU执行的机器指令，并且是只读的<br><font color=red><strong>3. 栈区：</strong></font>存放函数内的局部变量，形参和函数返回值。栈区之中的数据的作用范围过了之后，系统就会自动回收管理栈区的内存(自动分配内存 , 回收内存)<br><font color=red><strong>4. 堆区：</strong></font>由程序员调用函数来主动申请和释放内存，若申请了堆区内存，之后忘记释放内存，很容易造成内存泄漏</p>
+<h3 id="3-2-堆栈的主要区别"><a href="#3-2-堆栈的主要区别" class="headerlink" title="3.2 堆栈的主要区别"></a>3.2 堆栈的主要区别</h3><table>
 <thead>
 <tr>
 <th align="center">差别</th>
@@ -567,7 +567,7 @@
 </tr>
 </tbody></table>
 <hr>
-<h2 id="三、C-中指针和引用的区别"><a href="#三、C-中指针和引用的区别" class="headerlink" title="三、C++中指针和引用的区别"></a><font color=blue>三、C++中指针和引用的区别</font></h2><h3 id="定义和性质区别"><a href="#定义和性质区别" class="headerlink" title="定义和性质区别"></a>定义和性质区别</h3><ul>
+<h2 id="四、C-中指针和引用的区别"><a href="#四、C-中指针和引用的区别" class="headerlink" title="四、C++中指针和引用的区别"></a><font color=blue>四、C++中指针和引用的区别</font></h2><h3 id="4-1-定义和性质区别"><a href="#4-1-定义和性质区别" class="headerlink" title="4.1 定义和性质区别"></a>4.1 定义和性质区别</h3><ul>
 <li><font color=red>指针</font>是一个变量，只不过这个变量存储的是一个地址，指向内存的一个存储单元；而<font color=red>引用</font>跟原来的变量实质上是同一个东西，只不过是原变量的一个别名而已<br><code>int a=1;int *p=&amp;a; //指针变量p指向整型变量a的储存单元</code><br><code>int a=1;int &amp;b=a; //整形变量a的引用b，b和a是一个东西，在内存中占有同一个储存单元</code><br><code>sizeof(指针)</code>得到的是指针本身的大小；<code>sizeof(引用)</code>得到的是所指向的变量(对象)的大小</li>
 <li>可以有const指针，但是没有const引用（引用本来就不可变，没有意义）</li>
 <li><strong>指针所指向的内存空间在程序运行过程中可以改变，而引用所绑定的对象一旦绑定就不能改变</strong></li>
@@ -575,10 +575,7 @@
 <li>指针的值在初始化后可以改变，即指向其它的存储单元，而引用在进行初始化后就不会再改变了</li>
 <li>指针可以有多级，但是引用只能是一级（int **p合法 而 int &amp;&amp;a是不合法的）</li>
 </ul>
-<h3 id="作为函数参数进行传递时的区别"><a href="#作为函数参数进行传递时的区别" class="headerlink" title="作为函数参数进行传递时的区别"></a>作为函数参数进行传递时的区别</h3><ul>
-<li><strong>指针作为函数参数：</strong></li>
-</ul>
-<ol>
+<h3 id="4-2-作为函数参数进行传递时的区别"><a href="#4-2-作为函数参数进行传递时的区别" class="headerlink" title="4.2 作为函数参数进行传递时的区别"></a>4.2 作为函数参数进行传递时的区别</h3><h4 id="4-2-1-指针作为函数参数"><a href="#4-2-1-指针作为函数参数" class="headerlink" title="4.2.1 指针作为函数参数"></a>4.2.1 指针作为函数参数</h4><ol>
 <li><p>用指针传递参数，可以实现对实参进行改变的目的，是因为传递过来的是实参的地址，因此使用*a实际上是取实参的内存单元里的数据，即是对实参进行改变</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">swap</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>a<span class="token punctuation">,</span><span class="token keyword">int</span> <span class="token operator">*</span>b<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>					<span class="token comment">//传进实参的地址</span>
@@ -610,10 +607,10 @@
     cout<span class="token operator">&lt;&lt;</span><span class="token string">"指针p为NULL"</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
     <span class="token comment">//输出 0x22ff44 1</span>
     <span class="token comment">//    指针p为NULL</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="4-2-2-将引用作为函数的参数进行传递"><a href="#4-2-2-将引用作为函数的参数进行传递" class="headerlink" title="4.2.2 将引用作为函数的参数进行传递"></a>4.2.2 将引用作为函数的参数进行传递</h4></li>
 </ol>
 <ul>
-<li><strong>将引用作为函数的参数进行传递</strong></li>
 <li>引用作为函数参数进行传递时，实质上传递的是实参本身，而不是实参的一个拷贝，因此对形参的修改其实是对实参的修改<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token operator">&amp;</span>p<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
 　　<span class="token keyword">int</span> a<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
@@ -630,12 +627,244 @@
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <hr>
-<h2 id="四、C-中struct和class的区别"><a href="#四、C-中struct和class的区别" class="headerlink" title="四、C++中struct和class的区别"></a><font color=blue>四、C++中struct和class的区别</font></h2><p>总的来说，struct 更适合看成是一个数据结构的实现体，class 更适合看成是一个对象的实现体。<br><strong>区别：</strong></p>
+<h2 id="四、new-和-delete"><a href="#四、new-和-delete" class="headerlink" title="四、new 和 delete "></a><font color=blue>四、new 和 delete </font></h2><p>new 和 delete 不是函数，它们都是 C++ 定义的关键字，通过特定的语法可以组成表达式</p>
+<h3 id="4-1-malloc-free和new-delete的区别和联系"><a href="#4-1-malloc-free和new-delete的区别和联系" class="headerlink" title="4.1 malloc/free和new/delete的区别和联系"></a>4.1 malloc/free和new/delete的区别和联系</h3><ol>
+<li>malloc/free只是动态分配内存空间/释放空间。而new/delete除了分配空间还会调用构造函数和析构函数进行初始化与析构</li>
+<li>malloc/free是C/C++标准库的函数，new/delete是C++操作符</li>
+<li>malloc/free需要手动计算类型大小且返回值为void*，new/delete可自动计算类型的大小，返回对应类型的指针。</li>
+<li>alloc/free管理内存失败会返回0，new/delete等的方式管理内存失败会抛出异常。</li>
+</ol>
+<h3 id="4-2-new-delete的背后机制"><a href="#4-2-new-delete的背后机制" class="headerlink" title="4.2 new/delete的背后机制"></a>4.2 new/delete的背后机制</h3><p><img src="/images/c++/2.jpg"><br><img src="/images/c++/3.jpg"><br>new表达式并不直接开辟内存出来，而是<strong>通过调用<font color=red>operator new</font>来获得的内存，而operator new获得的内存实质上还是用malloc开辟出来的。同理，delete表达式也不是直接去释放掉内存，而是通过调用<font color=red>operator delete</font>来调用free。</strong></p>
+<h3 id="4-3-new-delete-的背后机制"><a href="#4-3-new-delete-的背后机制" class="headerlink" title="4.3 new []/delete []的背后机制"></a>4.3 new []/delete []的背后机制</h3><p><img src="/images/c++/4.jpg"><br>new []表达式原理和new表达式一样，如果数组中元素是自定义类型，则会多次调用其默认构造函数。同理，delete []，依次调用pA指向对象数组中每个对象的析构函数，调用operator delete[]()，它将再调用operator delete。底层用free执行operator delete表达式，依次释放内存</p>
+<p><strong>注意：针对简单类型，new[]计算好大小后调用operator new。针对复杂类型，new[]会额外存储数组大小，里面存放着对象个数。</strong>所以delete[] 删除时，将new[] 返回的地址再往前移4个字节便可以拿到要析构的对象个数了。</p>
+<h3 id="4-4-new-delete-new-delete-malloc-free一定要配套使用"><a href="#4-4-new-delete-new-delete-malloc-free一定要配套使用" class="headerlink" title="4.4 new/delete, new []/delete[], malloc/free一定要配套使用"></a>4.4 new/delete, new []/delete[], malloc/free一定要配套使用</h3><p><img src="/images/c++/5.jpg"><br>如果不配套使用，则会发生：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">//malloc/delete的组合</span>
+<span class="token keyword">void</span> <span class="token function">Test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    AA<span class="token operator">*</span> p1 <span class="token operator">=</span> <span class="token punctuation">(</span>AA<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>AA<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
+    <span class="token keyword">delete</span> p1<span class="token punctuation">;</span>               <span class="token comment">//没有报错，但不建议采用，容易引起混淆</span>
+    AA<span class="token operator">*</span> p2 <span class="token operator">=</span> <span class="token punctuation">(</span>AA<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>AA<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
+    <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> p2<span class="token punctuation">;</span>			<span class="token comment">//报错，同上，释放位置也不对</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//delete, delete[] 之间误用（值得注意）</span>
+<span class="token keyword">void</span> <span class="token function">Test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    AA<span class="token operator">*</span> p3 <span class="token operator">=</span> <span class="token keyword">new</span> AA<span class="token punctuation">;</span>    
+    <span class="token function">free</span><span class="token punctuation">(</span>p3<span class="token punctuation">)</span><span class="token punctuation">;</span>	 	<span class="token comment">//不报错，但未清理干净。p3的构造函数开辟的空间没有被释放</span>
+    
+    AA<span class="token operator">*</span> p4 <span class="token operator">=</span> <span class="token keyword">new</span> AA<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>   
+    <span class="token keyword">delete</span> p4<span class="token punctuation">;</span> 	<span class="token comment">//存在问题，释放位置被后移了4字节。同时只调用了一次析构函数　　 　</span>
+    AA<span class="token operator">*</span> p5 <span class="token operator">=</span> <span class="token keyword">new</span> AA<span class="token punctuation">;</span>     　　 
+    <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> p5<span class="token punctuation">;</span> 	<span class="token comment">//报错 非法访问内存</span>
+<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="/images/c++/6.jpg"></p>
+<h2 id="五、内存泄漏、内存溢出、野指针"><a href="#五、内存泄漏、内存溢出、野指针" class="headerlink" title="五、内存泄漏、内存溢出、野指针"></a><font color=blue>五、内存泄漏、内存溢出、野指针</font></h2><h3 id="5-1-内存泄漏"><a href="#5-1-内存泄漏" class="headerlink" title="5.1 内存泄漏"></a>5.1 内存泄漏</h3><p>内存泄漏是指我们在内存中申请（new/malloc）了一块内存，但是没有去动手释放（delete/free）内存，导致指针已经消失，而指针所指向的空间还被占用，系统就已经不能控制这块空间了。<br><strong>发生原因：</strong></p>
+<ol>
+<li>程序循环new创建出的对象没有及时delete掉，导致内存泄漏。</li>
+<li>delete掉一个void* 类型的指针，导致没有调用到对象的析构函数，析构的所有清理工作都没有去执行从而导致内存的泄漏。</li>
+<li>new创建一组对象数组，内存回收的时候缺只调用了delete而非delete[]来处理，导致只有对象数组的第一个对象的析构函数得到执行并回收了内存，而其他对象所占内存得不到回收。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Object</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">void</span><span class="token operator">*</span> data<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token keyword">char</span> id<span class="token punctuation">;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">Object</span><span class="token punctuation">(</span><span class="token keyword">int</span> sz<span class="token punctuation">,</span> <span class="token keyword">char</span> c<span class="token punctuation">)</span><span class="token operator">:</span><span class="token function">size</span><span class="token punctuation">(</span>sz<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">id</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	    data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">char</span><span class="token punctuation">[</span>size<span class="token punctuation">]</span><span class="token punctuation">;</span>
+	    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Object() "</span> <span class="token operator">&lt;&lt;</span> id <span class="token operator">&lt;&lt;</span> <span class="token string">" size = "</span> <span class="token operator">&lt;&lt;</span> size <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token operator">~</span><span class="token function">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"~Object() "</span> <span class="token operator">&lt;&lt;</span> id <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	    <span class="token keyword">delete</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>data<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	Object<span class="token operator">*</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token string">'A'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//Object*指针指向一个Object对象；</span>
+	<span class="token keyword">void</span><span class="token operator">*</span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Object</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token string">'B'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//void*指针指向一个Object对象；</span>
+	
+	<span class="token keyword">delete</span> a<span class="token punctuation">;</span><span class="token comment">//执行delete，编译器自动调用析构函数；</span>
+	<span class="token keyword">delete</span> b<span class="token punctuation">;</span><span class="token comment">//执行delete，编译器不会调用析构函数，导致data占用内存没有得到回收；</span>
+	
+	Object1<span class="token operator">*</span> arry1 <span class="token operator">=</span> <span class="token keyword">new</span> Object1<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//创建包含100个Object1的对象数组arry1并返回数组首地址；</span>
+	Object1<span class="token operator">*</span> arry2 <span class="token operator">=</span> <span class="token keyword">new</span> Object1<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//创建包含100个Object1的对象数组arry2并返回数组首地址；</span>
+	<span class="token keyword">delete</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>arry1<span class="token punctuation">;</span><span class="token comment">//回收了数组arry1里的所有对象动态创建时占用的内存空间；</span>
+	<span class="token keyword">delete</span>  arry2<span class="token punctuation">;</span><span class="token comment">//回收了数组arry2里的第一个对象动态创建时占用的内存空间，导致其他99个对象的内存空间泄露；</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<h3 id="5-2-内存溢出"><a href="#5-2-内存溢出" class="headerlink" title="5.2 内存溢出"></a>5.2 内存溢出</h3><p>内存溢出out of memory，是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory；比如申请一个int，但是给其存了long才能存得下的数，那就是内存溢出。<br><strong>发生原因：</strong></p>
+<ol>
+<li>内存中加载的数据量过于庞大；</li>
+<li>代码中存在死循环；</li>
+<li>递归调用太深，导致栈溢出；</li>
+<li>内存泄漏最终导致内存溢出。</li>
+</ol>
+<h3 id="5-3-野指针"><a href="#5-3-野指针" class="headerlink" title="5.3 野指针"></a>5.3 野指针</h3><p>指向已经删除的对象或者申请访问受限内存区域的指针，称为野指针。<br><strong>发生原因：</strong></p>
+<ol>
+<li>指针变量未初始化：指针变量在被创建未初始化时，并不是空指针，它的缺省值是随机的，会乱指一气。所以指针变量在创建同时就应对其进行初始化，要么将指针设置为NULL，要么让其指向一个合法的内存。</li>
+<li>指针释放之后未置空：有时指针在free或者delete之后未赋值NULL，有可能被误以为是合法的指针，不能进关注free和delete后的指针名，他们只是将指针所指向的内存空间释放掉而已，但并没有把指针自身消灭，此时，指针指向的就是“垃圾”内存。被释放掉内存空间的指针应该立即将其置为NULL，防止产生野指针。</li>
+<li>指针操作超越变量作用域<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token keyword">void</span> <span class="token function">Func</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span> cout <span class="token operator">&lt;&lt;</span> “Func of <span class="token keyword">class</span> <span class="token class-name">A</span>” <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	A <span class="token operator">*</span>p<span class="token punctuation">;</span>
+	<span class="token keyword">void</span> <span class="token function">Test</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		A a<span class="token punctuation">;</span>
+		p <span class="token operator">=</span> <span class="token operator">&amp;</span>a<span class="token punctuation">;</span> <span class="token comment">// a 的生命期 ，只在这个函数Test中，而不是整个class B</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">void</span> <span class="token function">Test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		p<span class="token operator">-></span><span class="token function">Func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// p 是“野指针”</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<h2 id="六、C-中的类"><a href="#六、C-中的类" class="headerlink" title="六、C++中的类"></a><font color=blue>六、C++中的类</font></h2><h3 id="6-1-C-中struct和class的区别"><a href="#6-1-C-中struct和class的区别" class="headerlink" title="6.1 C++中struct和class的区别"></a>6.1 C++中struct和class的区别</h3><p>总的来说，struct 更适合看成是一个数据结构的实现体，class 更适合看成是一个对象的实现体。<br><strong>区别：</strong></p>
 <ul>
 <li>最本质的一个区别就是默认的<strong>访问控制默认的继承访问权限。</strong>struct 是 public 的，class 是 private 的。</li>
 <li>struct 作为数据结构的实现体，它<strong>默认的数据访问控制</strong>是 public 的，而 class 作为对象的实现体，它默认的成员变量访问控制是 private 的。</li>
 </ul>
-<p>持续更新…</p>
+<h3 id="6-2-类中对象分布sizeof"><a href="#6-2-类中对象分布sizeof" class="headerlink" title="6.2 类中对象分布sizeof"></a>6.2 类中对象分布sizeof</h3><p><strong>一个Class对象占用的内存空间<br>   = 非静态成员变量总合 + 编译器作出的数据对齐处理 + 为了支持虚函数产生的额外负担。</strong></p>
+<ol>
+<li>一个空类sizeof  （1）</li>
+<li>一个类中有static对象的sizeof（1）</li>
+<li>一个空类继承了一个基类的sizeof（基类大小）</li>
+<li>多重继承时的内存分配（多重继承以及虚继承时的分配）<ul>
+<li>非虚继承的多重继承就是将多个父类的大小叠加并加上自己的内存大小（继承父类的虚函数表指针）</li>
+<li>虚继承会在最子类中生成一个虚函数表指针，也保留了父类的虚函数表指针。</li>
+</ul>
+</li>
+</ol>
+<h3 id="6-3-空类自带六个函数"><a href="#6-3-空类自带六个函数" class="headerlink" title="6.3 空类自带六个函数"></a>6.3 空类自带六个函数</h3><p>对于空类，编译器不会生成任何的成员函数，只会生成1个字节的占位符。<br>编译器只会在需要的时候生成6个成员函数：<strong>一个缺省的构造函数、一个拷贝构造函数、一个析构函数、一个赋值运算符、一对取址运算符和一个this指针。</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Empty</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+<span class="token function">Empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 		<span class="token comment">// 默认构造函数</span>
+<span class="token function">Empty</span><span class="token punctuation">(</span> <span class="token keyword">const</span> Empty<span class="token operator">&amp;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 默认拷贝构造函数</span>
+<span class="token operator">~</span><span class="token function">Empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 		<span class="token comment">// 默认析构函数</span>
+Empty<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">=</span><span class="token punctuation">(</span> <span class="token keyword">const</span> Empty<span class="token operator">&amp;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 默认赋值运算符</span>
+Empty<span class="token operator">*</span> <span class="token keyword">operator</span><span class="token operator">&amp;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 			  <span class="token comment">// 默认取址运算符</span>
+<span class="token keyword">const</span> Empty<span class="token operator">*</span> <span class="token keyword">operator</span><span class="token operator">&amp;</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>   <span class="token comment">// 默认取址运算符 const</span>
+
+<span class="token function">Empty</span><span class="token punctuation">(</span>Empty<span class="token operator">&amp;&amp;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>				  <span class="token comment">//默认移动构造函数</span>
+Empty<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">const</span> Empty<span class="token operator">&amp;&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//默认重载移动赋值操作符</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>C++11中多了两个默认函数：默认移动构造函数和默认重载移动赋值操作符</strong></p>
+<h3 id="6-4-必须使用初始化列表初始化数据成员的场合"><a href="#6-4-必须使用初始化列表初始化数据成员的场合" class="headerlink" title="6.4 必须使用初始化列表初始化数据成员的场合"></a>6.4 必须使用初始化列表初始化数据成员的场合</h3><ol>
+<li><p>需要初始化const修饰的类成员或初始化引用成员数据；</p>
+</li>
+<li><p>需要初始化的数据成员是对象的情况，并且这个对象只有含参数的构造函数，没有无参数的构造函数；（没有无参构造函数，无法初始化）</p>
+</li>
+<li><p>子类初始化父类的私有成员；</p>
+</li>
+</ol>
+<h3 id="6-5-转换函数"><a href="#6-5-转换函数" class="headerlink" title="6.5 转换函数"></a>6.5 转换函数</h3><p>可以使用构造函数将一个指定类型的数据转换为类的对象，也可以使用类型转换函数 (type conversion function)将一个类对象转换为其他类型的数据。转换函数基本形式：<br><code>operator &lt;T&gt;() const &#123; //实现转换的语句 &#125;</code>    T为类型名称<br><strong>转换函数必须是类的成员函数，转换函数不能声明返回类型，形参列表必须为空，类型转换函数通常应该是const</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Complex</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+   <span class="token function">Complex</span><span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">&#123;</span>real<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>imag<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span>
+   <span class="token function">Complex</span><span class="token punctuation">(</span><span class="token keyword">double</span> r<span class="token punctuation">,</span><span class="token keyword">double</span> i<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>real<span class="token operator">=</span>r<span class="token punctuation">;</span>imag<span class="token operator">=</span>i<span class="token punctuation">;</span><span class="token punctuation">&#125;</span>
+   <span class="token keyword">operator</span> <span class="token keyword">double</span><span class="token punctuation">(</span> <span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token keyword">return</span> real<span class="token punctuation">;</span><span class="token punctuation">&#125;</span> <span class="token comment">//类型转换函数</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+   <span class="token keyword">double</span> real<span class="token punctuation">;</span>
+   <span class="token keyword">double</span> imag<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span> <span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+   Complex <span class="token function">c1</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">c2</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c3<span class="token punctuation">;</span>
+   <span class="token keyword">double</span> d<span class="token punctuation">;</span>
+   d<span class="token operator">=</span><span class="token number">2.5</span><span class="token operator">+</span>c1<span class="token punctuation">;</span>	<span class="token comment">//要求将一个double数据与Complex类数据相加，此时程序隐式调用类型转换函数将complex类转化为double</span>
+   cout<span class="token operator">&lt;&lt;</span>d<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+   <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="6-6-深拷贝浅拷贝"><a href="#6-6-深拷贝浅拷贝" class="headerlink" title="6.6 深拷贝浅拷贝"></a>6.6 深拷贝浅拷贝</h3><p>浅拷贝就是两个对象的数据成员之间的简单赋值。如果一个类中没有申请内存的资源，比如堆，那么深拷贝和浅拷贝没有区别，例如：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token function">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token function">A</span><span class="token punctuation">(</span><span class="token keyword">int</span> _data<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">data</span><span class="token punctuation">(</span>_data<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> data<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    A <span class="token function">a</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    A <span class="token function">b</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>		<span class="token comment">//调用默认拷贝构造函数， b.data = a.data;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>但当对象中有动态分配的资源时，例如：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token function">A</span><span class="token punctuation">(</span><span class="token keyword">int</span> _size<span class="token punctuation">,</span> <span class="token keyword">int</span> _data<span class="token punctuation">)</span><span class="token operator">:</span><span class="token function">size</span><span class="token punctuation">(</span>_size<span class="token punctuation">)</span> 
+	<span class="token punctuation">&#123;</span>
+		data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_data<span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">//有一段动态分配的内存</span>
+	<span class="token punctuation">&#125;</span>
+    <span class="token operator">~</span><span class="token function">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+    	<span class="token keyword">delete</span> data<span class="token punctuation">;</span>			<span class="token comment">//析构释放动态开辟的资源</span>
+    	data <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">int</span><span class="token operator">*</span> data<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    A <span class="token function">a</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    A <span class="token function">b</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>				<span class="token comment">//调用默认拷贝构造函数，b.size = a.size</span>
+    					<span class="token comment">//b.data = a.data;这里b的指针data 和a的指针指向了堆上						   //的同一块内存</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>			
+  	<span class="token comment">//a和b析构时，b先把其data指向的动态分配的内存释放了一次，而后a析构时又将这块已经释放过的内存再释放一次。对同一块内存释放执行2次及2次以上的释放会造成内存泄露或者是程序crash！</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>利用深拷贝来解决：<br><strong>深拷贝就是当拷贝对象中有对其他资源（如堆、文件、系统等）的引用时（引用可以是指针或引用）时，对象的另开辟一块新的资源，而不再对拷贝对象中有对其他资源的引用的指针或引用进行单纯的赋值。</strong></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">A</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token function">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token function">A</span><span class="token punctuation">(</span><span class="token keyword">int</span> _size<span class="token punctuation">,</span><span class="token keyword">int</span> _data<span class="token punctuation">)</span><span class="token operator">:</span><span class="token function">size</span><span class="token punctuation">(</span>_size<span class="token punctuation">)</span> 
+	<span class="token punctuation">&#123;</span>
+		data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">int</span><span class="token punctuation">(</span>_data<span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">//有一段动态分配的内存</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">//拷贝构造的深拷贝</span>
+    <span class="token function">A</span><span class="token punctuation">(</span><span class="token keyword">const</span> A<span class="token operator">&amp;</span> _A<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+    	<span class="token keyword">this</span><span class="token operator">-></span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> _A<span class="token punctuation">.</span>size<span class="token punctuation">;</span>
+    	<span class="token keyword">this</span><span class="token operator">-></span>data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token operator">*</span>_A<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>		<span class="token comment">//深拷贝</span>
+    	
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">//拷贝赋值函数的深拷贝</span>
+    A<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">const</span> A<span class="token operator">&amp;</span> _A<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+    	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token operator">==</span> <span class="token operator">&amp;</span>_A<span class="token punctuation">)</span>
+    		<span class="token keyword">return</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">;</span>
+    		
+    	<span class="token keyword">delete</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">;</span>
+    	<span class="token keyword">this</span><span class="token operator">-></span>size <span class="token operator">=</span> _A<span class="token punctuation">.</span>size<span class="token punctuation">;</span>
+    	<span class="token keyword">this</span><span class="token operator">-></span>data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token operator">*</span>_A<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    	
+    	<span class="token keyword">return</span> <span class="token operator">*</span><span class="token keyword">this</span>
+    <span class="token punctuation">&#125;</span>
+     <span class="token operator">~</span><span class="token function">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+    	<span class="token keyword">delete</span> data<span class="token punctuation">;</span>			<span class="token comment">//析构释放动态开辟的资源</span>
+    	data <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">int</span><span class="token operator">*</span> data<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> <span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    A <span class="token function">a</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    A <span class="token function">b</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>		<span class="token comment">//调用深拷贝</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
 
                 
             </div>

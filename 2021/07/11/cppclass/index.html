@@ -473,14 +473,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.8k
+                    3.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    13 分
                 </div>
                 
 
@@ -519,8 +519,37 @@
     <span class="token keyword">int</span> baseI<span class="token punctuation">;</span>
     <span class="token keyword">static</span> <span class="token keyword">int</span> baseS<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="二、C-继承对象模型"><a href="#二、C-继承对象模型" class="headerlink" title="二、C++继承对象模型"></a><font color=blue>二、C++继承对象模型</font></h2><h3 id="2-1-非继承下C-对象模型"><a href="#2-1-非继承下C-对象模型" class="headerlink" title="2.1 非继承下C++对象模型"></a>2.1 非继承下C++对象模型</h3><p><img src="/images/cppClass/2.png"><br>C++对象模型中：<br><strong>non static数据成员被放置到对象内部</strong><br><strong>static数据成员， static and nonstatic 函数成员均被放到对象之外</strong><br><strong>对于虚函数的支持则分两步完成：</strong></p>
+<p><font color=#A020F0><strong>虚函数相关的问题</strong></font></p>
+<ol>
+<li><p>虚函数的作用：<strong>虚函数的作用是允许在派生类中重新定义与基类同名的函数，并且可以通过基类指针或引用来访问基类和派生类中的同名函数。 虚函数是C++中用于实现多态的机制。</strong></p>
+</li>
+<li><p>虚函数底层怎么实现：<strong>利用虚函数表（vtbl）和指向虚函数表的指针（vptr）</strong></p>
+</li>
+<li><p>VPTR什么时候被初始化：<strong>对象在创建时（运行构造函数时），由编译器对vptr指针进行初始化；只有当对象的构造完全结束后vptr的指向才最终决定下来；父类对象的vptr指向父类的虚函数表，子类对象的vptr指向子类的虚函数表。<font color=red>定义子类对象时，vptr先指向父类的虚函数表，在父类构造完成之后，子类的vptr才指向自己的虚函数表。</font>（父类或者子类的构造函数中调用虚成员函数不会实现多态的原因）</strong></p>
+</li>
+<li><p>虚函数表放在哪里：<strong>全局数据区；虚函数表特征类似于类中静态成员变量</strong></p>
+</li>
+<li><p><font color=red>构造函数不能是虚函数，为什么？</font> **不能</p>
+<ol>
+<li>构造一个对象的时候，必须知道对象的实际类型，而虚函数行为是在运行期间确定实际类型的。而在构造一个对象时，由于对象还未构造成功。编译器无法知道对象的实际类型。</li>
+<li>虚函数的执行依赖于虚函数表。而虚函数表在构造函数中进行初始化工作，即初始化vptr，让他指向正确的虚函数表。而在构造对象期间，虚函数表还没有被初始化，将无法进行。**</li>
+</ol>
+</li>
+<li><p><font color=red>析构函数必须是虚函数，为什么？</font> **一定</p>
+<ol>
+<li>如果析构函数不是虚函数，则用父类指针指向子类对象时， 父类指针无法访问到子类的析构函数，那么删除父类指针时，只会调用父类自己的析构函数，而不能调用派生类。</li>
+<li>父类使用虚析构函数后，父类指针才可以（通过虚函数表）访问子类的虚析构函数，调用子类的析构函数析构子类本身。**</li>
+</ol>
+</li>
+<li><p>析构函数可以抛出异常吗？不可，为什么：<strong>如果析构函数抛出异常，则异常点之后的程序不会执行，如果析构函数在异常点之后执行了某些必要的动作比如释放某些资源，则这些动作不会执行，会造成诸如资源泄漏的问题。</strong></p>
+</li>
+</ol>
+<h2 id="二、C-继承对象模型"><a href="#二、C-继承对象模型" class="headerlink" title="二、C++继承对象模型"></a><font color=blue>二、C++继承对象模型</font></h2><h3 id="2-1-非继承下C-对象模型"><a href="#2-1-非继承下C-对象模型" class="headerlink" title="2.1 非继承下C++对象模型"></a>2.1 非继承下C++对象模型</h3><p><img src="/images/cppClass/2.png"><br>C++对象模型中：</p>
+<ul>
+<li><strong>non static数据成员被放置到对象内部</strong></li>
+<li><strong>static数据成员， static and nonstatic 函数成员均被放到对象之外</strong></li>
+<li><strong>对于虚函数的支持则分两步完成：</strong></li>
+</ul>
 <ol>
 <li>每一个class产生一堆指向虚函数的指针(vptr)，放在表格之中。这个表格称之为<strong>虚函数表(vtbl) 。</strong></li>
 <li>每一个对象被添加了一个<strong>虚指针(vptr)，</strong>指向相关的虚函数表vtbl。vptr的设定（setting）和重置（resetting）都由每一个class的构造函数，析构函数和拷贝赋值运算符自动完成。</li>
@@ -653,7 +682,7 @@ d<span class="token punctuation">.</span>B2<span class="token double-colon punct
 <li>在D类对象内存中，基类出现的顺序是：先是B1（最左父类），然后是B2（次左父类），最后是B（虚祖父类）</li>
 <li>D类对象的数据成员id放在B类前面，两部分数据依旧以0来分隔。</li>
 <li><strong>编译器没有为D类生成一个它自己的vptr，而是覆盖并扩展了最左父类的虚基类表，与简单继承的对象模型相同。</strong></li>
-<li>超类B的内容放到了D类对象内存布局的最后。<br><img src="/images/cppClass/11_1.png"></li>
+<li>超类B的内容放到了D类对象内存布局的最后。<br><img src="/images/cppClass/12_1.png"></li>
 </ol>
 <h2 id="三、C-多态"><a href="#三、C-多态" class="headerlink" title="三、C++多态"></a><font color=blue>三、C++多态</font></h2><p>多态性的定义，可以简单地概括为“一个接口，多种方法”，<strong>程序在运行时才决定调用的函数</strong>，它是面向对象编程领域的核心概念。<br>多态可分为两种：</p>
 <ul>
