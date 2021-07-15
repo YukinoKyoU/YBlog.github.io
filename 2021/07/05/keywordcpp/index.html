@@ -480,7 +480,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    41 分
+                    40 分
                 </div>
                 
 
@@ -632,11 +632,7 @@ a <span class="token operator">=</span> <span class="token number">8</span><span
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>输出：<br><code>15</code></p>
-<pre><code>- &lt;font color=red&gt;对于指向常量的指针，不能通过指针来修改对象的值。&lt;/font&gt;
-- &lt;font color=red&gt;允许把非const对象的地址赋值给const对象的指针&lt;/font&gt;
-- &lt;font color=red&gt;如果要修改指针所指向的对象值，必须通过其他方式修改(利用普通指针)，不能直接通过当前指针直接修改。&lt;/font&gt;
-- &lt;font color=red&gt;不能使用**void \* **指针保存const对象的地址，必须使用**const void、*** 类型的指针保存const对象的地址。&lt;/font&gt;
-</code></pre>
+<p><font color=red>对于指向常量的指针，不能通过指针来修改对象的值。</font><br><font color=red>允许把非const对象的地址赋值给const对象的指针</font><br><font color=red>如果要修改指针所指向的对象值，必须通过其他方式修改(利用普通指针)，不能直接通过当前指针直接修改。</font><br><font color=red>不能使用<strong>void * <strong>指针保存const对象的地址，必须使用</strong>const void、</strong>* 类型的指针保存const对象的地址。</font></p>
 <h5 id="2-2-2-常量指针-常指针"><a href="#2-2-2-常量指针-常指针" class="headerlink" title="2.2.2. 常量指针(常指针)"></a>2.2.2. <strong>常量指针(常指针)</strong></h5><p>const指针必须进行初始化，且const指针的值不能修改。</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
 
