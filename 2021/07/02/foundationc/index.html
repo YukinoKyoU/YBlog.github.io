@@ -469,14 +469,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.9k
+                    5.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    18 分
+                    22 分
                 </div>
                 
 
@@ -864,6 +864,102 @@ Empty<span class="token operator">&amp;</span> <span class="token keyword">opera
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <hr>
+<h3 id="7-6-类相关问题"><a href="#7-6-类相关问题" class="headerlink" title="7.6 类相关问题"></a>7.6 类相关问题</h3><p><strong>1. 父类指针可以指向子类，子类指针不能指向父类</strong><br>当基类指针指向派生类的时候，只能操作派生类从基类中继承过来的数据。<br>当派生类指向基类的指针,因为内存空间比基类长,访问的话会导致内存溢出,所以不允许派生类的指针指向基类。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> a
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">Child</span> <span class="token operator">:</span><span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">Base</span></span>
+<span class="token punctuation">&#123;</span> 
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">/*
+Base类占内存大小范围：int a; 占4个字节.
+Child类占内存大小范围：int a; 加上 int b;一共占8个字节.
+
+基类指针(Base)指向派生类(Child)：
+Base *p = new Child();  
+因为p是Base类型指针,所以*p只能指向Base类的int a（4字节长度),如果存在虚函数，就可以访问到子类函数和变量.
+ 
+Child *c = new Base(); 
+当Child指向父类时，如果c对象访问c->b，这样访问b的时候，就越界了.(因为Base父类空间是4个字节大小，不可能访问到8字节处的b变量).*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通常来说，子类总是含有一些父类没有的成员变量，或者方法函数。而子类肯定含有父类所有的成员变量和方法函数。所以用父类指针指向子类时，没有问题，因为父类有的，子类都有，不会出现非法访问问题。<br>但是如果用子类指针指向父类的话，一旦访问子类特有的方法函数或者成员变量，就会出现非法，因为被子类指针指向的由父类创建的对象，根本没有要访问的那些内容，那些是子类特有的，只有用子类初始化对象时才会有。</p>
+<p><strong>2. 子类可以转型为父类，而父类不能转型为子类</strong></p>
+<p>因为子类是从父类继承而来，子类中包含父类中所有成员。在转换成父类的过程中，意味着对子类进行了一个切割，只是将子类中的父类部分赋值给了父类对象。</p>
+<p>而如果父类可以转换成子类，意味着将子类中将有一部分是未知的成员。这是不被允许的。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> animal <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">breath</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"animal breath"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"animal eat"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Fish</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">Animal</span></span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> fish <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">breath</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"fish breath"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">void</span> <span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"fish eat"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Animal <span class="token operator">*</span>animal1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Animal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"父类指针指向父类对象"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    animal1<span class="token operator">-></span><span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Animal <span class="token operator">*</span>animal2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Fish</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"父类指针指向子类对象"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    animal2<span class="token operator">-></span><span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> animal2<span class="token operator">-></span>animal <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+
+    Fish <span class="token operator">*</span>fish1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Fish</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"子类指针指向子类对象"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    fish1<span class="token operator">-></span><span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//Fish *fish2 = new Animal();</span>
+
+    Animal <span class="token operator">*</span>animal3<span class="token punctuation">;</span>
+    animal3 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Animal<span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>fish1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"子类指针转型为父类指针(static)"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    animal3<span class="token operator">-></span><span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Animal <span class="token operator">*</span>animal4<span class="token punctuation">;</span>
+    animal4 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">dynamic_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Animal<span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>fish1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"子类指针转型为父类指针(dynamic)"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    animal4<span class="token operator">-></span><span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    animal3<span class="token operator">-></span>animal<span class="token punctuation">;</span>
+
+    Fish <span class="token operator">*</span>fish3<span class="token punctuation">;</span>
+    fish3 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Fish <span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>animal1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"父类指针转型为子类类指针(static)"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    fish3<span class="token operator">-></span><span class="token function">eat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Fish <span class="token operator">*</span>fish4<span class="token punctuation">;</span>
+    fish4 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">dynamic_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>Fish <span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>animal1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>fish4 <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"转型失败"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出：<br><code> </code>父类指针指向父类对象<code> </code>animal eat<code> </code>父类指针指向子类对象<code> </code>fish eat<code> </code>子类指针指向子类对象<code> </code>fish eat<code> </code>子类指针转型为父类指针(static)<code> </code>fish eat<code> </code>子类指针转型为父类指针(dynamic)<code> </code>fish eat<code> </code>父类指针转型为子类类指针(static)<code> </code>animal eat<code> </code>转型失败`</p>
 
                 
             </div>
