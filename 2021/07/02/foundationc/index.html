@@ -959,7 +959,16 @@ Child *c = new Base();
     <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>输出：<br><code> </code>父类指针指向父类对象<code> </code>animal eat<code> </code>父类指针指向子类对象<code> </code>fish eat<code> </code>子类指针指向子类对象<code> </code>fish eat<code> </code>子类指针转型为父类指针(static)<code> </code>fish eat<code> </code>子类指针转型为父类指针(dynamic)<code> </code>fish eat<code> </code>父类指针转型为子类类指针(static)<code> </code>animal eat<code> </code>转型失败`</p>
+<p>输出：</p>
+<pre class="line-numbers language-none"><code class="language-none">父类指针指向父类对象: animal eat
+父类指针指向子类对象: fish eat
+子类指针指向子类对象: fish eat
+子类指针转型为父类指针(static): fish eat
+子类指针转型为父类指针(dynamic): fish eat
+父类指针转型为子类类指针(static): animal eat
+转型失败<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 
                 
             </div>
