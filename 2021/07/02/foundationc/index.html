@@ -831,7 +831,7 @@ Empty<span class="token operator">&amp;</span> <span class="token keyword">opera
 	<span class="token comment">//拷贝构造的深拷贝</span>
     <span class="token function">A</span><span class="token punctuation">(</span><span class="token keyword">const</span> A<span class="token operator">&amp;</span> _A<span class="token punctuation">)</span>
     <span class="token punctuation">&#123;</span>
-    	<span class="token keyword">this</span><span class="token operator">-></span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> _A<span class="token punctuation">.</span>size<span class="token punctuation">;</span>
+    	<span class="token keyword">this</span><span class="token operator">-></span>size <span class="token operator">=</span> _A<span class="token punctuation">.</span>size<span class="token punctuation">;</span>
     	<span class="token keyword">this</span><span class="token operator">-></span>data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token operator">*</span>_A<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>		<span class="token comment">//深拷贝</span>
     	
     <span class="token punctuation">&#125;</span>
@@ -841,7 +841,7 @@ Empty<span class="token operator">&amp;</span> <span class="token keyword">opera
     	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token operator">==</span> <span class="token operator">&amp;</span>_A<span class="token punctuation">)</span>
     		<span class="token keyword">return</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">;</span>
     		
-    	<span class="token keyword">delete</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">;</span>
+    	<span class="token keyword">delete</span> data<span class="token punctuation">;</span>
     	<span class="token keyword">this</span><span class="token operator">-></span>size <span class="token operator">=</span> _A<span class="token punctuation">.</span>size<span class="token punctuation">;</span>
     	<span class="token keyword">this</span><span class="token operator">-></span>data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token operator">*</span>_A<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
     	
@@ -854,7 +854,7 @@ Empty<span class="token operator">&amp;</span> <span class="token keyword">opera
     <span class="token punctuation">&#125;</span>
 <span class="token keyword">private</span><span class="token operator">:</span>
     <span class="token keyword">int</span><span class="token operator">*</span> data<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> <span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> size<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
@@ -967,7 +967,6 @@ Child *c = new Base();
 子类指针转型为父类指针(dynamic): fish eat
 父类指针转型为子类类指针(static): animal eat
 转型失败<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 
 
                 
