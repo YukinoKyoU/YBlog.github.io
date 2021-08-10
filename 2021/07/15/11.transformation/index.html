@@ -542,7 +542,7 @@
 <p>这里根据前面$z_n和z_e$的关系，可以发现$z_n和z_e$之间是非线性的关系，如下图。这意味着<strong>近平面的精度非常高，但远平面的精度很低。</strong>所以，远近平面应该尽可能缩短，以减少深度缓冲精度的问题。<br><img src="/images/Graphic/Transformation/4_15.png"></p>
 <h3 id="2-4-视口变换"><a href="#2-4-视口变换" class="headerlink" title="2.4 视口变换"></a>2.4 视口变换</h3><p>  视口变换就很简单，只要把$[-1,1]^2$平面转换到窗口大小平面[0, width] * [0, height]。<br>  可以直接套用公式：<br>  <img src="/images/Graphic/Transformation/4_16.jpg"></p>
 <p>至此，经过上面4个变换，我们就可以将想要的物体模型转换到屏幕上了，总结下来就是：<br><strong>$MVP = M_{pro} * M_{lookat} * M_{model}$</strong><br><strong>$M = M_{view} * MVP$</strong></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.songho.ca/opengl/gl_projectionmatrix.html">OpenGL Projection Matrix</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X7411F744">Games101</a><br><a target="_blank" rel="noopener" href="https://learnopengl.com/Getting-started/Transformations">LearnOpenGl</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X7411F744">Games101</a><br><a target="_blank" rel="noopener" href="https://learnopengl.com/Getting-started/Transformations">LearnOpenGL</a><br><a target="_blank" rel="noopener" href="http://www.songho.ca/opengl/gl_projectionmatrix.html">OpenGL Projection Matrix</a></p>
 
                 
             </div>
