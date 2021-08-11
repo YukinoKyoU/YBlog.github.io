@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="【Graphic】空间坐标变换, KyoU&#39;s Blog">
+    <meta name="keywords" content="【Graphic】渲染顺序相关问题, KyoU&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>【Graphic】空间坐标变换 | KyoU&#39;s Blog</title>
+    <title>【Graphic】渲染顺序相关问题 | KyoU&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/images/feature/11_.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/feature/12_.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">【Graphic】空间坐标变换</h1>
+                    <h1 class="description center-align post-title">【Graphic】渲染顺序相关问题</h1>
                 </div>
             </div>
         </div>
@@ -435,16 +435,16 @@
                                 <span class="chip bg-color">图形学</span>
                             </a>
                         
-                            <a href="/tags/%E6%B8%B2%E6%9F%93/">
-                                <span class="chip bg-color">渲染</span>
+                            <a href="/tags/Z-test/">
+                                <span class="chip bg-color">Z test</span>
                             </a>
                         
-                            <a href="/tags/%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87/">
-                                <span class="chip bg-color">空间坐标</span>
+                            <a href="/tags/Alpha-Test/">
+                                <span class="chip bg-color">Alpha Test</span>
                             </a>
                         
-                            <a href="/tags/%E9%80%8F%E8%A7%86%E6%8A%95%E5%BD%B1/">
-                                <span class="chip bg-color">透视投影</span>
+                            <a href="/tags/Early-Z/">
+                                <span class="chip bg-color">Early Z</span>
                             </a>
                         
                     </div>
@@ -468,7 +468,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-15
+                    2021-07-20
                 </div>
                 
 
@@ -477,14 +477,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    2.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    9 分
                 </div>
                 
 
@@ -507,42 +507,129 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>最近面试发现对于图形学知识，虽然能知道具体脉络以及相关名词，但对于其细节实现已经有所淡忘。因此开设此系列来回顾自己在图形学学习中遇到的一些相关问题。</p>
-<h2 id="1-坐标空间"><a href="#1-坐标空间" class="headerlink" title="1. 坐标空间"></a>1. 坐标空间</h2><p>  我们知道，在渲染管线中每次顶点着色器运行后，会将模型的所有可见顶点都转化为<strong>标准化设备坐标（NDC）</strong>。也就是说，每个顶点的x，y，z坐标都应该在-1.0到1.0之间，超出这个坐标范围的顶点都将不可见。通常我们所传入渲染管线的坐标为模型相对于局部原点的坐标。将坐标变换为标准化设备坐标，接着再转化为屏幕坐标的过程通常是分步进行的，也就是类似于流水线那样子。在流水线中，物体的顶点在最终转化为屏幕坐标之前还会被变换到多个坐标系统。</p>
-<p>  我们的顶点坐标起始于<strong>局部空间（Local Space）</strong>，之后会变为**世界空间（World Space）， 观察空间（View Space）， 裁剪空间(Clip Space)，屏幕空间(Screen Space) 。</p>
-<p><img src="/images/Graphic/Transformation/1.png"></p>
-<h3 id="1-1-局部空间（Local-Space）"><a href="#1-1-局部空间（Local-Space）" class="headerlink" title="1.1 局部空间（Local Space）"></a>1.1 局部空间（Local Space）</h3><p>  局部空间是指物体所在的坐标空间，即对象最开始所在的地方，模型有自己的前后左右，这是它的自身属性，旋转或者是移动和缩放模型并不能改变它的前后左右。</p>
-<h3 id="1-2-世界空间（World-Space）"><a href="#1-2-世界空间（World-Space）" class="headerlink" title="1.2 世界空间（World Space）"></a>1.2 世界空间（World Space）</h3><p>  世界空间指顶点相对于世界的坐标。如果你希望将物体分散在世界上摆放（特别是非常真实的那样），这就是你希望物体变换到的空间。模型一开始放置在世界坐标系中时，其本地坐标系与世界坐标系重合，经过一系列缩放，旋转，平移变换后被放置在世界坐标系中的适当位置构成渲染场景，该变换是由<strong>模型矩阵（Model Matrix）</strong>实现的。</p>
-<h3 id="1-3-观察空间（View-Space）"><a href="#1-3-观察空间（View-Space）" class="headerlink" title="1.3 观察空间（View Space）"></a>1.3 观察空间（View Space）</h3><p>  观察空间是将世界空间坐标转化为用户视野前方的坐标而产生的结果。因此观察空间就是从摄像机的视角所观察到的空间。观察空间是将世界空间坐标转化为用户视野前方的坐标而产生的结果。因此观察空间就是从摄像机的视角所观察到的空间。而这通常是由一系列的位移和旋转的组合来完成，平移/旋转场景从而使得特定的对象被变换到摄像机的前方。这些组合在一起的变换通常存储在一个**观察矩阵(View Matrix)**里，它被用来将世界坐标变换到观察空间。</p>
-<h3 id="1-4-裁剪空间（Clip-Space）"><a href="#1-4-裁剪空间（Clip-Space）" class="headerlink" title="1.4 裁剪空间（Clip Space）"></a>1.4 裁剪空间（Clip Space）</h3><p>  我们希望所有的坐标都能落在一个特定的范围内，且任何在这个范围之外的点都应该被裁剪掉。被裁剪掉的坐标就会被忽略，所以剩下的坐标就将变为屏幕上可见的片段。而这工作是由一个<strong>投影矩阵（Projection Matrix）</strong>完成。经过投影矩阵变换后的坐标如果没有映射在-1.0到1.0的范围之间，就会被剪裁掉。（如果只是图元(Primitive)的一部分超出了裁剪体积(Clipping Volume)，则会重新构建这个三角形为一个或多个三角形让其能够适合这个裁剪范围。）<br>此时顶点所在的空间也被称为<strong>齐次剪裁空间（Homogeneous Clip Space）</strong></p>
-<p>  一旦所有的顶点被变换到齐次剪裁空间后，就会进行最终的操作—**透视除法(Perspective Division)**。在这个过程中我们将位置向量的x，y，z分量分别除以向量的齐次w分量；透视除法是将4D裁剪空间坐标变换为3D标准化设备坐标的过程。</p>
-<h3 id="1-5-屏幕空间（Screen-Space）"><a href="#1-5-屏幕空间（Screen-Space）" class="headerlink" title="1.5 屏幕空间（Screen Space）"></a>1.5 屏幕空间（Screen Space）</h3><p>  最后将3D标准化设备坐标会被映射到屏幕空间，并进行下一步工作。</p>
-<h2 id="2-矩阵变换"><a href="#2-矩阵变换" class="headerlink" title="2. 矩阵变换"></a>2. 矩阵变换</h2><h3 id="2-1-模型矩阵"><a href="#2-1-模型矩阵" class="headerlink" title="2.1 模型矩阵"></a>2.1 模型矩阵</h3><p>  在本地坐标系中建好的模型都会经过缩放，旋转，平移等操作后变换到世界坐标系中的不同位置构成渲染场景。</p>
-<h3 id="2-2-观察矩阵"><a href="#2-2-观察矩阵" class="headerlink" title="2.2 观察矩阵"></a>2.2 观察矩阵</h3><p>  摄像机变换的目的是得到所有可视物体与摄像机的相对位置，我们把物体和摄像机一起做移动，如果能够把摄像机的坐标轴(假设为u,v,w 分别对应原世界空间中的x,y,z)移动到标准的x，y，z轴，那么此时物体的坐标便是相机的相对坐标。<br>  <strong>e表示相机在世界空间的位置</strong><br>  <strong>g表示观察方向（直接作为相机坐标系的z轴）</strong><br>  <strong>t表示视点正上方向</strong><br>  根据这三个相机设置的参数，我们可以建立以相机位置为原点的坐标系：</p>
-<p>  <img src="/images/Graphic/Transformation/3_1.jpg"></p>
-<p>  其中u，v，w分别对应准坐标系下的x，y，z，示意图：</p>
-<p>  <img src="/images/Graphic/Transformation/3_2.jpg"></p>
-<p>  成功建立坐标系后，我们就可以很容易地得出从相机坐标系到世界坐标系的变换。但我们需要的是<strong>观察坐标系到世界坐标系的逆变换</strong>，即世界坐标系到观察坐标系的变换 ，即：</p>
-<p>  <img src="/images/Graphic/Transformation/3_3.jpg"></p>
-<p>这个矩阵在OpenGL里也被称为<strong>LookAt矩阵</strong>。</p>
-<h3 id="2-3-投影矩阵"><a href="#2-3-投影矩阵" class="headerlink" title="2.3 投影矩阵"></a>2.3 投影矩阵</h3><p>  由投影矩阵创建的观察箱（Viewing Box）被称为<strong>平截头体（Frustum）</strong>，每个出现在平截头体范围内的坐标都会最终出现在用户的屏幕上。将特定范围内的坐标转化到标准化设备坐标系的过程（而且它很容易被映射到2D观察空间坐标）被称之为投影(Projection)，因为使用投影矩阵能将3D坐标投影（Project）到很容易映射到2D的标准化设备坐标系中。</p>
-<h3 id="2-3-1-正交投影（Orthographic-Projection）"><a href="#2-3-1-正交投影（Orthographic-Projection）" class="headerlink" title="2.3.1 正交投影（Orthographic Projection）"></a>2.3.1 正交投影（Orthographic Projection）</h3><p>  <img src="/images/Graphic/Transformation/4_1.png"></p>
-<p>  正交投影矩阵定义了一个类似立方体的平截头箱，它定义了一个裁剪空间，在这空间之外的顶点都会被裁剪掉。它的平截头体看起来像一个容器，我们只需将物体（可视部分，即图中的长方体）全部转换到一个$[-1,1]^3$的空间之中即可。<br>  我们需要先定义可视空间的值如上图所示：<br>  <strong>l = left plane，r = right plane，b = bottom plane，t = top plane，n = near plane, f = far plane,</strong><br>  根据空间变换，我们要先把可视空间中心点平移至原点位置，再将可视空间缩小为$[-1,1]^3$的空间。Translate矩阵为：$[-(r+l)/2, -(t+b)/2, -(n+f)/2]$，长，宽，高的scale分别为$2/(r-l)，2/(t-b), 2/(n-f) $。最后的正交投影变换矩阵为：<br>  <img src="/images/Graphic/Transformation/4_2.jpg"></p>
-<h3 id="2-3-2-透视投影（Perspective-Projection）"><a href="#2-3-2-透视投影（Perspective-Projection）" class="headerlink" title="2.3.2 透视投影（Perspective Projection）"></a>2.3.2 透视投影（Perspective Projection）</h3><p>  透视就和实际生活中眼睛所看到的景象一样，离自己越远的东西看起来会越小，如下图所示：</p>
-<p>  <img src="/images/Graphic/Transformation/4_3.png"></p>
-<p>  想要达到这种效果，需要使用<strong>透视投影矩阵</strong>来完成，这个矩阵定义了可视空间的大平截头体，任何在这个平截头体以外的东西最后都不会出现在裁剪空间体积内，并且将会受到裁剪。<br>  <img src="/images/Graphic/Transformation/4_4.png"></p>
-<p>  观察空间中位于视椎体内的3D点会被映射到NDC空间中；该映射将x坐标从[l, r]映射到[-1,1]，y坐标从[b, t]映射到[-1,1]，z坐标从[n, f]映射到[-1,1]。<br>  <font color = red>需要注意的是观察空间是使用的是右手坐标系，而NDC空间使用的是左手坐标系，因为摄像机在观察空间原点沿着Z轴的负方向看过去，而在NDC空间是沿着Z轴的正方向看过去。</font></p>
-<p><img src="/images/Graphic/Transformation/4_5.png"></p>
-<p>观察空间的3D点会被投影到近平面(投影平面)。下面两张图展示了观察空间的点$(x_e, y_e, z_e)$如何被投射为近平面上的点$(x_p, y_p,z_p)$。（注：下标c, e, p, n分别代表的是裁剪空间、观察空间、投影空间和NDC空间）<br><img src="/images/Graphic/Transformation/4_6.png"></p>
-<p>通过相似三角形，我们可以知道：<br><img src="/images/Graphic/Transformation/4_7.png"><br><img src="/images/Graphic/Transformation/4_8.png"></p>
-<p>这里$x_p, y_p$都依赖于$z_e$，并与$z_e$成反比，因此我们可以构造出一个矩阵来乘以观察空间下的坐标，由于剪裁空间坐标仍然是齐次坐标，它最终通过除以剪裁坐标的w分量转化为归一化坐标NDC：<br><img src="/images/Graphic/Transformation/4_9.png"></p>
-<p>因此，我们可以将剪裁坐标的 w 分量设置为 $-z_e$。并且，PROJECTION 矩阵的第 4 行变为 (0, 0, -1, 0)：<br><img src="/images/Graphic/Transformation/4_10.png"><br>接下来推导请看手写部分：</p>
-<p><img src="/images/Graphic/Transformation/4_11.jpg"><br><img src="/images/Graphic/Transformation/4_12.jpg"><br><img src="/images/Graphic/Transformation/4_13.jpg"></p>
-<p>最终的透视投影矩阵就可以转换为：<br><img src="/images/Graphic/Transformation/4_14.png"></p>
-<p>这里根据前面$z_n和z_e$的关系，可以发现$z_n和z_e$之间是非线性的关系，如下图。这意味着<strong>近平面的精度非常高，但远平面的精度很低。</strong>所以，远近平面应该尽可能缩短，以减少深度缓冲精度的问题。<br><img src="/images/Graphic/Transformation/4_15.png"></p>
-<h3 id="2-4-视口变换"><a href="#2-4-视口变换" class="headerlink" title="2.4 视口变换"></a>2.4 视口变换</h3><p>  视口变换就很简单，只要把$[-1,1]^2$平面转换到窗口大小平面[0, width] * [0, height]。<br>  可以直接套用公式：<br>  <img src="/images/Graphic/Transformation/4_16.jpg"></p>
-<p>至此，经过上面4个变换，我们就可以将想要的物体模型转换到屏幕上了，总结下来就是：<br><strong>$MVP = M_{pro} * M_{lookat} * M_{model}$</strong><br><strong>$M = M_{view} * MVP$</strong></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X7411F744">Games101</a><br><a target="_blank" rel="noopener" href="https://learnopengl.com/Getting-started/Transformations">LearnOpenGL</a><br><a target="_blank" rel="noopener" href="http://www.songho.ca/opengl/gl_projectionmatrix.html">OpenGL Projection Matrix</a></p>
+                <p>在OpenGL及RTR3的学习中，渲染顺序主要牵扯到透明物体的渲染，深度测试以及提前深度测试相关的知识，在书中这些知识点比较分散，所以对此做一个总结。</p>
+<h2 id="1-深度缓冲算法"><a href="#1-深度缓冲算法" class="headerlink" title="1. 深度缓冲算法"></a>1. 深度缓冲算法</h2><h3 id="1-1-深度测试"><a href="#1-1-深度测试" class="headerlink" title="1.1 深度测试"></a>1.1 深度测试</h3><p><strong>Z-Buffer：</strong>OpenGL存储它的所有深度信息于一个Z缓冲（Z-buffer）**中，每个像素记录了离相机最近的片元深度，即片元的z坐标</p>
+<p><strong>深度测试：</strong>当片段想要输出它的颜色时，OpenGL会将它的深度值和z缓冲进行比较，如果当前的片段在其它片段之后，它将会被丢弃，否则将会覆盖。这个过程称为<strong>深度测试（Depth Testing）</strong>。</p>
+<p><strong>深度写入：</strong>如果设置了允许深度写入，则OpenGL会将通过测试的片元的深度值更新到Z缓冲中。即重新更新Z缓冲中的深度阈值</p>
+<p>深度缓冲是在fragment shader运行之后在屏幕空间中运行的。因此读取的是gl_FragCoord内建变量，此变量的x和y分了代表了片段的屏幕空间坐标，而z分量包含了片段真正的深度值。z值就是需要与深度缓冲内容所对比的那个值。</p>
+<h3 id="1-2-深度写入"><a href="#1-2-深度写入" class="headerlink" title="1.2  深度写入"></a>1.2  深度写入</h3><p>开启深度测试后，openGL会默认开启深度写入。但有些情况下我们需要对所有片段都执行深度测试并丢弃相应的片段，但<strong>不希望更新深度缓冲。</strong>此时我们需要关闭深度写入，即使用一个只读的深度缓冲。我们只需要将<strong>深度掩码（Depth Mask）</strong>设置为false：<br>        <code>glDepthMask(GL_FALSE);</code></p>
+<h3 id="1-3-深度测试函数"><a href="#1-3-深度测试函数" class="headerlink" title="1.3 深度测试函数"></a>1.3 深度测试函数</h3><p>OpenGL允许我们修改深度测试中使用的比较运算符。即我们可以自定义什么时候该通过或丢弃一个片段，什么时候更新深度缓冲，我们需要调用：<br>        <code>glDepthFunc(GL_LESS);</code><br>这个函数接受的比较运算符：</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GL_ALWAYS</td>
+<td align="left">永远通过深度测试</td>
+</tr>
+<tr>
+<td>GL_NEVER</td>
+<td align="left">永远不通过深度测试</td>
+</tr>
+<tr>
+<td>GL_LESS</td>
+<td align="left">在片段深度值小于缓冲的深度值时通过测试</td>
+</tr>
+<tr>
+<td>GL_LEQUAL</td>
+<td align="left">在片段深度值小于等于缓冲区的深度值时通过测试</td>
+</tr>
+<tr>
+<td>GL_GREATER</td>
+<td align="left">在片段深度值大于缓冲区的深度值时通过测试</td>
+</tr>
+<tr>
+<td>GL_NOTEQUAL</td>
+<td align="left">在片段深度值不等于缓冲区的深度值时通过测试</td>
+</tr>
+</tbody></table>
+<p>下面是LearnOpenGL中将深度测试函数改为always后的效果：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token function">glEnable</span><span class="token punctuation">(</span>GL_DEPTH_TEST<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">glDepthFunc</span><span class="token punctuation">(</span>GL_ALWAYS<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>此时深度测试将会永远通过，所以最后绘制的片段将会总是会渲染在之前绘制片段的上面，即使之前绘制的片段本就应该渲染在最前面。因为我们是最后渲染地板的，它会覆盖所有的箱子片段：</p>
+<p><img src="/images/Graphic/RenderQueue/1.png"></p>
+<h2 id="2-混合"><a href="#2-混合" class="headerlink" title="2. 混合"></a>2. 混合</h2><p>OpenGL中，混合(Blending)通常是实现物体透明度(Transparency)的一种技术。</p>
+<h3 id="2-1-透明度测试技术AlphaTest"><a href="#2-1-透明度测试技术AlphaTest" class="headerlink" title="2.1 透明度测试技术AlphaTest"></a>2.1 透明度测试技术AlphaTest</h3><p>有些图片并不需要半透明，只需要根据纹理颜色值，显示一部分，或者不显示一部分，没有中间情况。OpenGL提供了<strong>discard命令，</strong>一旦被调用，可以保证片段被丢弃，不会进入颜色缓冲。我们可以在片段着色器中检测一个片段的alptha是否低于某个阈值并直接丢弃。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">version</span> <span class="token expression"><span class="token number">330</span> core</span></span>
+out vec4 FragColor<span class="token punctuation">;</span>
+
+in vec2 TexCoords<span class="token punctuation">;</span>
+
+uniform sampler2D texture1<span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>             
+    vec4 texColor <span class="token operator">=</span> <span class="token function">texture</span><span class="token punctuation">(</span>texture1<span class="token punctuation">,</span> TexCoords<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>texColor<span class="token punctuation">.</span>a <span class="token operator">&lt;</span> <span class="token number">0.1</span><span class="token punctuation">)</span>
+        discard<span class="token punctuation">;</span>
+    FragColor <span class="token operator">=</span> texColor<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-2-透明度混合技术Alpha-Blending"><a href="#2-2-透明度混合技术Alpha-Blending" class="headerlink" title="2.2 透明度混合技术Alpha Blending"></a>2.2 透明度混合技术Alpha Blending</h3><p>要想渲染有多个透明度级别的图像，我们需要启用混合(Blending)。和OpenGL大多数的功能一样，我们需要启用GL_BLEND来启用混合：<br><code>glEnable(GL_BLEND);</code><br>OpenGL中的混合是通过下面这个方程来实现的：</p>
+<p><img src="/images/Graphic/RenderQueue/2.jpg"></p>
+<p>  片段着色器运行完成后，并且所有的测试都通过之后，这个混合方程(Blend Equation)才会应用到片段颜色输出与当前颜色缓冲中的值（当前片段之前储存的之前片段的颜色）上。<br>源因子值和目标因子值我们可以使用<strong>glBlendFunc</strong>来进行设置，<code>glBlendFunc(GLenum sfactor, GLenum dfactor)</code>函数接受两个参数，来设置源和目标因子。</p>
+<h2 id="3-渲染半透明物体"><a href="#3-渲染半透明物体" class="headerlink" title="3.  渲染半透明物体"></a>3.  渲染半透明物体</h2><h3 id="3-1-半透明与不透明物体的渲染"><a href="#3-1-半透明与不透明物体的渲染" class="headerlink" title="3.1 半透明与不透明物体的渲染"></a>3.1 半透明与不透明物体的渲染</h3><p>由于通过透明物体是可以看见在其后面的物体，因此对于颜色缓存就不能直接替换更新，而是要做透明度混合（Blend），用颜色缓存中已有的颜色和透明片元的透明色混合出一个新的颜色。</p>
+<p>如果深度测试和混合一起使用时，就会产生错误的渲染，如图所示，最前面窗户的透明部分遮蔽了背后的窗户：</p>
+<p><img src="/images/Graphic/RenderQueue/3.png"></p>
+<p>当写入深度缓冲时，深度缓冲不会检查片段是否是透明的，所以透明的部分会和其它值一样写入到深度缓冲中。因此即使透明部分应该显示后面的窗户，但在深度测试中仍然丢弃了后面的片元。</p>
+<p>所以要渲染半透明物体，我们需要最先绘制最远的物体，最后绘制最近的物体，大体原则如下：</p>
+<ol>
+<li>先绘制所有不透明的物体（后关闭深度写入）</li>
+<li>对所有半透明的物体排序</li>
+<li>按从远到近顺序绘制所有透明的物体</li>
+</ol>
+<p>排序透明物体的一种方法是，从相机的视角获取物体的距离。这可以通过计算摄像机位置向量和物体的位置向量之间的距离所获得。然后再<strong>把距离和它对应的位置向量存储到一个STL库的map数据结构中</strong>，会自动排序：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">std<span class="token double-colon punctuation">::</span>map<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token punctuation">,</span> glm<span class="token double-colon punctuation">::</span>vec3<span class="token operator">></span> sorted<span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> windows<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">float</span> distance <span class="token operator">=</span> glm<span class="token double-colon punctuation">::</span><span class="token function">length</span><span class="token punctuation">(</span>camera<span class="token punctuation">.</span>Position <span class="token operator">-</span> windows<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    sorted<span class="token punctuation">[</span>distance<span class="token punctuation">]</span> <span class="token operator">=</span> windows<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">//逆序（从远到近）从map中获取值</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>map<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token punctuation">,</span>glm<span class="token double-colon punctuation">::</span>vec3<span class="token operator">></span><span class="token double-colon punctuation">::</span>reverse_iterator it <span class="token operator">=</span> sorted<span class="token punctuation">.</span><span class="token function">rbegin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> it <span class="token operator">!=</span> sorted<span class="token punctuation">.</span><span class="token function">rend</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>it<span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+    model <span class="token operator">=</span> glm<span class="token double-colon punctuation">::</span><span class="token function">mat4</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    model <span class="token operator">=</span> glm<span class="token double-colon punctuation">::</span><span class="token function">translate</span><span class="token punctuation">(</span>model<span class="token punctuation">,</span> it<span class="token operator">-></span>second<span class="token punctuation">)</span><span class="token punctuation">;</span>              
+    shader<span class="token punctuation">.</span><span class="token function">setMat4</span><span class="token punctuation">(</span><span class="token string">"model"</span><span class="token punctuation">,</span> model<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">glDrawArrays</span><span class="token punctuation">(</span>GL_TRIANGLES<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这样就可以正确渲染半透明物体和不透明物体了</p>
+<p><img src="/images/Graphic/RenderQueue/4.png"></p>
+<p><strong>注意此时在渲染透明物体时的深度写入是关闭</strong><br>如果深度写入开启，则透明物体如果通过深度测试，会将深度写入，那么就会丢弃同一屏幕坐标下深度值大片元，导致渲染结果出错。</p>
+<p>对于半透明物体间相互交叠的问题，关闭深度写入会的影响较小一点。<a target="_blank" rel="noopener" href="https://github.com/candycat1992/Unity_Shaders_Book/issues/153">详细参考</a>，更具体地做法会在下面给出。</p>
+<h3 id="3-2-半透明物体间相互交叠的问题"><a href="#3-2-半透明物体间相互交叠的问题" class="headerlink" title="3.2 半透明物体间相互交叠的问题"></a>3.2 半透明物体间相互交叠的问题</h3><p>由于渲染半透明物体时是关闭深度写入的，因此无法确定半透明物体间的前后深度关系（排序只能以物体为单位，而不能以片元为单位），这就会导致半透明物体自身所有的片元都不会被其他半透明片元遮挡(只会被不透明片元遮挡)。</p>
+<p>我们通过两个pass来渲染模型：</p>
+<ul>
+<li><strong>Pass1开启深度写入</strong>，但不写入颜色，这样被其他半透明遮挡的片元就不能通过深度测试了，同时不透明物体的背景颜色信息也没有被覆盖。</li>
+<li><strong>Pass2做正常的渲染着色以及透明度混合</strong>，这样被其他半透明遮挡住的自己的片元，就不会显现。</li>
+</ul>
+<p><img src="/images/Graphic/RenderQueue/5.jpg"></p>
+<h2 id="4-提前深度测试技术"><a href="#4-提前深度测试技术" class="headerlink" title="4. 提前深度测试技术"></a>4. 提前深度测试技术</h2><p>正常的渲染管线中深度测试一般在fragment shader之后，但我们知道fragment shader中会进行复杂的光照计算。如果一个片元经过fragment shader之后却在深度测试中被丢弃，那么之前的颜色计算也就白费了，引起了<strong>Overdraw（同一个像素绘制多次）问题。</strong>而提前深度测试就是为了解决这个问题而产生的，现在主要的技术有：<strong>early-z、z-cull、hi-z、z-perpass</strong>。</p>
+<h3 id="4-1-Early-Z"><a href="#4-1-Early-Z" class="headerlink" title="4.1 Early-Z"></a>4.1 Early-Z</h3><p>Early-Z就是直接修改传统的渲染管线，由于每个片元的深度信息在光栅化之后就知道了，所以Early-Z就是提前在fragment shader前进行深度测试，操作与正常的深度测试完全一样。这样就可以提前舍弃掉不会进行颜色计算的不透明片元。但是<strong>最终的深度测试仍然需要进行</strong>，以保证最终的遮挡关系结果正确。前面的一次主要是Z-Cull为了裁剪以达到优化的目的，后一次主要是Z-Check。</p>
+<p>要使Early-Z的效果最好，最理想条件下所有绘制顺序都是由近及远。此时我们会在每帧绘制时对场景的物体按照到摄像机的距离由远及近进行排序。这个操作会在cpu端进行，当场景复杂到一定程度，频繁的排序将会占用cpu的大量计算资源。</p>
+<p>Early-Z失效：</p>
+<ul>
+<li>开启Alpha Test 或 clip/discard 等手动丢弃片元操作</li>
+<li>手动修改GPU插值得到的深度</li>
+<li>开启Alpha Blend（由于Zwrite off）</li>
+<li>关闭深度测试Depth Test</li>
+</ul>
+<h4 id="失效原因"><a href="#失效原因" class="headerlink" title="失效原因"></a>失效原因</h4><p><img src="/images/Graphic/RenderQueue/6.jpg"></p>
+<ul>
+<li><strong>只开启Early-Z</strong>，Early-Z从前往后（先A再B）写入深度值，先写入A的深度值，然后B发现自己的深度更大，则这些深度更大的片元被抛弃。、</li>
+<li><strong>只开启AlphaTest</strong>，执行片段着色器的时候，假设A不会通过AlphaTest，自然不会往深度缓冲中写入深度值，所以再渲染B的时候，B发现深度缓冲还没有被写入，就更新深度缓冲，并把自己的颜色写入颜色缓冲。</li>
+<li><strong>同时开启</strong>，首先执行Early-Z，会把A的深度写入深度缓冲。在片段着色器后，如果A的AlphaTest没通过，会把片段A丢弃，理应不会写入深度值（但在Early-Z的时候已经写入了）。对于B来说，因为Early-z的时候B深度测试没通过，把粉红色部分的片段剔除了，这部分不会执行片段着色器，现在A和B都不在缓冲中。</li>
+</ul>
+<h3 id="4-2-Z-prepass"><a href="#4-2-Z-prepass" class="headerlink" title="4.2 Z-prepass"></a>4.2 Z-prepass</h3><p>Z-prepass主要配合early-Z使用，主要做法是将场景做两个pass的绘制。</p>
+<ol>
+<li>第一个pass仅写入深度，不做任何颜色的计算及写入。</li>
+<li>第二个pass关闭深度写入，将深度比较函数设为“相等”<br>这个方法和我们渲染半透明物体之间使用的方法一致。这样就不再需要使用early-z时对物体进行排序。</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://learnopengl.com/Getting-started/Transformations">LearnOpenGL</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/263566318">用一篇文章理解半透明渲染、透明度测试和混合、提前深度测试并彻底理清渲染顺序</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28557283">一口气解决RenderQueue、Ztest、Zwrite、AlphaTest、AlphaBlend和Stencil</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FK4y1u7iw?p=2">【技术美术百人计划】图形 3.5 Early-z和Z-prepass</a></p>
 
                 
             </div>
@@ -569,7 +656,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://yukinokyou.github.io/2021/07/15/11.transformation/">https://yukinokyou.github.io/2021/07/15/11.transformation/</a>
+                    <a href="https://yukinokyou.github.io/2021/07/20/graphic-renderorder/">https://yukinokyou.github.io/2021/07/20/graphic-renderorder/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -611,16 +698,16 @@
                                     <span class="chip bg-color">图形学</span>
                                 </a>
                             
-                                <a href="/tags/%E6%B8%B2%E6%9F%93/">
-                                    <span class="chip bg-color">渲染</span>
+                                <a href="/tags/Z-test/">
+                                    <span class="chip bg-color">Z test</span>
                                 </a>
                             
-                                <a href="/tags/%E7%A9%BA%E9%97%B4%E5%9D%90%E6%A0%87/">
-                                    <span class="chip bg-color">空间坐标</span>
+                                <a href="/tags/Alpha-Test/">
+                                    <span class="chip bg-color">Alpha Test</span>
                                 </a>
                             
-                                <a href="/tags/%E9%80%8F%E8%A7%86%E6%8A%95%E5%BD%B1/">
-                                    <span class="chip bg-color">透视投影</span>
+                                <a href="/tags/Early-Z/">
+                                    <span class="chip bg-color">Early Z</span>
                                 </a>
                             
                         </div>
@@ -1063,7 +1150,68 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2021/07/15/11.transformation/">
+                <a href="/2021/07/20/graphic-renderorder/">
+                    <div class="card-image">
+                        
+                        <img src="/images/feature/12_.jpg" class="responsive-img" alt="【Graphic】渲染顺序相关问题">
+                        
+                        <span class="card-title">【Graphic】渲染顺序相关问题</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            渲染顺序相关知识整理
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-20
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Graphic/" class="post-category">
+                                    Graphic
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/">
+                        <span class="chip bg-color">图形学</span>
+                    </a>
+                    
+                    <a href="/tags/Z-test/">
+                        <span class="chip bg-color">Z test</span>
+                    </a>
+                    
+                    <a href="/tags/Alpha-Test/">
+                        <span class="chip bg-color">Alpha Test</span>
+                    </a>
+                    
+                    <a href="/tags/Early-Z/">
+                        <span class="chip bg-color">Early Z</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/07/15/graphic-transformation/">
                     <div class="card-image">
                         
                         <img src="/images/feature/11_.jpg" class="responsive-img" alt="【Graphic】空间坐标变换">
@@ -1093,7 +1241,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1111,62 +1258,6 @@
                     
                     <a href="/tags/%E9%80%8F%E8%A7%86%E6%8A%95%E5%BD%B1/">
                         <span class="chip bg-color">透视投影</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/07/12/10.stl/">
-                    <div class="card-image">
-                        
-                        <img src="/images/feature/10_.jpg" class="responsive-img" alt="【C++】STL整理总结">
-                        
-                        <span class="card-title">【C++】STL整理总结</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            STL标准库的整理总结
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-12
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/C/" class="post-category">
-                                    C++
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%AE%B9%E5%99%A8/">
-                        <span class="chip bg-color">容器</span>
-                    </a>
-                    
-                    <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8/">
-                        <span class="chip bg-color">迭代器</span>
                     </a>
                     
                 </div>
