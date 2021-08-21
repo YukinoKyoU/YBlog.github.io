@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="【Graphic】抗锯齿, KyoU&#39;s Blog">
+    <meta name="keywords" content="【Graphic】剔除算法, KyoU&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>【Graphic】抗锯齿 | KyoU&#39;s Blog</title>
+    <title>【Graphic】剔除算法 | KyoU&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/images/feature/13_.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/images/feature/14_.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">【Graphic】抗锯齿</h1>
+                    <h1 class="description center-align post-title">【Graphic】剔除算法</h1>
                 </div>
             </div>
         </div>
@@ -435,8 +435,12 @@
                                 <span class="chip bg-color">图形学</span>
                             </a>
                         
-                            <a href="/tags/%E6%8A%97%E9%94%AF%E9%BD%BF/">
-                                <span class="chip bg-color">抗锯齿</span>
+                            <a href="/tags/%E5%8A%A0%E9%80%9F/">
+                                <span class="chip bg-color">加速</span>
+                            </a>
+                        
+                            <a href="/tags/%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4/">
+                                <span class="chip bg-color">遮挡剔除</span>
                             </a>
                         
                     </div>
@@ -460,7 +464,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-21
+                    2021-07-24
                 </div>
                 
 
@@ -469,14 +473,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    6 分
                 </div>
                 
 
@@ -499,41 +503,50 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>抗锯齿一直是图形学重要的领域，本篇文章总结了我在学习过程中对于抗锯齿的理解以及总结。</p>
-<h2 id="锯齿（Aliasing）"><a href="#锯齿（Aliasing）" class="headerlink" title="锯齿（Aliasing）"></a>锯齿（Aliasing）</h2><p>一个图元在空间上是连续的，但是在光栅化中，会将一个图元离散地映射在屏幕空间上，并将它转换为一系列片段。顶点坐标可以去任意值，但片段不行，它受限于窗口地分辨率。顶点坐标与片段之间几乎永远也不会有一对一的映射，所以光栅器必须以某种方式来决定每个顶点最终所在的片段/屏幕坐标。<br><img src="/images/Graphic/AnitiAliasing/1.png"><br>每个像素中心包含了一个采样点，它会被用来决定这个三角形是否遮盖了某个像素。然而屏幕像素是离散分布的，因此在图元的边缘部分，会产生锯齿边缘的效果。<br><img src="/images/Graphic/AnitiAliasing/2.png"><br>锯齿从表现上可以分为两类：</p>
+                <p>游戏中的剔除分为很多个级别，比如背面剔除、视锥剔除、遮挡剔除，Early-Z，Z-Culling等等。在前面的文章中，我已经介绍过Early-Z的相关技术。这篇文章主要介绍游戏中的遮挡剔除相关算法，对于遮挡剔除，是比较难以实现的，因此我也不是全看懂了。。。在此总结一下一些常用的剔除算法。</p>
+<p>在3D图形渲染中，大多数情况下离相机最远的物体首先呗渲染，接近的物体后渲染并覆盖先前渲染的物体，容易造成OverDraw。对于被其他物体遮挡但是依然在视锥体内的物体，不会被视锥剔除，所以遮挡剔除主要工作就是剔除被其他物体遮挡的物体。<br><img src="/images/Graphic/OccusionCulling/1.jpg"><br>目前主流的遮挡剔除分为CPU端的和GPU端的。</p>
 <ul>
-<li>几何锯齿（Geometric Aliasing），主要由于光栅化采样不足导致，体现在几何边缘的锯齿现象</li>
-<li>着色器锯齿（Shading Aliasing），主要由于渲染（例如光照计算）的采样不足导致，体现在画面中的部分像素点的闪烁或者噪点。<br><img src="/images/Graphic/AnitiAliasing/2.jpg"></li>
-</ul>
-<h2 id="抗锯齿（Antialiasing）"><a href="#抗锯齿（Antialiasing）" class="headerlink" title="抗锯齿（Antialiasing）"></a>抗锯齿（Antialiasing）</h2><p>抗锯齿（又称反走样）可从技术原理上分为两个大类：</p>
+<li><p>CPU端：</p>
 <ul>
-<li>空域抗锯齿：SMAA，FXAA等通过超采样几何边缘达到模糊边缘的效果</li>
-<li>时域抗锯齿：TAA等通过<strong>加权混合相邻多帧</strong>达到抗锯齿效果，就是将计算梁<strong>分摊（Amortized）</strong>到多帧的超采样。</li>
+<li>预计算的原始的PVS</li>
+<li>Umbra的dPVS</li>
+<li>SoftWare Occlsion</li>
 </ul>
-<h2 id="SSAA（超采样抗锯齿）"><a href="#SSAA（超采样抗锯齿）" class="headerlink" title="SSAA（超采样抗锯齿）"></a>SSAA（超采样抗锯齿）</h2><p>对于SSAA，就是加大采样点的数量，用一个更大地分辨率来渲染场景，然后再把相邻像素值做一个平均得到最终的图像。例如屏幕分辨率是1024x768，那么4xSSAA就是4096x3072。<br><img src="/images/Graphic/AnitiAliasing/3.png"><br>SSAA主要的做法就是对每个像素取n个子采样点，然后针对每个子像素点进行着色计算。最后根据每个子像素的值来合成最终的图像。<br>这是属于最完美的抗锯齿方式，但是由于它会<strong>对每个子采样点都进行fragment shader计算</strong>，需要更大的缓冲区以及更多的着色器计算，会显著降低FPS。</p>
-<h2 id="MSAA（多重采样抗锯齿）"><a href="#MSAA（多重采样抗锯齿）" class="headerlink" title="MSAA（多重采样抗锯齿）"></a>MSAA（多重采样抗锯齿）</h2><p>以下知识点主要总结（翻译）于<a target="_blank" rel="noopener" href="https://mynameismjp.wordpress.com/2012/10/24/msaa-overview/">这篇文章</a>。<br>为了不降低性能但又可以保留SSAA对于反走样的效果，通过观察三角形可以发现走样只发生在三角形的边界处，而且像素着色器主要工作是提取纹理，因此不会受到锯齿的影响（因为有mipmap技术）。所以我们可以得出，<strong>几何锯齿（Geometric Aliasing）是锯齿的主要形式</strong>，而MSAA主要就是解决几何锯齿所带来的问题。<br>MSAA的工作方式与超级采样类似，将单一的采样点变为多个采样点，利用这些子采样点来决定像素的<strong>覆盖率（coverage）</strong>。<br><img src="/images/Graphic/AnitiAliasing/5.png"><br>上图的左侧展示了正常情况下判定三角形是否遮盖的方式。在例子中的这个像素上不会运行片段着色器（所以它会保持空白）。因为它的采样点并未被三角形所覆盖。上图的右侧展示的是实施MSAA之后的版本，每个像素包含有4个子采样点。这里，三角形只覆盖了两个子采样点。</p>
-<p>我们同样需要对<strong>每个子采样点执行深度测试</strong>，因此，我们需要更大的深度缓冲区来储存所有子采样的深度值。<br><img src="/images/Graphic/AnitiAliasing/6.png"><br>测试三角形在 N 个采样点中的每一个的覆盖范围，<strong>本质上构建一个按位覆盖掩码（coverage mask），表示由三角形覆盖的像素部分</strong>。MSAA 开始与超级采样不同的地方是执行像素着色器时。在标准 MSAA 情况下，不会为每个子样本执行像素着色器。相反，对于三角形<strong>覆盖了至少一个子样本的每个像素</strong>，片元着色器只对像素执行一次。即，<strong>它对覆盖掩码非零的每个像素执行一次</strong>。执行的过程与普通的渲染相同，先根据顶点属性插值得到像素中心的属性，由片元着色器获取纹理执行光照计算。当片元着色器执行完毕后，会将输出的颜色值<strong>写入覆盖测试和深度测试均通过的该像素的子采样点</strong>。下图展示了这个概念。因此，我们也需要更大的颜色缓冲区来储存所有子采样的颜色信息。<br><img src="/images/Graphic/AnitiAliasing/7.png"><br>通过使用覆盖掩码（coverage mask）来确定哪些子采样点被覆盖，所有的这些颜色将会在每个像素内部平均化。图中有两个采样点被图元覆盖，这个像素点的颜色将会是三角形的颜色与其他两个采样点的颜色（这里是白色）的平均值，最终形成一种淡红色。<br><font color = red>掩码（mask）： </font><br>以4xMSAA举例。OpenGL会为每一个像素分配一个掩码值，这个掩码值的位数是由子采样的点数决定的，也就是说4x是分配4位。这些位记录了一个子采样点是否被其他几何图元覆盖到了，例如上图中的情况：</p>
-<pre class="line-numbers language-none"><code class="language-none">A B C D -------&gt; 4个采样掩码位
-1 0 1 0 -------&gt; 覆盖掩码值（1代表被覆盖）
-r w r w -------&gt; 颜色值（r&#x3D;红色，w&#x3D;白色）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>然后再计算平均值的时候考虑到某一个掩码是0，那么该子采样点的颜色就不参与最后的运算了。<br>不仅颜色和深度会受到多重采样的影响，模板测试也能够使用多个采样点。每个子采样点会储存一个模板值。<br>这就是多重采样的主要原理。</p>
-<h2 id="TAA（帧间抗锯齿Temporal-Antialiasing）"><a href="#TAA（帧间抗锯齿Temporal-Antialiasing）" class="headerlink" title="TAA（帧间抗锯齿Temporal Antialiasing）"></a>TAA（帧间抗锯齿Temporal Antialiasing）</h2><p>以下知识点总结（转载）于<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/142922246">知乎文章</a>。<br>帧间抗锯齿技术的实现依赖于<strong>帧间相关性（frame-to-frame coherence）</strong>。我们看到的视频或者游戏画面，上一帧画面中绝大部分内容也会出现在下一帧画面中，通常是平滑过渡的，比较少出现突变。<br>帧间抗锯齿的核心思想就是将超采样的计算量<strong>分摊至多帧</strong>，如图所示，任意一帧只计算一个像素点，随着t帧的累积，就有t个采样像素，再混合结果，就相当于做了t个子像素的超采样。并且每帧中的像素需要做一定的<strong>抖动（Jitter）</strong>，以达到不同帧相同位置像素值不完全一样的效果。<br><img src="/images/Graphic/AnitiAliasing/8.png"><br>由于保存多帧是比较困难的，但是可以<strong>只混合相邻两帧</strong>，即<strong>当前帧和历史帧</strong>。若当前帧的像素值是$s_t(p)$，前t-1帧的历史帧像素是$f_{t-1}(\pi_{t-1}(p))$，将它们加权混合就得到分摊多帧超采样得到的结果为：<br>$$f_t(p) = (\alpha)s_t(p) + (1 - \alpha)f_{t-1}(\pi_{t-1}(p))$$<br>这种方法称为<strong>指数平滑滤过（Exponential Smoothing Filter）</strong>。</p>
-<p>在实际应用中，画面并不是完全静止的，镜头和模型都会动，比如当前帧模型上的一个像素点位于A，它在历史帧对应的位置可能是B。所以，我们就需要计算<strong>当前帧像素点在历史帧所处的位置</strong>，这个过程称为<strong>重投影（Reprojection）</strong>。<br>重投影是基于当前帧和历史帧的<strong>视图矩阵</strong>与<strong>速度缓存</strong>，推算出屏幕上当前帧像素点的位置p在历史帧对应位置$\pi_{t-1}(p)$的过程。</p>
-<ul>
-<li>视图矩阵：如果只有镜头在动，那通过镜头的变换矩阵就可以计算出历史帧的位置。</li>
-<li>速度缓存：但是如果模型本身也在动，就需要计算模型顶点在当前帧与历史帧的位置差值，这个差值称之为<strong>运动矢量（Motion Vector）</strong>,可以把场景内运动模型的运动矢量存储在一个缓存中，这个缓存就称为<strong>速度缓存（Velocity Buffer）</strong>。</li>
-</ul>
-<p>我们已经得到当前帧像素在历史帧中的位置，也就可以根据历史帧采样到历史帧像素值$f_{t-1}(\pi_{t-1}(p))$。<br>但是，由于每帧渲染时有像素抖动、模型运动、渲染环境变化（例如光照条件）等，会导致渲染结果发生变化，此时得到的历史帧像素就可能不具参考性。如图所示，当前帧位置p的像素，在历史帧中对应位置是被遮挡住了，那么重投影得到的历史帧像素与当前帧像素无法对应。那么，就需要验证历史帧像素并修正，<strong>修正（Rectify）</strong>历史帧像素值，再将它代入混合的式子算出最终结果<br><img src="/images/Graphic/AnitiAliasing/9.jpg" width="50%" height="50%"><br>如果不对历史帧像素进行修正，就会出现<strong>鬼影（Ghosting）</strong>现象，如图所示。<br><img src="/images/Graphic/AnitiAliasing/10.gif" width="50%" height="50%"></p>
-<p>TAA技术的主要流程如图所示。对镜头进行抖动，渲染场景至主缓存中；如果模型发生运动，需要将渲染运动模型的运动矢量存至速度缓存。在一个TAA的后处理历程中，通过重投影获取当前帧像素在历史帧中的位置，获取历史帧像素，验证并修正历史帧像素，将历史帧像素和当前帧像素根据方程加权混合，输出结果。<br><img src="/images/Graphic/AnitiAliasing/11.png" width="75%" height="75%"></p>
-<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><ul>
-<li><p><strong>CSAA（覆盖采样抗锯齿Coverage Sampling AA）</strong>主要思想是：进一步减少每个采样点的信息量</p>
 </li>
-<li><p><strong>MLAA（形态学上的抗锯齿技术 Morphological AA）</strong>：MLAA类方法的实施大致可以分成两步，首先需要根据已有的数据信息（如最简单的就是一张color buffer）获取输出图像上的边界线信息。之后对边界线上的像素进行blend处理。</p>
-</li>
-<li><p><strong>FXAA（快速近似抗锯齿 Fast Approximate AA）</strong>：主要思想是检测渲染图像中的边缘并将其平滑，过程如下图所示：</p>
-<img src="/images/Graphic/AnitiAliasing/12.jpg" width="75%" height="75%"></li>
+<li><p>GPU端：</p>
+<ul>
+<li>GPU-Driven</li>
+<li>Hierarchical Z-Buffering</li>
 </ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/11%20Anti%20Aliasing/">LearnOpenGL</a><br><a target="_blank" rel="noopener" href="https://mynameismjp.wordpress.com/2012/10/24/msaa-overview/">A QUICK OVERVIEW OF MSAA</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/142922246?fileGuid=RKAWV8R8DXhpa2k8">深入浅出Temporal Antialising</a></p>
+</li>
+</ul>
+<h2 id="1-预计算原始的PVS（）"><a href="#1-预计算原始的PVS（）" class="headerlink" title="1. 预计算原始的PVS（）"></a>1. 预计算原始的PVS（）</h2><p>预计算原始的PVS主要流程为先进行<strong>空间划分</strong>，把场景划分成多个规则的三位网格，然后离线计算每个格子内的所有物体的<strong>可见性状态</strong>，将信息序列化后保存并打包进游戏中。在运行时，根据相机当前的位置，读取所在网格的可见性信息，在CPU设置可见性并提交绘制。<br><img src="/images/Graphic/OccusionCulling/2.jpg"><br><img src="/images/Graphic/OccusionCulling/3.jpg"></p>
+<p>在预计算过程中，需要将区域网格划分。<strong>区域网格划分</strong>需要找到场景中相机可能达到的区域，并且将区域按照一定的规则划分成网格。</p>
+<p>划分完三维网格后就进行可见性检测。主要思想是：在场景的<strong>遮挡物（Occluder）</strong>中，求解每个区域<strong>网格（Cell）</strong>到每个<strong>被遮挡物（Occludee）</strong>是否可见。</p>
+<p><img src="/images/Graphic/OccusionCulling/4.jpg"><br><img src="/images/Graphic/OccusionCulling/5.jpg"></p>
+<p>因此对每个网格进行可见性判定是很重要的。但是，每一对（网格到被遮挡物）的可见性判定，需要采样多少个光线，无法判定它们是否完全可见。在这里UE引擎采用了两个保守的方案来保证结果的正确性。一是将<strong>被遮挡物的模型包围盒扩大1.2倍来计算</strong>，二是<strong>在计算的时候用重要性采样（Importance Sampling）策略来补足</strong>：在所有光线都判定为不可见之后，将其中最长的前5% 的光线，随机偏转一个小角度。</p>
+<p><img src="/images/Graphic/OccusionCulling/6.jpg"><br><img src="/images/Graphic/OccusionCulling/7.jpg"></p>
+<h2 id="2-Portal-Culling（）"><a href="#2-Portal-Culling（）" class="headerlink" title="2. Portal-Culling（）"></a>2. Portal-Culling（）</h2><p>这种方式也是将场景划分成Cell，不同的是，烘焙时保存的是<strong>每两个相邻Cell之间的连通性</strong>。这样，在运行时，根据摄影机所在的位置的Cell和观察方向，就可以根据Cell间的连通性信息，快速计算出目标物体是否处于可见范围内。当我们处于某一个节点的时候，只有那些和它相连的Cell才有可能被我们看到。运行时找到所有与它有Portal连接的Cell，没有Portal连接的所有Cell都可以直接被判定为不可见的从而被剔除。</p>
+<p>使用这种方式最出名的方案就是Umbra的dPVS。</p>
+<h2 id="3-Software-Occlusion"><a href="#3-Software-Occlusion" class="headerlink" title="3. Software Occlusion"></a>3. Software Occlusion</h2><p>在运行时，将遮挡物的包围盒（或最高LOD级别的模型）软光栅到CPU内存中的z-buffer上，然后根据z-buffer中的深度信息，根据需要剔除物体的包围盒，实时计算遮挡信息。</p>
+<h2 id="4-Occlusion-Query（遮挡查询）"><a href="#4-Occlusion-Query（遮挡查询）" class="headerlink" title="4. Occlusion Query（遮挡查询）"></a>4. Occlusion Query（遮挡查询）</h2><p>Occlusion Query允许你在绘制命令执行之前，向GPU插入一条查询，并且在绘制结束之后的某个时刻，从GPU将查询结果回读到系统内存里。这条查询命令得到的是某次DrawCall中通过Depth Test的Sample数量，当这个Sample的数量大于0时，就表示当前模型是部分可见的，否则当前模型完全被遮挡。主要过程为：</p>
+<ol>
+<li>用一个简单的depth only的pass绘制整个场景</li>
+<li>每次绘制前后插入occlusion query的命令，并根据passed sample count去标记某个物体是否被完全挡住</li>
+<li>执行正常的渲染流程，并剔除那些被标记为完全遮挡的模型</li>
+</ol>
+<p>Occlusion Query主要有两个缺点：<strong>1.对于复杂的场景，即使只用简单的depth only pass也有很大的VS开销</strong>，可以用包围盒代替模型本身去做渲染。<strong>2.它需要将查询结果回读到系统内存里，这就意味着进行了从显存到RAM的操作</strong>，比较常用的的方法是让CPU回读前一帧的occlusion query的结果。</p>
+<h2 id="5-GPU-Driven-的剔除"><a href="#5-GPU-Driven-的剔除" class="headerlink" title="5. GPU Driven 的剔除"></a>5. GPU Driven 的剔除</h2><p>既然将GPU中的测试结果回传到CPU中需要很长的时间，那么可以直接将测试的结果保存在GPU中，然后直接根据剔除结果来选择是否绘制物体。GPU Driven Rendering Pipeline的核心思路是减少CPU和GPU之间的通信，尽量将所有渲染相关的事务都放在GPU端。<br>GPU-Dirven就是通过这样的思路来实现Indirect Draw。严格来说，GPU-Driven不是一种剔除算法，而是一种设计思路，其中的剔除部分仍然需要使用其他的算法来实现。</p>
+<p>大致的流程为：</p>
+<ol>
+<li>创建Indirect指令队列，将所有待渲染物体的渲染指令录入；</li>
+<li>对渲染物体进行遮挡剔除，将剔除结果写入到buffer中（体现<strong>Computer Shader</strong>的用处）；</li>
+<li>根据buffer中的剔除结果，GPU会选择性执行录入的Indirect渲染指令，达到剔除的效果。</li>
+</ol>
+<h3 id="Hierarchical-Z-buffer"><a href="#Hierarchical-Z-buffer" class="headerlink" title="Hierarchical Z-buffer"></a>Hierarchical Z-buffer</h3><p>在实现基于GPU的遮挡裁剪时，我们会使用到一种称为Hierarchical Z-buffer的技术，他是整个遮挡查询的关键所在。<br>Hierarchical z-buffer，即多Mip层级的z-buffer，每个更高级别Mip的buffer记录上一级别中周围四点中最远处的深度值。具体过程如下：<br>图中z = 0是近裁剪面，z = 1是远裁剪面。首先我们将遮挡物（红色和蓝色）进行光栅化，得到一个z-buffer，如下图竖着的那根灰色的线就代表了光栅化后的深度值。<br><img src="/images/Graphic/OccusionCulling/8.png"><br>接下来<strong>采样z-buffer，得到一串mipmap层级贴图</strong>（这里采用下采样，使用的是max操作，也就是说两个相邻的像素下采样为一个像素时，使用两者中最大的那个的值作为下一层级的值）<br><img src="/images/Graphic/OccusionCulling/9.png"><br>每一次下采样，都是对上一层级的保守估计，到了第4级就只剩下一个深度值了。由于下采样的时候用的是max操作，所以如果一个物体在level 2中深度值判定为被遮挡，那么它肯定在level 1中也是被遮挡的。</p>
+<p>得到HiZ-buffer之后，我们就可以基于它来进行遮挡裁剪了：<br>计算得到绿色物体的AABB包围盒，该包围盒的x-max/min和y-max/min用来决定采样哪一层级的HiZ-buffer（也就是看哪一层级的尺寸能够涵盖包围盒的所有像素）<br><img src="/images/Graphic/OccusionCulling/10.png"></p>
+<p>以上的方法就是基于Hierarchical Z-buffer的遮挡裁剪。可以看出如果没有HiZ-buffer，我们将不得不采样四个样本才能确定一个物体是否被遮挡了，HiZ-buffer大大减少了纹理采样的次数，提高了遮挡查询的效率。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363277669">游戏中的遮挡剔除/Occlusion Culling</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/66407205">剔除：从软件到硬件</a><br><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/4.27/en-US/RenderingAndGraphics/VisibilityCulling/SoftwareOcclusionQueries/">Software Occlusion Queries for Mobile</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47615677">Hi-Z GPU Occlusion Culling</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hellobb/p/13941681.html">浅谈HiZ-buffer</a></p>
 
                 
             </div>
@@ -560,7 +573,7 @@ r w r w -------&gt; 颜色值（r&#x3D;红色，w&#x3D;白色）<span aria-hidde
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://yukinokyou.github.io/2021/07/21/graphic-aa/">https://yukinokyou.github.io/2021/07/21/graphic-aa/</a>
+                    <a href="https://yukinokyou.github.io/2021/07/24/graphic-oc/">https://yukinokyou.github.io/2021/07/24/graphic-oc/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -602,8 +615,12 @@ r w r w -------&gt; 颜色值（r&#x3D;红色，w&#x3D;白色）<span aria-hidde
                                     <span class="chip bg-color">图形学</span>
                                 </a>
                             
-                                <a href="/tags/%E6%8A%97%E9%94%AF%E9%BD%BF/">
-                                    <span class="chip bg-color">抗锯齿</span>
+                                <a href="/tags/%E5%8A%A0%E9%80%9F/">
+                                    <span class="chip bg-color">加速</span>
+                                </a>
+                            
+                                <a href="/tags/%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4/">
+                                    <span class="chip bg-color">遮挡剔除</span>
                                 </a>
                             
                         </div>
@@ -1041,9 +1058,10 @@ r w r w -------&gt; 颜色值（r&#x3D;红色，w&#x3D;白色）<span aria-hidde
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021/07/24/graphic-oc/">
                     <div class="card-image">
@@ -1060,9 +1078,9 @@ r w r w -------&gt; 颜色值（r&#x3D;红色，w&#x3D;白色）<span aria-hidde
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1075,6 +1093,7 @@ r w r w -------&gt; 颜色值（r&#x3D;红色，w&#x3D;白色）<span aria-hidde
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1101,23 +1120,23 @@ r w r w -------&gt; 颜色值（r&#x3D;红色，w&#x3D;白色）<span aria-hidde
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/07/20/graphic-renderorder/">
+                <a href="/2021/07/21/graphic-aa/">
                     <div class="card-image">
                         
-                        <img src="/images/feature/12_.jpg" class="responsive-img" alt="【Graphic】渲染顺序相关问题">
+                        <img src="/images/feature/13_.jpg" class="responsive-img" alt="【Graphic】抗锯齿">
                         
-                        <span class="card-title">【Graphic】渲染顺序相关问题</span>
+                        <span class="card-title">【Graphic】抗锯齿</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            渲染顺序相关知识整理
+                            抗锯齿相关知识整理
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-21
                             </span>
                         <span class="publish-author">
                             
@@ -1138,16 +1157,8 @@ r w r w -------&gt; 颜色值（r&#x3D;红色，w&#x3D;白色）<span aria-hidde
                         <span class="chip bg-color">图形学</span>
                     </a>
                     
-                    <a href="/tags/Z-test/">
-                        <span class="chip bg-color">Z test</span>
-                    </a>
-                    
-                    <a href="/tags/Alpha-Test/">
-                        <span class="chip bg-color">Alpha Test</span>
-                    </a>
-                    
-                    <a href="/tags/Early-Z/">
-                        <span class="chip bg-color">Early Z</span>
+                    <a href="/tags/%E6%8A%97%E9%94%AF%E9%BD%BF/">
+                        <span class="chip bg-color">抗锯齿</span>
                     </a>
                     
                 </div>
