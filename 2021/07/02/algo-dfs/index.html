@@ -553,7 +553,7 @@
 </ul>
 <ol>
 <li>如果组合里有 1 ，那么需要在 [2, 3] 里再找 1 个数</li>
-<li>如果组合里有 2 ，那么需要在 [3] 里再找 1数。这里不能再考虑 1，因为包含1的组合，在第1种情况中已经包含。<br>以此类推，在以 n结尾的候选数组里，选出若干个元素<br><img src="/images/dfs/dfs1.png"><br>引用<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations/solution/hui-su-suan-fa-python-dai-ma-java-dai-ma-by-liweiw/">weiwei大神</a>的图</li>
+<li>如果组合里有 2 ，那么需要在 [3] 里再找 1数。这里不能再考虑 1，因为包含1的组合，在第1种情况中已经包含。<br>以此类推，在以 n结尾的候选数组里，选出若干个元素<br><img src="/images/Algo/dfs/dfs1.png"><br>引用<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations/solution/hui-su-suan-fa-python-dai-ma-java-dai-ma-by-liweiw/">weiwei大神</a>的图</li>
 </ol>
 <ul>
 <li>在遍历树中，叶子结点的信息体现在从根结点到叶子结点的路径上，因此需要一个表示路径的变量 path</li>
@@ -587,14 +587,14 @@
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<p><strong>下面一副流程图可以加深对递归过程的理解</strong>（跟着箭头的流程）<br><img src="/images/dfs/dfs2.png" alt="递归流程图"></p>
+<p><strong>下面一副流程图可以加深对递归过程的理解</strong>（跟着箭头的流程）<br><img src="/images/Algo/dfs/dfs2.png" alt="递归流程图"></p>
 <h4 id="47-全排列"><a href="#47-全排列" class="headerlink" title="47.全排列"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations-ii/">47.全排列</a></h4><p>给定一个可包含重复数字的序列 nums ，按任意顺序 返回所有不重复的全排列。<br><code>输入：nums = [1,1,2]</code><br><code>输出：[[1,1,2],[1,2,1],[2,1,1]]</code></p>
 <ul>
 <li><strong>思路：</strong><br>首先对于没有<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations/">重复数字数组的全排列</a>，我们采用了一个<font red = color>state数组</font>来表示当前元素是否被选用过，来进行重复项的剪枝，但本题中有重复数字，所以在结果集中必然包含重复项。<br>(例如[1,1,2]的结果集为[1,1’,2], [1,2,1’], [1’,1,2], [1’,2,1], [2,1,1’], [2,1’,1])<br>所以有两种思路容易想到：</li>
 </ul>
 <ol>
 <li>在结果集中去重</li>
-<li>在遍历的过程中，一边遍历一遍检测，在一定会产生重复结果集的地方剪枝。<br>然而结果集是数组集合，去重比较麻烦，所以采用剪枝的办法，在遍历过程中直接去重。<br><img src="/images/dfs/dfs3.png"><br>再次引用<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations-ii/solution/hui-su-suan-fa-python-dai-ma-java-dai-ma-by-liwe-2/">weiwei大神</a>的图</li>
+<li>在遍历的过程中，一边遍历一遍检测，在一定会产生重复结果集的地方剪枝。<br>然而结果集是数组集合，去重比较麻烦，所以采用剪枝的办法，在遍历过程中直接去重。<br><img src="/images/Algo/dfs/dfs3.png"><br>再次引用<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations-ii/solution/hui-su-suan-fa-python-dai-ma-java-dai-ma-by-liwe-2/">weiwei大神</a>的图</li>
 </ol>
 <ul>
 <li>在图中 ② 处，搜索的数也和上一次一样，但是上一次的 1 还在使用中；</li>
@@ -645,7 +645,7 @@
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<h3 id="矩阵搜索相关问题"><a href="#矩阵搜索相关问题" class="headerlink" title="矩阵搜索相关问题"></a>矩阵搜索相关问题</h3><h4 id="79-单词搜索I"><a href="#79-单词搜索I" class="headerlink" title="79.单词搜索I"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/word-search/">79.单词搜索I</a></h4><p><img src="/images/dfs/dfs4.jpg"><br>给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。<br><code>输入：board = [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word = &quot;ABCCED&quot;</code><br><code>输出：true</code></p>
+<h3 id="矩阵搜索相关问题"><a href="#矩阵搜索相关问题" class="headerlink" title="矩阵搜索相关问题"></a>矩阵搜索相关问题</h3><h4 id="79-单词搜索I"><a href="#79-单词搜索I" class="headerlink" title="79.单词搜索I"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/word-search/">79.单词搜索I</a></h4><p><img src="/images/Algo/dfs/dfs4.jpg"><br>给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。<br><code>输入：board = [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word = &quot;ABCCED&quot;</code><br><code>输出：true</code></p>
 <ul>
 <li><strong>思路：</strong><br>使用深度优先搜索（DFS）和回溯的思想实现。关于判断元素是否使用过，将使用过的元素赋值为“#”，再返回上一个结点时重置<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
@@ -697,7 +697,7 @@
 
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<h3 id="字符串相关回溯问题"><a href="#字符串相关回溯问题" class="headerlink" title="字符串相关回溯问题"></a>字符串相关回溯问题</h3><h4 id="17-电话号码的字母组合"><a href="#17-电话号码的字母组合" class="headerlink" title="17.电话号码的字母组合"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">17.电话号码的字母组合</a></h4><p>给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。<br><img src="/images/dfs/dfs5.png"><br><code>输入：digits = &quot;23&quot;</code><br><code>输出：[&quot;ad&quot;,&quot;ae&quot;,&quot;af&quot;,&quot;bd&quot;,&quot;be&quot;,&quot;bf&quot;,&quot;cd&quot;,&quot;ce&quot;,&quot;cf&quot;]</code></p>
+<h3 id="字符串相关回溯问题"><a href="#字符串相关回溯问题" class="headerlink" title="字符串相关回溯问题"></a>字符串相关回溯问题</h3><h4 id="17-电话号码的字母组合"><a href="#17-电话号码的字母组合" class="headerlink" title="17.电话号码的字母组合"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">17.电话号码的字母组合</a></h4><p>给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。<br><img src="/images/Algo/dfs/dfs5.png"><br><code>输入：digits = &quot;23&quot;</code><br><code>输出：[&quot;ad&quot;,&quot;ae&quot;,&quot;af&quot;,&quot;bd&quot;,&quot;be&quot;,&quot;bf&quot;,&quot;cd&quot;,&quot;ce&quot;,&quot;cf&quot;]</code></p>
 <ul>
 <li><strong>思路：</strong><br>本题思路和组合问题基本一致，只是多了一个数字与字母的映射条件，要做的就是建立一个哈希表储存映射，进行深度搜索时要注意各个参数所代表的意义。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
