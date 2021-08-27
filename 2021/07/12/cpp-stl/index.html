@@ -606,7 +606,7 @@ Item<span class="token operator">*</span> <span class="token keyword">operator</
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42323999/article/details/115528995">迭代器概念与traits编程技法</a></p>
 <h2 id="四、容器（container）"><a href="#四、容器（container）" class="headerlink" title="四、容器（container）"></a><font color=blue>四、容器（container）</font></h2><ul>
 <li><strong>序列式容器：</strong>数据的有序存放入list、vector</li>
-<li><strong>关联式容器：</strong>数据的相互关联入map和pair<br><img src="/images/STL/6.png"></li>
+<li><strong>关联式容器：</strong>数据的相互关联入map和pair<br><img src="/images/Cpp/STL/6.png"></li>
 </ul>
 <h2 id="五、序列式（Sequence）容器"><a href="#五、序列式（Sequence）容器" class="headerlink" title=" 五、序列式（Sequence）容器"></a><font color=blue> 五、序列式（Sequence）容器</font></h2><h3 id="5-1-vector"><a href="#5-1-vector" class="headerlink" title="5.1 vector"></a>5.1 vector</h3><h4 id="5-1-1-vector迭代器"><a href="#5-1-1-vector迭代器" class="headerlink" title="5.1.1 vector迭代器"></a>5.1.1 vector迭代器</h4><p>vector维护一个线性连续空间，所以不论其元素型别为何，普通指针都可以作为vector的迭代器而满足所有必要条件。所以vector的迭代器是<strong>指向元素型别的普通指针，支持随机存取，其类型为Random Access Iterators。</strong></p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword">class</span> <span class="token class-name">Alloc</span> <span class="token operator">=</span> alloc<span class="token operator">></span>
